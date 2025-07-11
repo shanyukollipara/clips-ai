@@ -1,0 +1,273 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Processing History - Clips AI{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="mb-1">
+                    <i class="fas fa-history me-2"></i>Processing History
+                </h2>
+                <p class="text-muted mb-0">Track all your video processing jobs</p>
+            </div>
+            <a href="{% url 'core:index' %}" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i>New Processing
+            </a>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h3 class="text-primary mb-1">{{ total_processed }}</h3>
+                        <p class="text-muted mb-0">Total Processed</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h3 class="text-success mb-1">{{ successful_processings }}</h3>
+                        <p class="text-muted mb-0">Successful</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h3 class="text-warning mb-1">{{ video_processings|length }}</h3>
+                        <p class="text-muted mb-0">In Progress</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h3 class="text-info mb-1">
+                            {% if total_processed > 0 %}
+                                {{ successful_processings|floatformat:0 }}
+                            {% else %}
+                                0
+                            {% endif %}%
+                        </h3>
+                        <p class="text-muted mb-0">Success Rate</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Processing History Table -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-list me-2"></i>Recent Processing Jobs
+                </h5>
+            </div>
+            <div class="card-body p-0">
+                {% if video_processings %}
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>YouTube URL</th>
+                                    <th>Duration</th>
+                                    <th>Status</th>
+                                    <th>Clips</th>
+                                    <th>Created</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for processing in video_processings %}
+                                <tr>
+                                    <td>
+                                        <span class="badge bg-secondary">#{{ processing.id }}</span>
+                                    </td>
+                                    <td>
+                                        <a href="{{ processing.youtube_url }}" target="_blank" class="text-decoration-none">
+                                            <i class="fab fa-youtube text-danger me-1"></i>
+                                            {{ processing.youtube_url|truncatechars:40 }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-info">{{ processing.clip_duration }}s</span>
+                                    </td>
+                                    <td>
+                                        {% if processing.status == 'completed' %}
+                                            <span class="badge bg-success">
+                                                <i class="fas fa-check me-1"></i>Completed
+                                            </span>
+                                        {% elif processing.status == 'processing' %}
+                                            <span class="badge bg-warning">
+                                                <i class="fas fa-spinner fa-spin me-1"></i>Processing
+                                            </span>
+                                        {% elif processing.status == 'failed' %}
+                                            <span class="badge bg-danger">
+                                                <i class="fas fa-times me-1"></i>Failed
+                                            </span>
+                                        {% else %}
+                                            <span class="badge bg-secondary">
+                                                <i class="fas fa-clock me-1"></i>Pending
+                                            </span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if processing.status == 'completed' %}
+                                            <span class="badge bg-primary">{{ processing.clips.count }}</span>
+                                        {% else %}
+                                            <span class="text-muted">-</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <small class="text-muted">
+                                            {{ processing.created_at|date:"M d, Y H:i" }}
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm" role="group">
+                                            {% if processing.status == 'completed' %}
+                                                <a href="{% url 'core:results' processing.id %}" 
+                                                   class="btn btn-outline-primary" 
+                                                   title="View Results">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                            {% endif %}
+                                            
+                                            {% if processing.status == 'failed' %}
+                                                <button type="button" 
+                                                        class="btn btn-outline-danger" 
+                                                        data-bs-toggle="tooltip" 
+                                                        title="Error: {{ processing.error_message|truncatechars:50 }}"
+                                                        onclick="showErrorDetails('{{ processing.error_message|escapejs }}')">
+                                                    <i class="fas fa-exclamation-triangle"></i>
+                                                </button>
+                                            {% endif %}
+                                            
+                                            {% if processing.status == 'processing' %}
+                                                <button type="button" 
+                                                        class="btn btn-outline-warning" 
+                                                        onclick="checkStatus({{ processing.id }})"
+                                                        title="Check Status">
+                                                    <i class="fas fa-sync-alt"></i>
+                                                </button>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                        <h4>No Processing History</h4>
+                        <p class="text-muted">You haven't processed any videos yet.</p>
+                        <a href="{% url 'core:index' %}" class="btn btn-primary">
+                            <i class="fas fa-play me-2"></i>Start Your First Processing
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        {% if video_processings.has_other_pages %}
+            <nav aria-label="History pagination" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    {% if video_processings.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ video_processings.previous_page_number }}">Previous</a>
+                        </li>
+                    {% endif %}
+
+                    {% for num in video_processings.paginator.page_range %}
+                        {% if video_processings.number == num %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ num }}</span>
+                            </li>
+                        {% elif num > video_processings.number|add:'-3' and num < video_processings.number|add:'3' %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if video_processings.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ video_processings.next_page_number }}">Next</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Error Details Modal -->
+<div class="modal fade" id="errorModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-exclamation-triangle text-danger me-2"></i>Error Details
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p id="errorMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function showErrorDetails(errorMessage) {
+    document.getElementById('errorMessage').textContent = errorMessage;
+    const modal = new bootstrap.Modal(document.getElementById('errorModal'));
+    modal.show();
+}
+
+function checkStatus(processingId) {
+    fetch(`{% url 'core:processing_status' 0 %}`.replace('0', processingId))
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                if (data.status === 'completed') {
+                    location.reload();
+                } else if (data.status === 'failed') {
+                    showErrorDetails(data.error_message || 'Processing failed');
+                } else {
+                    ClipsAI.showToast('Still processing...', 'info');
+                }
+            } else {
+                ClipsAI.showToast('Failed to check status', 'danger');
+            }
+        })
+        .catch(error => {
+            ClipsAI.showToast('Network error', 'danger');
+        });
+}
+
+// Auto-refresh processing items
+setInterval(() => {
+    const processingRows = document.querySelectorAll('[data-status="processing"]');
+    processingRows.forEach(row => {
+        const processingId = row.dataset.processingId;
+        if (processingId) {
+            checkStatus(processingId);
+        }
+    });
+}, 30000); // Check every 30 seconds
+</script>
+{% endblock %} 

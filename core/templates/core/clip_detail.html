@@ -1,0 +1,252 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Clip Details - Clips AI{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8">
+        <!-- Clip Preview -->
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">
+                    <i class="fas fa-video me-2"></i>Clip Preview
+                </h4>
+            </div>
+            <div class="card-body p-0">
+                {% if clip.preview_url %}
+                    <img src="{{ clip.preview_url }}" class="img-fluid w-100" alt="Clip preview">
+                {% else %}
+                    <div class="bg-light d-flex align-items-center justify-content-center" style="height: 400px;">
+                        <div class="text-center">
+                            <i class="fas fa-video fa-4x text-muted mb-3"></i>
+                            <p class="text-muted">Preview not available</p>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Clip Information -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-info-circle me-2"></i>Clip Information
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Start Time:</strong> {{ clip.start_timestamp|floatformat:1 }}s</p>
+                        <p><strong>End Time:</strong> {{ clip.end_timestamp|floatformat:1 }}s</p>
+                        <p><strong>Duration:</strong> {{ clip.end_timestamp|add:"-"|add:clip.start_timestamp|floatformat:1 }}s</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Virality Score:</strong> 
+                            {% if clip.virality_score >= 80 %}
+                                <span class="badge bg-success fs-6">{{ clip.virality_score }}</span>
+                            {% elif clip.virality_score >= 60 %}
+                                <span class="badge bg-warning fs-6">{{ clip.virality_score }}</span>
+                            {% else %}
+                                <span class="badge bg-secondary fs-6">{{ clip.virality_score }}</span>
+                            {% endif %}
+                        </p>
+                        <p><strong>Created:</strong> {{ clip.created_at|date:"M d, Y H:i" }}</p>
+                        <p><strong>Status:</strong> 
+                            {% if clip.clip_url %}
+                                <span class="badge bg-success">Ready</span>
+                            {% else %}
+                                <span class="badge bg-warning">Processing</span>
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Justification -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-brain me-2"></i>AI Analysis
+                </h5>
+            </div>
+            <div class="card-body">
+                <h6>Why this moment is viral:</h6>
+                <p class="lead">{{ clip.justification }}</p>
+                
+                {% if clip.emotional_keywords %}
+                    <h6 class="mt-4">Emotional Keywords:</h6>
+                    <div class="mb-3">
+                        {% for keyword in clip.emotional_keywords %}
+                            <span class="badge bg-primary me-2 mb-2">{{ keyword }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                
+                {% if clip.urgency_indicators %}
+                    <h6 class="mt-4">Urgency Indicators:</h6>
+                    <div class="mb-3">
+                        {% for indicator in clip.urgency_indicators %}
+                            <span class="badge bg-danger me-2 mb-2">{{ indicator }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <!-- Actions -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-download me-2"></i>Download
+                </h5>
+            </div>
+            <div class="card-body">
+                {% if clip.clip_url %}
+                    <a href="{{ clip.clip_url }}" target="_blank" class="btn btn-success w-100 mb-3">
+                        <i class="fas fa-download me-2"></i>Download Clip
+                    </a>
+                    <button class="btn btn-outline-primary w-100 mb-3" onclick="copyClipUrl()">
+                        <i class="fas fa-copy me-2"></i>Copy URL
+                    </button>
+                {% else %}
+                    <div class="text-center">
+                        <i class="fas fa-clock fa-2x text-muted mb-3"></i>
+                        <p class="text-muted">Clip is still being processed...</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Video Information -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fab fa-youtube me-2"></i>Source Video
+                </h5>
+            </div>
+            <div class="card-body">
+                <p><strong>YouTube URL:</strong></p>
+                <a href="{{ video_processing.youtube_url }}" target="_blank" class="text-decoration-none">
+                    <i class="fab fa-youtube text-danger me-1"></i>
+                    {{ video_processing.youtube_url|truncatechars:30 }}
+                </a>
+                
+                <hr>
+                
+                <p><strong>Clip Duration:</strong> {{ video_processing.clip_duration }}s</p>
+                <p><strong>Processing Date:</strong> {{ video_processing.created_at|date:"M d, Y" }}</p>
+                <p><strong>Status:</strong> 
+                    <span class="badge bg-{{ video_processing.status|yesno:'success,warning,danger' }}">
+                        {{ video_processing.status|title }}
+                    </span>
+                </p>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-arrow-left me-2"></i>Navigation
+                </h5>
+            </div>
+            <div class="card-body">
+                <a href="{% url 'core:results' video_processing.id %}" class="btn btn-outline-primary w-100 mb-2">
+                    <i class="fas fa-list me-2"></i>Back to Results
+                </a>
+                <a href="{% url 'core:index' %}" class="btn btn-outline-secondary w-100">
+                    <i class="fas fa-home me-2"></i>Home
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Share Modal -->
+<div class="modal fade" id="shareModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-share me-2"></i>Share Clip
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="shareUrl" class="form-label">Clip URL:</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="shareUrl" readonly 
+                               value="{% if clip.clip_url %}{{ clip.clip_url }}{% else %}Processing...{% endif %}">
+                        <button class="btn btn-outline-secondary" type="button" onclick="copyShareUrl()">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="d-grid gap-2">
+                    <button class="btn btn-primary" onclick="shareOnTwitter()">
+                        <i class="fab fa-twitter me-2"></i>Share on Twitter
+                    </button>
+                    <button class="btn btn-success" onclick="shareOnWhatsApp()">
+                        <i class="fab fa-whatsapp me-2"></i>Share on WhatsApp
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function copyClipUrl() {
+    const url = '{{ clip.clip_url|escapejs }}';
+    if (url) {
+        navigator.clipboard.writeText(url).then(() => {
+            ClipsAI.showToast('Clip URL copied to clipboard!', 'success');
+        }).catch(() => {
+            ClipsAI.showToast('Failed to copy URL', 'danger');
+        });
+    }
+}
+
+function copyShareUrl() {
+    const urlInput = document.getElementById('shareUrl');
+    urlInput.select();
+    document.execCommand('copy');
+    ClipsAI.showToast('URL copied to clipboard!', 'success');
+}
+
+function shareOnTwitter() {
+    const url = encodeURIComponent('{{ clip.clip_url|escapejs }}');
+    const text = encodeURIComponent('Check out this viral clip! 🎬');
+    window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+}
+
+function shareOnWhatsApp() {
+    const url = encodeURIComponent('{{ clip.clip_url|escapejs }}');
+    const text = encodeURIComponent('Check out this viral clip! 🎬');
+    window.open(`https://wa.me/?text=${text}%20${url}`, '_blank');
+}
+
+// Auto-refresh if clip is still processing
+{% if not clip.clip_url %}
+setInterval(() => {
+    fetch(window.location.href)
+        .then(response => response.text())
+        .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const newClipUrl = doc.querySelector('[data-clip-url]')?.dataset.clipUrl;
+            if (newClipUrl) {
+                location.reload();
+            }
+        });
+}, 10000); // Check every 10 seconds
+{% endif %}
+</script>
+{% endblock %} 

@@ -1,0 +1,13 @@
+# API Keys
+GROK_API_KEY=your_grok_api_key_here
+APIFY_API_KEY=your_apify_api_key_here
+RENDI_API_KEY=your_rendi_api_key_here
+
+# Rendi API Configuration
+RENDI_API_URL=https://api.rendi.com/v1
+
+# Grok API Configuration
+GROK_API_URL=https://api.x.ai/v1
+
+# Apify Configuration
+APIFY_ACTOR_ID=your_apify_actor_id_here 

@@ -1,0 +1,280 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Clips AI - Create Viral Video Clips{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <!-- Hero Section -->
+        <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold text-primary mb-3">
+                <i class="fas fa-video me-3"></i>Clips AI
+            </h1>
+            <p class="lead text-muted">
+                Transform any YouTube video into viral short clips using AI-powered analysis
+            </p>
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <div class="feature-card text-center p-3">
+                        <i class="fas fa-brain fa-2x text-primary mb-2"></i>
+                        <h5>AI Analysis</h5>
+                        <p class="small text-muted">Grok AI identifies the most viral moments</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card text-center p-3">
+                        <i class="fas fa-cut fa-2x text-primary mb-2"></i>
+                        <h5>Smart Clipping</h5>
+                        <p class="small text-muted">Automated video editing with FFmpeg</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card text-center p-3">
+                        <i class="fas fa-chart-line fa-2x text-primary mb-2"></i>
+                        <h5>Virality Scoring</h5>
+                        <p class="small text-muted">Get scores to predict clip success</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Processing Form -->
+        <div class="card shadow-lg">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">
+                    <i class="fas fa-magic me-2"></i>Create Viral Clips
+                </h4>
+            </div>
+            <div class="card-body p-4">
+                <form id="videoForm">
+                    <div class="mb-4">
+                        <label for="youtubeUrl" class="form-label fw-bold">
+                            <i class="fab fa-youtube text-danger me-2"></i>YouTube Video URL
+                        </label>
+                        <input type="url" class="form-control form-control-lg" id="youtubeUrl" 
+                               placeholder="https://www.youtube.com/watch?v=..." required>
+                        <div class="form-text">
+                            Paste any YouTube video URL to analyze and create viral clips
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="clipDuration" class="form-label fw-bold">
+                            <i class="fas fa-clock me-2"></i>Clip Duration: <span id="durationValue">30</span> seconds
+                        </label>
+                        <input type="range" class="form-range" id="clipDuration" 
+                               min="5" max="60" value="30" step="5">
+                        <div class="d-flex justify-content-between text-muted small">
+                            <span>5s</span>
+                            <span>15s</span>
+                            <span>30s</span>
+                            <span>45s</span>
+                            <span>60s</span>
+                        </div>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg" id="submitBtn">
+                            <i class="fas fa-play me-2"></i>Start Processing
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Processing Status -->
+        <div id="processingStatus" class="card mt-4 d-none">
+            <div class="card-body text-center">
+                <div class="spinner-border text-primary mb-3" role="status">
+                    <span class="visually-hidden">Processing...</span>
+                </div>
+                <h5 id="statusMessage">Processing your video...</h5>
+                <p class="text-muted" id="statusDetails">
+                    This may take a few minutes depending on video length
+                </p>
+                <div class="progress mb-3">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                         role="progressbar" style="width: 0%"></div>
+                </div>
+                <div id="processingSteps">
+                    <div class="step active">
+                        <i class="fas fa-download text-primary"></i>
+                        <span>Downloading video</span>
+                    </div>
+                    <div class="step">
+                        <i class="fas fa-file-alt text-muted"></i>
+                        <span>Extracting transcript</span>
+                    </div>
+                    <div class="step">
+                        <i class="fas fa-brain text-muted"></i>
+                        <span>AI analysis</span>
+                    </div>
+                    <div class="step">
+                        <i class="fas fa-cut text-muted"></i>
+                        <span>Creating clips</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Link -->
+        <div id="resultsLink" class="card mt-4 d-none">
+            <div class="card-body text-center">
+                <i class="fas fa-check-circle text-success fa-3x mb-3"></i>
+                <h4 class="text-success">Processing Complete!</h4>
+                <p class="text-muted">Your viral clips are ready to view</p>
+                <a href="#" class="btn btn-success btn-lg" id="viewResultsBtn">
+                    <i class="fas fa-eye me-2"></i>View Results
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('videoForm');
+    const durationSlider = document.getElementById('clipDuration');
+    const durationValue = document.getElementById('durationValue');
+    const processingStatus = document.getElementById('processingStatus');
+    const resultsLink = document.getElementById('resultsLink');
+    const submitBtn = document.getElementById('submitBtn');
+    const statusMessage = document.getElementById('statusMessage');
+    const statusDetails = document.getElementById('statusDetails');
+    const progressBar = document.querySelector('.progress-bar');
+    const viewResultsBtn = document.getElementById('viewResultsBtn');
+
+    // Update duration display
+    durationSlider.addEventListener('input', function() {
+        durationValue.textContent = this.value;
+    });
+
+    // Handle form submission
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const youtubeUrl = document.getElementById('youtubeUrl').value;
+        const clipDuration = parseInt(durationSlider.value);
+        
+        if (!youtubeUrl) {
+            alert('Please enter a YouTube URL');
+            return;
+        }
+
+        // Show processing status
+        processingStatus.classList.remove('d-none');
+        resultsLink.classList.add('d-none');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Processing...';
+
+        // Send processing request
+        fetch('{% url "core:process_video" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({
+                youtube_url: youtubeUrl,
+                clip_duration: clipDuration
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Start polling for status
+                pollProcessingStatus(data.processing_id);
+            } else {
+                showError(data.error);
+            }
+        })
+        .catch(error => {
+            showError('Network error: ' + error.message);
+        });
+    });
+
+    function pollProcessingStatus(processingId) {
+        let step = 0;
+        const steps = ['Downloading video', 'Extracting transcript', 'AI analysis', 'Creating clips'];
+        
+        const poll = setInterval(() => {
+            fetch(`{% url "core:processing_status" 0 %}`.replace('0', processingId))
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Update progress
+                    step = Math.min(step + 1, steps.length - 1);
+                    updateProgress(step, steps.length);
+                    
+                    if (data.status === 'completed') {
+                        clearInterval(poll);
+                        showResults(processingId);
+                    } else if (data.status === 'failed') {
+                        clearInterval(poll);
+                        showError(data.error_message || 'Processing failed');
+                    }
+                } else {
+                    clearInterval(poll);
+                    showError(data.error);
+                }
+            })
+            .catch(error => {
+                clearInterval(poll);
+                showError('Status check failed: ' + error.message);
+            });
+        }, 3000);
+    }
+
+    function updateProgress(currentStep, totalSteps) {
+        const progress = ((currentStep + 1) / totalSteps) * 100;
+        progressBar.style.width = progress + '%';
+        
+        // Update step indicators
+        const stepElements = document.querySelectorAll('.step');
+        stepElements.forEach((step, index) => {
+            if (index <= currentStep) {
+                step.classList.add('active');
+                step.querySelector('i').className = 'fas fa-check text-success';
+            } else {
+                step.classList.remove('active');
+                step.querySelector('i').className = 'fas fa-circle text-muted';
+            }
+        });
+    }
+
+    function showResults(processingId) {
+        processingStatus.classList.add('d-none');
+        resultsLink.classList.remove('d-none');
+        viewResultsBtn.href = `{% url "core:results" 0 %}`.replace('0', processingId);
+        
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fas fa-play me-2"></i>Start Processing';
+    }
+
+    function showError(message) {
+        processingStatus.classList.add('d-none');
+        alert('Error: ' + message);
+        
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fas fa-play me-2"></i>Start Processing';
+    }
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+});
+</script>
+{% endblock %} 
