@@ -11,21 +11,30 @@ import json
 import threading
 import time
 import os
+import logging
 
 from .models import VideoProcessing, ViralClip
 from .utils.processor import VideoProcessor
+
+# Set up logging
+logger = logging.getLogger(__name__)
 
 def index(request):
     """Main page with video processing form"""
     return render(request, 'core/index.html')
 
+@csrf_exempt
 @require_http_methods(["POST"])
 def process_video(request):
     """Handle video processing request"""
     try:
+        print("🎯 Received video processing request")
         data = json.loads(request.body)
         youtube_url = data.get('youtube_url')
         clip_duration = int(data.get('clip_duration', 30))
+        
+        print(f"📝 Processing URL: {youtube_url} with duration: {clip_duration}s")
+        print(f"🔑 API Keys available: GROK={bool(os.getenv('GROK_API_KEY'))}, APIFY={bool(os.getenv('APIFY_API_KEY'))}")
         
         if not youtube_url:
             return JsonResponse({
@@ -47,17 +56,45 @@ def process_video(request):
             status='pending'
         )
         
+        print(f"✅ Created processing record ID: {video_processing.id}")
+        
         # Start processing in background thread
         def process_in_background():
             try:
+                print(f"🚀 Starting background processing for ID: {video_processing.id}")
                 video_processing.status = 'processing'
                 video_processing.save()
                 
                 processor = VideoProcessor()
+                print("✨ VideoProcessor initialized")
+                
+                # Test Apify connection
+                print("🔍 Testing Apify connection...")
+                try:
+                    from apify_client import ApifyClient
+                    client = ApifyClient(os.getenv('APIFY_API_KEY'))
+                    print("✅ Apify client created successfully")
+                except Exception as e:
+                    print(f"❌ Apify connection failed: {str(e)}")
+                
+                # Test Grok connection
+                print("🤖 Testing Grok connection...")
+                try:
+                    import requests
+                    headers = {
+                        "Authorization": f"Bearer {os.getenv('GROK_API_KEY')}",
+                        "Content-Type": "application/json"
+                    }
+                    print("✅ Grok headers configured")
+                except Exception as e:
+                    print(f"❌ Grok setup failed: {str(e)}")
+                
+                print("🎬 Starting video processing...")
                 result = processor.process_video(youtube_url, clip_duration)
+                print(f"📊 Processing result: {result}")
                 
                 if result['success']:
-                    # Save clips to database with enhanced data
+                    print(f"💾 Saving {len(result['clips'])} clips to database")
                     for clip_data in result['clips']:
                         ViralClip.objects.create(
                             video_processing=video_processing,
@@ -66,41 +103,38 @@ def process_video(request):
                             justification=clip_data['justification'],
                             emotional_keywords=', '.join(clip_data.get('emotional_keywords', [])),
                             urgency_indicators=', '.join(clip_data.get('urgency_indicators', [])),
-                            virality_score=int(clip_data['virality_score'] * 100),  # Convert to 0-100 scale
-                            clip_url=clip_data.get('clip_path'),  # Store local path
-                            preview_url=None,  # No preview URL for local files
-                            # Store additional metadata in a JSON field if your model supports it
-                            # metadata=json.dumps({
-                            #     'grade': clip_data.get('grade'),
-                            #     'rank': clip_data.get('rank'),
-                            #     'duration': clip_data.get('duration'),
-                            #     'file_size': clip_data.get('file_size'),
-                            #     'resolution': clip_data.get('resolution')
-                            # })
+                            virality_score=int(clip_data['virality_score'] * 100),
+                            clip_url=clip_data.get('clip_path'),
+                            preview_url=None
                         )
                     
                     video_processing.status = 'completed'
-                    # Store processing stats
                     processing_stats = result.get('processing_stats', {})
                     video_processing.error_message = json.dumps({
                         'stats': processing_stats,
                         'video_info': result.get('video_info', {})
-                    })  # Using error_message field to store additional data
+                    })
+                    print("✅ Processing completed successfully")
                 else:
                     video_processing.status = 'failed'
                     video_processing.error_message = result.get('error', 'Unknown error')
+                    print(f"❌ Processing failed: {video_processing.error_message}")
                 
                 video_processing.save()
                 
             except Exception as e:
+                print(f"❌ Background thread error: {str(e)}")
+                import traceback
+                traceback.print_exc()
                 video_processing.status = 'failed'
                 video_processing.error_message = str(e)
                 video_processing.save()
         
-        # Start background processing
+        print("🧵 Starting background thread...")
         thread = threading.Thread(target=process_in_background)
         thread.daemon = True
         thread.start()
+        print("✅ Background thread started")
         
         return JsonResponse({
             'success': True,
@@ -109,16 +143,21 @@ def process_video(request):
         })
         
     except json.JSONDecodeError:
+        print("❌ Invalid JSON data received")
         return JsonResponse({
             'success': False,
             'error': 'Invalid JSON data'
         }, status=400)
     except ValueError as e:
+        print(f"❌ ValueError: {str(e)}")
         return JsonResponse({
             'success': False,
             'error': str(e)
         }, status=400)
     except Exception as e:
+        print(f"❌ Unexpected error: {str(e)}")
+        import traceback
+        traceback.print_exc()
         return JsonResponse({
             'success': False,
             'error': f'Unexpected error: {str(e)}'

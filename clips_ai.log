@@ -1,0 +1,390 @@
+INFO 2025-07-11 19:44:44,553 autoreload 87779 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 19:46:35,191 autoreload 87838 8486686528 Watching for file changes with StatReloader
+ERROR 2025-07-11 19:46:43,873 exception 87838 6165475328 Invalid HTTP_HOST header: '0.0.0.0:8080'. You may need to add '0.0.0.0' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '0.0.0.0:8080'. You may need to add '0.0.0.0' to ALLOWED_HOSTS.
+WARNING 2025-07-11 19:46:43,904 log 87838 6165475328 Bad Request: /
+WARNING 2025-07-11 19:46:43,904 basehttp 87838 6165475328 "GET / HTTP/1.1" 400 68379
+ERROR 2025-07-11 19:46:44,217 exception 87838 6182301696 Invalid HTTP_HOST header: '0.0.0.0:8080'. You may need to add '0.0.0.0' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '0.0.0.0:8080'. You may need to add '0.0.0.0' to ALLOWED_HOSTS.
+WARNING 2025-07-11 19:46:44,228 log 87838 6182301696 Bad Request: /favicon.ico
+WARNING 2025-07-11 19:46:44,229 basehttp 87838 6182301696 "GET /favicon.ico HTTP/1.1" 400 68348
+INFO 2025-07-11 19:47:03,383 basehttp 87838 6165475328 "GET / HTTP/1.1" 200 13309
+INFO 2025-07-11 19:47:03,442 basehttp 87838 6165475328 "GET /static/css/style.css HTTP/1.1" 200 5621
+INFO 2025-07-11 19:47:03,442 basehttp 87838 6182301696 "GET /static/js/main.js HTTP/1.1" 200 8754
+WARNING 2025-07-11 19:47:03,983 log 87838 6182301696 Not Found: /favicon.ico
+WARNING 2025-07-11 19:47:03,984 basehttp 87838 6182301696 "GET /favicon.ico HTTP/1.1" 404 3680
+WARNING 2025-07-11 19:47:17,026 log 87838 6165475328 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-07-11 19:47:17,027 basehttp 87838 6165475328 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3791
+WARNING 2025-07-11 19:47:22,346 log 87838 6165475328 Not Found: /favicon.ico
+WARNING 2025-07-11 19:47:22,348 basehttp 87838 6165475328 "GET /favicon.ico HTTP/1.1" 404 3680
+WARNING 2025-07-11 19:48:10,503 log 87838 6165475328 Not Found: /favicon.ico
+WARNING 2025-07-11 19:48:10,504 basehttp 87838 6165475328 "GET /favicon.ico HTTP/1.1" 404 3680
+INFO 2025-07-11 19:51:03,477 basehttp 87838 6165475328 "GET / HTTP/1.1" 200 13378
+WARNING 2025-07-11 19:51:03,537 log 87838 6165475328 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-07-11 19:51:03,539 basehttp 87838 6165475328 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3791
+INFO 2025-07-11 19:51:03,916 basehttp 87838 6165475328 "GET /static/favicon.ico HTTP/1.1" 200 1
+INFO 2025-07-11 19:55:35,441 autoreload 87838 8486686528 /Users/skollipara8/clips-ai/core/views.py changed, reloading.
+INFO 2025-07-11 19:55:35,756 autoreload 87990 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 19:55:47,194 autoreload 87990 8486686528 /Users/skollipara8/clips-ai/core/views.py changed, reloading.
+INFO 2025-07-11 19:55:47,499 autoreload 88008 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 19:55:50,784 autoreload 88008 8486686528 /Users/skollipara8/clips-ai/core/utils/apify_client.py changed, reloading.
+INFO 2025-07-11 19:55:50,960 autoreload 88022 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 19:56:20,576 autoreload 88022 8486686528 /Users/skollipara8/clips-ai/core/utils/grok_analyzer.py changed, reloading.
+INFO 2025-07-11 19:56:20,968 autoreload 88050 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 19:56:27,053 autoreload 88092 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 19:56:31,999 autoreload 88107 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 19:56:53,002 basehttp 88107 6166966272 "GET / HTTP/1.1" 200 13378
+INFO 2025-07-11 19:56:53,074 basehttp 88107 6325039104 "GET /static/css/style.css HTTP/1.1" 200 5621
+INFO 2025-07-11 19:56:53,075 basehttp 88107 6341865472 "GET /static/js/main.js HTTP/1.1" 200 8754
+WARNING 2025-07-11 19:56:53,083 log 88107 6166966272 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-07-11 19:56:53,084 basehttp 88107 6166966272 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3791
+INFO 2025-07-11 19:56:53,436 basehttp 88107 6166966272 "GET /static/favicon.ico HTTP/1.1" 200 1
+INFO 2025-07-11 19:57:51,560 autoreload 88107 8486686528 /Users/skollipara8/clips-ai/clips_ai_project/settings.py changed, reloading.
+INFO 2025-07-11 19:57:51,561 autoreload 88050 8486686528 /Users/skollipara8/clips-ai/clips_ai_project/settings.py changed, reloading.
+INFO 2025-07-11 19:57:51,926 autoreload 88172 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 19:57:51,926 autoreload 88173 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 19:59:07,698 basehttp 88173 6167719936 "GET / HTTP/1.1" 200 13378
+WARNING 2025-07-11 19:59:07,776 log 88173 6167719936 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-07-11 19:59:07,777 basehttp 88173 6167719936 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3791
+INFO 2025-07-11 19:59:08,122 basehttp 88173 6167719936 "GET /static/favicon.ico HTTP/1.1" 304 0
+INFO 2025-07-11 20:01:17,805 autoreload 88385 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 20:01:28,715 basehttp 88385 6168031232 "GET / HTTP/1.1" 200 13378
+INFO 2025-07-11 20:01:28,783 basehttp 88385 6168031232 "GET /static/css/style.css HTTP/1.1" 200 5621
+INFO 2025-07-11 20:01:28,791 basehttp 88385 6184857600 "GET /static/js/main.js HTTP/1.1" 200 8754
+INFO 2025-07-11 20:01:29,306 basehttp 88385 6168031232 "GET /static/favicon.ico HTTP/1.1" 200 1
+WARNING 2025-07-11 20:02:23,417 log 88385 6184857600 Not Found: /process_video/
+WARNING 2025-07-11 20:02:23,417 basehttp 88385 6184857600 "POST /process_video/ HTTP/1.1" 404 3690
+WARNING 2025-07-11 20:02:55,784 log 88385 6168031232 Forbidden (CSRF cookie not set.): /process/
+WARNING 2025-07-11 20:02:55,785 basehttp 88385 6168031232 "POST /process/ HTTP/1.1" 403 2870
+INFO 2025-07-11 20:03:02,895 autoreload 88385 8486686528 /Users/skollipara8/clips-ai/core/views.py changed, reloading.
+INFO 2025-07-11 20:03:03,212 autoreload 88535 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 20:03:04,450 autoreload 88535 8486686528 /Users/skollipara8/clips-ai/core/views.py changed, reloading.
+INFO 2025-07-11 20:03:04,625 autoreload 88540 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 20:03:16,005 basehttp 88540 6168309760 "POST /process/ HTTP/1.1" 200 121
+INFO 2025-07-11 20:03:47,543 basehttp 88540 6168309760 "GET /status/1/ HTTP/1.1" 200 210
+INFO 2025-07-11 20:04:09,060 autoreload 88686 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 20:04:12,282 basehttp 88686 6165442560 "POST /process/ HTTP/1.1" 200 121
+INFO 2025-07-11 20:04:21,178 basehttp 88686 6165442560 "GET /status/2/ HTTP/1.1" 200 210
+INFO 2025-07-11 20:05:00,903 autoreload 88817 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 20:05:09,339 basehttp 88817 6131576832 "POST /process/ HTTP/1.1" 200 121
+INFO 2025-07-11 20:05:29,701 basehttp 88817 6131576832 "GET /status/3/ HTTP/1.1" 200 210
+INFO 2025-07-11 20:05:52,767 autoreload 88817 8486686528 /Users/skollipara8/clips-ai/clips_ai_project/settings.py changed, reloading.
+INFO 2025-07-11 20:05:53,029 autoreload 88865 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 20:05:55,292 autoreload 88865 8486686528 /Users/skollipara8/clips-ai/clips_ai_project/settings.py changed, reloading.
+INFO 2025-07-11 20:05:55,481 autoreload 88876 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 20:05:58,694 autoreload 88876 8486686528 /Users/skollipara8/clips-ai/core/utils/apify_client.py changed, reloading.
+INFO 2025-07-11 20:05:58,886 autoreload 88878 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 20:06:03,113 autoreload 88878 8486686528 /Users/skollipara8/clips-ai/core/utils/apify_client.py changed, reloading.
+INFO 2025-07-11 20:06:03,295 autoreload 88886 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 20:06:11,546 autoreload 88886 8486686528 /Users/skollipara8/clips-ai/core/utils/grok_analyzer.py changed, reloading.
+INFO 2025-07-11 20:06:11,738 autoreload 88900 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 20:06:17,994 autoreload 88900 8486686528 /Users/skollipara8/clips-ai/core/utils/grok_analyzer.py changed, reloading.
+INFO 2025-07-11 20:06:18,195 autoreload 88908 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 20:07:46,135 autoreload 89076 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 20:07:57,187 basehttp 89076 6155268096 "POST /process/ HTTP/1.1" 200 121
+INFO 2025-07-11 20:07:57,262 processor 89076 6172094464 🎬 Starting video processing for: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+INFO 2025-07-11 20:07:57,727 processor 89076 6172094464 ✅ FFmpeg is available
+INFO 2025-07-11 20:07:57,728 processor 89076 6172094464 🎬 Fetching YouTube transcript...
+INFO 2025-07-11 20:07:58,332 _client 89076 6172094464 HTTP Request: POST https://api.apify.com/v2/acts/faWsVv9VTSNVIhWpR/runs "HTTP/1.1 404 Not Found"
+ERROR 2025-07-11 20:07:58,334 processor 89076 6172094464 ❌ Processing failed: Failed to fetch transcript: Actor was not found
+INFO 2025-07-11 20:07:58,334 processor 89076 6172094464 💾 Keeping 0 generated clips for download
+INFO 2025-07-11 20:08:07,989 basehttp 89076 6155841536 "GET /status/4/ HTTP/1.1" 200 215
+INFO 2025-07-11 20:08:17,818 autoreload 89076 8486686528 /Users/skollipara8/clips-ai/clips_ai_project/settings.py changed, reloading.
+INFO 2025-07-11 20:08:18,098 autoreload 89148 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 20:08:22,362 autoreload 89148 8486686528 /Users/skollipara8/clips-ai/clips_ai_project/settings.py changed, reloading.
+INFO 2025-07-11 20:08:22,549 autoreload 89156 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 20:09:46,683 autoreload 89156 8486686528 /Users/skollipara8/clips-ai/clips_ai_project/settings.py changed, reloading.
+INFO 2025-07-11 20:09:47,016 autoreload 89188 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 20:09:57,548 basehttp 89188 6132969472 "POST /process/ HTTP/1.1" 200 121
+INFO 2025-07-11 20:09:57,604 processor 89188 6149795840 🎬 Starting video processing for: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+INFO 2025-07-11 20:09:57,733 processor 89188 6149795840 ✅ FFmpeg is available
+INFO 2025-07-11 20:09:57,734 processor 89188 6149795840 🎬 Fetching YouTube transcript...
+INFO 2025-07-11 20:09:58,410 _client 89188 6149795840 HTTP Request: POST https://api.apify.com/v2/acts/faVsWy9VTSNVIhWpR/runs "HTTP/1.1 201 Created"
+INFO 2025-07-11 20:09:59,556 _client 89188 6149795840 HTTP Request: GET https://api.apify.com/v2/actor-runs/j4aay2FHtt4W1LfGh?waitForFinish=999999 "HTTP/1.1 200 OK"
+INFO 2025-07-11 20:10:02,329 _client 89188 6149795840 HTTP Request: GET https://api.apify.com/v2/datasets/G05AuVLLJ8UsG8kgX/items "HTTP/1.1 200 OK"
+INFO 2025-07-11 20:10:02,336 processor 89188 6149795840 ✅ Transcript fetched: Unknown (0s)
+INFO 2025-07-11 20:10:02,336 processor 89188 6149795840 🤖 Analyzing transcript for viral moments with Grok AI...
+ERROR 2025-07-11 20:10:02,336 processor 89188 6149795840 ❌ Processing failed: No transcript segments found
+INFO 2025-07-11 20:10:02,336 processor 89188 6149795840 💾 Keeping 0 generated clips for download
+INFO 2025-07-11 20:10:12,532 basehttp 89188 6133542912 "GET /status/5/ HTTP/1.1" 200 196
+INFO 2025-07-11 20:10:32,994 basehttp 89188 6133542912 "POST /process/ HTTP/1.1" 200 121
+INFO 2025-07-11 20:10:33,018 processor 89188 6150369280 🎬 Starting video processing for: https://www.youtube.com/watch?v=jNQXAC9IVRw
+INFO 2025-07-11 20:10:33,167 processor 89188 6150369280 ✅ FFmpeg is available
+INFO 2025-07-11 20:10:33,167 processor 89188 6150369280 🎬 Fetching YouTube transcript...
+INFO 2025-07-11 20:10:33,834 _client 89188 6150369280 HTTP Request: POST https://api.apify.com/v2/acts/faVsWy9VTSNVIhWpR/runs "HTTP/1.1 201 Created"
+INFO 2025-07-11 20:10:35,103 _client 89188 6150369280 HTTP Request: GET https://api.apify.com/v2/actor-runs/bcCmDQCS7eDNfST9s?waitForFinish=999999 "HTTP/1.1 200 OK"
+INFO 2025-07-11 20:10:37,447 _client 89188 6150369280 HTTP Request: GET https://api.apify.com/v2/datasets/p397Lc3wTpNvcvSXz/items "HTTP/1.1 200 OK"
+INFO 2025-07-11 20:10:37,448 processor 89188 6150369280 ✅ Transcript fetched: Unknown (0s)
+INFO 2025-07-11 20:10:37,448 processor 89188 6150369280 🤖 Analyzing transcript for viral moments with Grok AI...
+ERROR 2025-07-11 20:10:37,448 processor 89188 6150369280 ❌ Processing failed: No transcript segments found
+INFO 2025-07-11 20:10:37,448 processor 89188 6150369280 💾 Keeping 0 generated clips for download
+INFO 2025-07-11 20:10:52,481 basehttp 89188 6133542912 "GET /status/6/ HTTP/1.1" 200 196
+INFO 2025-07-11 20:11:00,329 autoreload 89188 8486686528 /Users/skollipara8/clips-ai/core/utils/apify_client.py changed, reloading.
+INFO 2025-07-11 20:11:00,659 autoreload 89300 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 20:11:01,916 autoreload 89300 8486686528 /Users/skollipara8/clips-ai/core/utils/apify_client.py changed, reloading.
+INFO 2025-07-11 20:11:02,100 autoreload 89306 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 20:11:06,315 autoreload 89306 8486686528 /Users/skollipara8/clips-ai/core/utils/apify_client.py changed, reloading.
+INFO 2025-07-11 20:11:06,505 autoreload 89317 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 20:11:10,641 basehttp 89317 6204403712 "POST /process/ HTTP/1.1" 200 121
+INFO 2025-07-11 20:11:10,694 processor 89317 6221230080 🎬 Starting video processing for: https://www.youtube.com/watch?v=jNQXAC9IVRw
+INFO 2025-07-11 20:11:10,809 processor 89317 6221230080 ✅ FFmpeg is available
+INFO 2025-07-11 20:11:10,810 processor 89317 6221230080 🎬 Fetching YouTube transcript...
+INFO 2025-07-11 20:11:11,483 _client 89317 6221230080 HTTP Request: POST https://api.apify.com/v2/acts/faVsWy9VTSNVIhWpR/runs "HTTP/1.1 201 Created"
+INFO 2025-07-11 20:11:12,624 _client 89317 6221230080 HTTP Request: GET https://api.apify.com/v2/actor-runs/cQfzqYBhDtOqrODYy?waitForFinish=999999 "HTTP/1.1 200 OK"
+INFO 2025-07-11 20:11:15,724 _client 89317 6221230080 HTTP Request: GET https://api.apify.com/v2/datasets/PN5OBy5dSAe6CYduk/items "HTTP/1.1 200 OK"
+INFO 2025-07-11 20:11:15,729 processor 89317 6221230080 ✅ Transcript fetched: Unknown (0s)
+INFO 2025-07-11 20:11:15,730 processor 89317 6221230080 🤖 Analyzing transcript for viral moments with Grok AI...
+ERROR 2025-07-11 20:11:15,730 processor 89317 6221230080 ❌ Processing failed: No transcript segments found
+INFO 2025-07-11 20:11:15,730 processor 89317 6221230080 💾 Keeping 0 generated clips for download
+INFO 2025-07-11 20:11:29,289 basehttp 89317 6204977152 "GET /status/7/ HTTP/1.1" 200 196
+INFO 2025-07-11 20:11:36,161 autoreload 89317 8486686528 /Users/skollipara8/clips-ai/core/utils/apify_client.py changed, reloading.
+INFO 2025-07-11 20:11:36,457 autoreload 89376 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 20:12:07,145 basehttp 89376 6161264640 "POST /process/ HTTP/1.1" 200 121
+INFO 2025-07-11 20:12:07,202 processor 89376 6178091008 🎬 Starting video processing for: https://www.youtube.com/watch?v=jNQXAC9IVRw
+INFO 2025-07-11 20:12:07,323 processor 89376 6178091008 ✅ FFmpeg is available
+INFO 2025-07-11 20:12:07,323 processor 89376 6178091008 🎬 Fetching YouTube transcript...
+INFO 2025-07-11 20:12:07,948 _client 89376 6178091008 HTTP Request: POST https://api.apify.com/v2/acts/faVsWy9VTSNVIhWpR/runs "HTTP/1.1 201 Created"
+INFO 2025-07-11 20:12:09,089 _client 89376 6178091008 HTTP Request: GET https://api.apify.com/v2/actor-runs/KLLBHATZc6vcHtX39?waitForFinish=999999 "HTTP/1.1 200 OK"
+INFO 2025-07-11 20:12:10,868 _client 89376 6178091008 HTTP Request: GET https://api.apify.com/v2/datasets/2PTq7sW4hnLU63PVj/items "HTTP/1.1 200 OK"
+INFO 2025-07-11 20:12:10,871 processor 89376 6178091008 ✅ Transcript fetched: Unknown (0s)
+INFO 2025-07-11 20:12:10,871 processor 89376 6178091008 🤖 Analyzing transcript for viral moments with Grok AI...
+ERROR 2025-07-11 20:12:10,872 processor 89376 6178091008 ❌ Processing failed: No transcript segments found
+INFO 2025-07-11 20:12:10,874 processor 89376 6178091008 💾 Keeping 0 generated clips for download
+INFO 2025-07-11 20:12:37,512 autoreload 89376 8486686528 /Users/skollipara8/clips-ai/core/utils/apify_client.py changed, reloading.
+INFO 2025-07-11 20:12:37,814 autoreload 89431 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 20:13:59,197 basehttp 89431 6192623616 "POST /process/ HTTP/1.1" 200 121
+INFO 2025-07-11 20:13:59,282 processor 89431 6209449984 🎬 Starting video processing for: https://www.youtube.com/watch?v=jNQXAC9IVRw
+INFO 2025-07-11 20:13:59,402 processor 89431 6209449984 ✅ FFmpeg is available
+INFO 2025-07-11 20:13:59,402 processor 89431 6209449984 🎬 Fetching YouTube transcript...
+INFO 2025-07-11 20:14:00,277 _client 89431 6209449984 HTTP Request: POST https://api.apify.com/v2/acts/faVsWy9VTSNVIhWpR/runs "HTTP/1.1 201 Created"
+INFO 2025-07-11 20:14:01,413 _client 89431 6209449984 HTTP Request: GET https://api.apify.com/v2/actor-runs/DhAtrgutkI69ZfPrN?waitForFinish=999999 "HTTP/1.1 200 OK"
+INFO 2025-07-11 20:14:03,262 _client 89431 6209449984 HTTP Request: GET https://api.apify.com/v2/datasets/WS4vr2fqBMXgTaSZa/items "HTTP/1.1 200 OK"
+INFO 2025-07-11 20:14:03,270 processor 89431 6209449984 ✅ Transcript fetched: Unknown (0s)
+INFO 2025-07-11 20:14:03,270 processor 89431 6209449984 🤖 Analyzing transcript for viral moments with Grok AI...
+ERROR 2025-07-11 20:14:03,773 processor 89431 6209449984 ❌ Processing failed: Grok API request failed: 404 Client Error: Not Found for url: https://api.x.ai/v1/chat/completions
+INFO 2025-07-11 20:14:03,778 processor 89431 6209449984 💾 Keeping 0 generated clips for download
+INFO 2025-07-11 20:14:24,884 basehttp 89431 6193197056 "GET /status/9/ HTTP/1.1" 200 266
+INFO 2025-07-11 20:14:33,818 autoreload 89431 8486686528 /Users/skollipara8/clips-ai/clips_ai_project/settings.py changed, reloading.
+INFO 2025-07-11 20:14:34,115 autoreload 89537 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 20:14:35,351 autoreload 89537 8486686528 /Users/skollipara8/clips-ai/clips_ai_project/settings.py changed, reloading.
+INFO 2025-07-11 20:14:35,537 autoreload 89542 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 20:14:41,798 autoreload 89542 8486686528 /Users/skollipara8/clips-ai/core/utils/grok_analyzer.py changed, reloading.
+INFO 2025-07-11 20:14:42,005 autoreload 89551 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 20:14:55,252 basehttp 89551 6170406912 "POST /process/ HTTP/1.1" 200 122
+INFO 2025-07-11 20:14:55,309 processor 89551 6187233280 🎬 Starting video processing for: https://www.youtube.com/watch?v=jNQXAC9IVRw
+INFO 2025-07-11 20:14:55,420 processor 89551 6187233280 ✅ FFmpeg is available
+INFO 2025-07-11 20:14:55,421 processor 89551 6187233280 🎬 Fetching YouTube transcript...
+INFO 2025-07-11 20:14:56,089 _client 89551 6187233280 HTTP Request: POST https://api.apify.com/v2/acts/faVsWy9VTSNVIhWpR/runs "HTTP/1.1 201 Created"
+INFO 2025-07-11 20:14:57,242 _client 89551 6187233280 HTTP Request: GET https://api.apify.com/v2/actor-runs/33MWgrJB4nZyN56eE?waitForFinish=999999 "HTTP/1.1 200 OK"
+INFO 2025-07-11 20:14:59,433 _client 89551 6187233280 HTTP Request: GET https://api.apify.com/v2/datasets/atCbnAeapfo5TlsIh/items "HTTP/1.1 200 OK"
+INFO 2025-07-11 20:14:59,435 processor 89551 6187233280 ✅ Transcript fetched: Unknown (0s)
+INFO 2025-07-11 20:14:59,435 processor 89551 6187233280 🤖 Analyzing transcript for viral moments with Grok AI...
+ERROR 2025-07-11 20:14:59,908 processor 89551 6187233280 ❌ Processing failed: Grok API request failed: 401 Client Error: Unauthorized for url: https://api.groq.com/openai/v1/chat/completions
+INFO 2025-07-11 20:14:59,915 processor 89551 6187233280 💾 Keeping 0 generated clips for download
+INFO 2025-07-11 20:15:27,315 basehttp 89551 6170980352 "GET /status/10/ HTTP/1.1" 200 280
+INFO 2025-07-11 20:15:35,162 autoreload 89551 8486686528 /Users/skollipara8/clips-ai/clips_ai_project/settings.py changed, reloading.
+INFO 2025-07-11 20:15:35,462 autoreload 89613 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 20:15:44,828 autoreload 89613 8486686528 /Users/skollipara8/clips-ai/clips_ai_project/settings.py changed, reloading.
+INFO 2025-07-11 20:15:45,117 autoreload 89634 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 20:19:11,665 autoreload 89634 8486686528 /Users/skollipara8/clips-ai/clips_ai_project/settings.py changed, reloading.
+INFO 2025-07-11 20:19:11,977 autoreload 89721 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 20:19:13,223 autoreload 89721 8486686528 /Users/skollipara8/clips-ai/clips_ai_project/settings.py changed, reloading.
+INFO 2025-07-11 20:19:13,417 autoreload 89726 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 20:19:32,863 autoreload 89726 8486686528 /Users/skollipara8/clips-ai/core/utils/grok_analyzer.py changed, reloading.
+INFO 2025-07-11 20:19:33,212 autoreload 89736 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 20:20:30,334 autoreload 89736 8486686528 /Users/skollipara8/clips-ai/core/utils/grok_analyzer.py changed, reloading.
+INFO 2025-07-11 20:20:30,621 autoreload 89753 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 20:21:09,439 autoreload 89753 8486686528 /Users/skollipara8/clips-ai/clips_ai_project/settings.py changed, reloading.
+INFO 2025-07-11 20:21:09,712 autoreload 89775 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 20:21:10,951 autoreload 89775 8486686528 /Users/skollipara8/clips-ai/clips_ai_project/settings.py changed, reloading.
+INFO 2025-07-11 20:21:11,139 autoreload 89780 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 20:21:19,426 autoreload 89780 8486686528 /Users/skollipara8/clips-ai/core/utils/grok_analyzer.py changed, reloading.
+INFO 2025-07-11 20:21:19,628 autoreload 89794 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 23:14:49,160 basehttp 89794 6200258560 "POST /process/ HTTP/1.1" 200 122
+INFO 2025-07-11 23:14:49,236 processor 89794 6217084928 🎬 Starting video processing for: https://www.youtube.com/watch?v=jNQXAC9IVRw
+INFO 2025-07-11 23:14:49,392 processor 89794 6217084928 ✅ FFmpeg is available
+INFO 2025-07-11 23:14:49,392 processor 89794 6217084928 🎬 Fetching YouTube transcript...
+INFO 2025-07-11 23:14:50,173 _client 89794 6217084928 HTTP Request: POST https://api.apify.com/v2/acts/faVsWy9VTSNVIhWpR/runs "HTTP/1.1 201 Created"
+INFO 2025-07-11 23:14:51,413 _client 89794 6217084928 HTTP Request: GET https://api.apify.com/v2/actor-runs/Ar7iai3FPPs6h1Jjo?waitForFinish=999999 "HTTP/1.1 200 OK"
+INFO 2025-07-11 23:14:53,262 _client 89794 6217084928 HTTP Request: GET https://api.apify.com/v2/datasets/ZQUcs5ZrIoKtR39sc/items "HTTP/1.1 200 OK"
+INFO 2025-07-11 23:14:53,266 processor 89794 6217084928 ✅ Transcript fetched: Unknown (0s)
+INFO 2025-07-11 23:14:53,266 processor 89794 6217084928 🤖 Analyzing transcript for viral moments with Grok AI...
+ERROR 2025-07-11 23:15:06,367 processor 89794 6217084928 ❌ Processing failed: Failed to analyze transcript with Grok: Expecting ',' delimiter: line 38 column 6 (char 2109)
+INFO 2025-07-11 23:15:06,373 processor 89794 6217084928 💾 Keeping 0 generated clips for download
+INFO 2025-07-11 23:15:20,945 basehttp 89794 6200832000 "GET /status/11/ HTTP/1.1" 200 261
+INFO 2025-07-11 23:15:35,418 autoreload 89794 8486686528 /Users/skollipara8/clips-ai/core/utils/grok_analyzer.py changed, reloading.
+INFO 2025-07-11 23:15:35,852 autoreload 90411 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 23:15:51,316 autoreload 90411 8486686528 /Users/skollipara8/clips-ai/core/utils/grok_analyzer.py changed, reloading.
+INFO 2025-07-11 23:15:51,577 autoreload 90426 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 23:16:05,750 basehttp 90426 6161887232 "POST /process/ HTTP/1.1" 200 122
+INFO 2025-07-11 23:16:05,807 processor 90426 6178713600 🎬 Starting video processing for: https://www.youtube.com/watch?v=jNQXAC9IVRw
+INFO 2025-07-11 23:16:05,934 processor 90426 6178713600 ✅ FFmpeg is available
+INFO 2025-07-11 23:16:05,935 processor 90426 6178713600 🎬 Fetching YouTube transcript...
+INFO 2025-07-11 23:16:06,571 _client 90426 6178713600 HTTP Request: POST https://api.apify.com/v2/acts/faVsWy9VTSNVIhWpR/runs "HTTP/1.1 201 Created"
+INFO 2025-07-11 23:16:07,809 _client 90426 6178713600 HTTP Request: GET https://api.apify.com/v2/actor-runs/SfuazsnhsRtYZzhvH?waitForFinish=999999 "HTTP/1.1 200 OK"
+INFO 2025-07-11 23:16:09,363 _client 90426 6178713600 HTTP Request: GET https://api.apify.com/v2/datasets/SByVPsVJg3epizvx3/items "HTTP/1.1 200 OK"
+INFO 2025-07-11 23:16:09,375 processor 90426 6178713600 ✅ Transcript fetched: Unknown (0s)
+INFO 2025-07-11 23:16:09,375 processor 90426 6178713600 🤖 Analyzing transcript for viral moments with Grok AI...
+INFO 2025-07-11 23:16:21,529 processor 90426 6178713600 ✅ Found 0 viral moments
+INFO 2025-07-11 23:16:21,530 processor 90426 6178713600 📥 Downloading full video...
+ERROR 2025-07-11 23:16:23,852 processor 90426 6178713600 ❌ Processing failed: Failed to download video: [0;31mERROR:[0m unable to download video data: HTTP Error 403: Forbidden
+INFO 2025-07-11 23:16:23,860 processor 90426 6178713600 💾 Keeping 0 generated clips for download
+INFO 2025-07-11 23:16:43,276 basehttp 90426 6162460672 "GET /status/12/ HTTP/1.1" 200 278
+INFO 2025-07-11 23:16:58,269 basehttp 90426 6162460672 "POST /process/ HTTP/1.1" 200 122
+INFO 2025-07-11 23:16:58,290 processor 90426 6179287040 🎬 Starting video processing for: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+INFO 2025-07-11 23:16:58,409 processor 90426 6179287040 ✅ FFmpeg is available
+INFO 2025-07-11 23:16:58,409 processor 90426 6179287040 🎬 Fetching YouTube transcript...
+INFO 2025-07-11 23:16:59,067 _client 90426 6179287040 HTTP Request: POST https://api.apify.com/v2/acts/faVsWy9VTSNVIhWpR/runs "HTTP/1.1 201 Created"
+INFO 2025-07-11 23:17:00,208 _client 90426 6179287040 HTTP Request: GET https://api.apify.com/v2/actor-runs/GMR9NHbbF3czzGdyE?waitForFinish=999999 "HTTP/1.1 200 OK"
+INFO 2025-07-11 23:17:03,530 _client 90426 6179287040 HTTP Request: GET https://api.apify.com/v2/datasets/eDvzomktg0uF415Se/items "HTTP/1.1 200 OK"
+INFO 2025-07-11 23:17:03,533 processor 90426 6179287040 ✅ Transcript fetched: Unknown (0s)
+INFO 2025-07-11 23:17:03,533 processor 90426 6179287040 🤖 Analyzing transcript for viral moments with Grok AI...
+INFO 2025-07-11 23:17:14,316 processor 90426 6179287040 ✅ Found 0 viral moments
+INFO 2025-07-11 23:17:14,317 processor 90426 6179287040 📥 Downloading full video...
+INFO 2025-07-11 23:17:17,132 processor 90426 6179287040 ✅ Video downloaded: /var/folders/wy/s2g7kwcx1sn5xr5yskph78cc0000gn/T/video_115e155c.mp4
+INFO 2025-07-11 23:17:17,133 processor 90426 6179287040 ✂️ Creating viral clips...
+INFO 2025-07-11 23:17:17,133 processor 90426 6179287040 🎯 All 0 viral clips created successfully!
+INFO 2025-07-11 23:17:17,133 processor 90426 6179287040 🎉 Processing completed successfully! Result: 0 clips
+INFO 2025-07-11 23:17:17,133 processor 90426 6179287040 🧹 Cleaning up downloaded video...
+INFO 2025-07-11 23:17:17,133 processor 90426 6179287040 💾 Keeping 0 generated clips for download
+INFO 2025-07-11 23:18:27,214 basehttp 90426 6162460672 "GET /status/13/ HTTP/1.1" 200 316
+ERROR 2025-07-11 23:18:41,885 log 90426 6162460672 Internal Server Error: /results/13/
+Traceback (most recent call last):
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/skollipara8/clips-ai/core/views.py", line 237, in results
+    return render(request, 'core/results.html', context)
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/shortcuts.py", line 24, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/template/backends/django.py", line 33, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/template/engine.py", line 175, in get_template
+    template, origin = self.find_template(template_name)
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/template/engine.py", line 157, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/template/base.py", line 200, in compile_nodelist
+    return parser.parse()
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/template/base.py", line 513, in parse
+    raise self.error(token, e)
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/template/base.py", line 511, in parse
+    compiled_result = compile_func(self, token)
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/template/loader_tags.py", line 293, in do_extends
+    nodelist = parser.parse()
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/template/base.py", line 513, in parse
+    raise self.error(token, e)
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/template/base.py", line 511, in parse
+    compiled_result = compile_func(self, token)
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/template/loader_tags.py", line 232, in do_block
+    nodelist = parser.parse(("endblock",))
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/template/base.py", line 513, in parse
+    raise self.error(token, e)
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/template/base.py", line 511, in parse
+    compiled_result = compile_func(self, token)
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/template/defaulttags.py", line 953, in do_if
+    nodelist = parser.parse(("elif", "else", "endif"))
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/template/base.py", line 513, in parse
+    raise self.error(token, e)
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/template/base.py", line 511, in parse
+    compiled_result = compile_func(self, token)
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/template/defaulttags.py", line 853, in do_for
+    nodelist_loop = parser.parse(
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/template/base.py", line 513, in parse
+    raise self.error(token, e)
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/template/base.py", line 511, in parse
+    compiled_result = compile_func(self, token)
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/template/defaulttags.py", line 953, in do_if
+    nodelist = parser.parse(("elif", "else", "endif"))
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/template/base.py", line 513, in parse
+    raise self.error(token, e)
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/template/base.py", line 511, in parse
+    compiled_result = compile_func(self, token)
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/template/defaulttags.py", line 852, in do_for
+    sequence = parser.compile_filter(bits[in_index + 1])
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/template/base.py", line 600, in compile_filter
+    return FilterExpression(token, self)
+  File "/Users/skollipara8/clips-ai/venv/lib/python3.10/site-packages/django/template/base.py", line 703, in __init__
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: Could not parse the remainder: ':', '' from 'clip.emotional_keywords.split:', ''
+ERROR 2025-07-11 23:18:41,887 basehttp 90426 6162460672 "GET /results/13/ HTTP/1.1" 500 303560
+INFO 2025-07-11 23:21:56,426 basehttp 90426 6162460672 "POST /process/ HTTP/1.1" 200 122
+INFO 2025-07-11 23:21:56,447 processor 90426 12901707776 🎬 Starting video processing for: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+INFO 2025-07-11 23:21:56,570 processor 90426 12901707776 ✅ FFmpeg is available
+INFO 2025-07-11 23:21:56,570 processor 90426 12901707776 🎬 Fetching YouTube transcript...
+INFO 2025-07-11 23:21:57,213 _client 90426 12901707776 HTTP Request: POST https://api.apify.com/v2/acts/faVsWy9VTSNVIhWpR/runs "HTTP/1.1 201 Created"
+INFO 2025-07-11 23:21:58,347 _client 90426 12901707776 HTTP Request: GET https://api.apify.com/v2/actor-runs/zONnO3zYvmuEGaWAf?waitForFinish=999999 "HTTP/1.1 200 OK"
+INFO 2025-07-11 23:22:00,639 _client 90426 12901707776 HTTP Request: GET https://api.apify.com/v2/datasets/pIUMdrMmzBJWQIDkp/items "HTTP/1.1 200 OK"
+INFO 2025-07-11 23:22:00,641 processor 90426 12901707776 ✅ Transcript fetched: Unknown (0s)
+INFO 2025-07-11 23:22:00,641 processor 90426 12901707776 🤖 Analyzing transcript for viral moments with Grok AI...
+INFO 2025-07-11 23:22:12,969 processor 90426 12901707776 ✅ Found 0 viral moments
+INFO 2025-07-11 23:22:12,970 processor 90426 12901707776 📥 Downloading full video...
+INFO 2025-07-11 23:22:16,363 processor 90426 12901707776 ✅ Video downloaded: /var/folders/wy/s2g7kwcx1sn5xr5yskph78cc0000gn/T/video_32ec810d.mp4
+INFO 2025-07-11 23:22:16,363 processor 90426 12901707776 ✂️ Creating viral clips...
+INFO 2025-07-11 23:22:16,363 processor 90426 12901707776 🎯 All 0 viral clips created successfully!
+INFO 2025-07-11 23:22:16,363 processor 90426 12901707776 🎉 Processing completed successfully! Result: 0 clips
+INFO 2025-07-11 23:22:16,363 processor 90426 12901707776 🧹 Cleaning up downloaded video...
+INFO 2025-07-11 23:22:16,363 processor 90426 12901707776 💾 Keeping 0 generated clips for download
+INFO 2025-07-11 23:22:33,357 basehttp 90426 6162460672 "GET /status/14/ HTTP/1.1" 200 316
+INFO 2025-07-11 23:22:40,166 basehttp 90426 6162460672 "GET /results/14/ HTTP/1.1" 200 7535
+INFO 2025-07-11 23:23:30,051 autoreload 90426 8486686528 /Users/skollipara8/clips-ai/core/utils/grok_analyzer.py changed, reloading.
+INFO 2025-07-11 23:23:30,373 autoreload 90677 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 23:23:32,632 autoreload 90677 8486686528 /Users/skollipara8/clips-ai/core/utils/apify_client.py changed, reloading.
+INFO 2025-07-11 23:23:32,828 autoreload 90687 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 23:23:43,084 basehttp 90687 6196768768 "POST /process/ HTTP/1.1" 200 122
+INFO 2025-07-11 23:23:43,137 processor 90687 6213595136 🎬 Starting video processing for: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+INFO 2025-07-11 23:23:43,257 processor 90687 6213595136 ✅ FFmpeg is available
+INFO 2025-07-11 23:23:43,257 processor 90687 6213595136 🎬 Fetching YouTube transcript...
+INFO 2025-07-11 23:23:43,894 _client 90687 6213595136 HTTP Request: POST https://api.apify.com/v2/acts/faVsWy9VTSNVIhWpR/runs "HTTP/1.1 201 Created"
+INFO 2025-07-11 23:23:45,058 _client 90687 6213595136 HTTP Request: GET https://api.apify.com/v2/actor-runs/6PGnmHAfcZLEQ58J3?waitForFinish=999999 "HTTP/1.1 200 OK"
+INFO 2025-07-11 23:23:46,924 _client 90687 6213595136 HTTP Request: GET https://api.apify.com/v2/datasets/5QxEwIfH6BAmS7fN0/items "HTTP/1.1 200 OK"
+INFO 2025-07-11 23:23:46,933 processor 90687 6213595136 ✅ Transcript fetched: Unknown (217.92s)
+INFO 2025-07-11 23:23:46,933 processor 90687 6213595136 🤖 Analyzing transcript for viral moments with Grok AI...
+INFO 2025-07-11 23:23:57,692 processor 90687 6213595136 ✅ Found 5 viral moments
+INFO 2025-07-11 23:23:57,694 processor 90687 6213595136 📥 Downloading full video...
+INFO 2025-07-11 23:24:00,900 processor 90687 6213595136 ✅ Video downloaded: /var/folders/wy/s2g7kwcx1sn5xr5yskph78cc0000gn/T/video_d0297ac0.mp4
+INFO 2025-07-11 23:24:00,901 processor 90687 6213595136 ✂️ Creating viral clips...
+INFO 2025-07-11 23:24:00,901 processor 90687 6213595136 📹 Processing clip 1/5 - Grade: A+ (Score: 0.95)
+INFO 2025-07-11 23:24:01,058 processor 90687 6213595136 ✅ Clip 1 created: A+ - This segment features the iconic chorus with the f...
+INFO 2025-07-11 23:24:01,058 processor 90687 6213595136 📹 Processing clip 2/5 - Grade: A (Score: 0.92)
+INFO 2025-07-11 23:24:01,138 processor 90687 6213595136 ✅ Clip 2 created: A - This part repeats the core chorus lines with build...
+INFO 2025-07-11 23:24:01,138 processor 90687 6213595136 📹 Processing clip 3/5 - Grade: A- (Score: 0.88)
+INFO 2025-07-11 23:24:01,217 processor 90687 6213595136 ✅ Clip 3 created: A- - Featuring the 'Ooh, give you up' vocal ad-libs and...
+INFO 2025-07-11 23:24:01,218 processor 90687 6213595136 📹 Processing clip 4/5 - Grade: B+ (Score: 0.85)
+INFO 2025-07-11 23:24:01,297 processor 90687 6213595136 ✅ Clip 4 created: B+ - This repetition of the chorus builds on the song's...
+INFO 2025-07-11 23:24:01,297 processor 90687 6213595136 📹 Processing clip 5/5 - Grade: B (Score: 0.82)
+INFO 2025-07-11 23:24:01,377 processor 90687 6213595136 ✅ Clip 5 created: B - The final chorus repetitions provide a climactic e...
+INFO 2025-07-11 23:24:01,377 processor 90687 6213595136 🎯 All 5 viral clips created successfully!
+INFO 2025-07-11 23:24:01,377 processor 90687 6213595136 🎉 Processing completed successfully! Result: 5 clips
+INFO 2025-07-11 23:24:01,377 processor 90687 6213595136 🧹 Cleaning up downloaded video...
+INFO 2025-07-11 23:24:01,377 processor 90687 6213595136 💾 Keeping 0 generated clips for download
+INFO 2025-07-11 23:24:21,556 basehttp 90687 6197342208 "GET /status/15/ HTTP/1.1" 200 365
+INFO 2025-07-11 23:24:28,093 basehttp 90687 6197342208 "GET /results/15/ HTTP/1.1" 200 31542

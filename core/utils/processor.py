@@ -1,12 +1,16 @@
 import os
 import tempfile
+import logging
 from typing import List, Dict
 from django.conf import settings
 
 from .apify_client import ApifyClient
 from .grok_analyzer import GrokAnalyzer
 from .yt_downloader import YouTubeDownloader
-from .rendi_clip_sender import FFmpegClipProcessor
+from .ffmpeg_processor import FFmpegClipProcessor
+
+# Set up logging
+logger = logging.getLogger(__name__)
 
 class VideoProcessor:
     """Main processor for creating viral clips from YouTube videos"""
@@ -32,31 +36,48 @@ class VideoProcessor:
         clip_files = []
         
         try:
+            logger.info(f"🎬 Starting video processing for: {youtube_url}")
+            print(f"🎬 Starting video processing for: {youtube_url}")
+            
             # Check if FFmpeg is available
             if not self.ffmpeg_processor.is_ffmpeg_available():
-                raise Exception("FFmpeg is not installed or not available in PATH")
+                error_msg = "FFmpeg is not installed or not available in PATH"
+                logger.error(f"❌ {error_msg}")
+                print(f"❌ {error_msg}")
+                raise Exception(error_msg)
+            
+            logger.info("✅ FFmpeg is available")
+            print("✅ FFmpeg is available")
             
             # Step 1: Fetch transcript using Apify
+            logger.info("🎬 Fetching YouTube transcript...")
             print("🎬 Fetching YouTube transcript...")
             transcript_data = self.apify_client.fetch_transcript(youtube_url)
+            logger.info(f"✅ Transcript fetched: {transcript_data.get('title', 'Unknown')} ({transcript_data.get('duration', 0)}s)")
             print(f"✅ Transcript fetched: {transcript_data.get('title', 'Unknown')} ({transcript_data.get('duration', 0)}s)")
             
             # Step 2: Extract viral moments using Grok AI
+            logger.info("🤖 Analyzing transcript for viral moments with Grok AI...")
             print("🤖 Analyzing transcript for viral moments with Grok AI...")
             viral_moments = self.grok_analyzer.extract_viral_moments(transcript_data, clip_duration)
+            logger.info(f"✅ Found {len(viral_moments)} viral moments")
             print(f"✅ Found {len(viral_moments)} viral moments")
             
             # Step 3: Download the full video using yt-dlp
+            logger.info("📥 Downloading full video...")
             print("📥 Downloading full video...")
             video_file_path = self.yt_downloader.download_video(youtube_url)
+            logger.info(f"✅ Video downloaded: {video_file_path}")
             print(f"✅ Video downloaded: {video_file_path}")
             
             # Step 4: Create clips for each viral moment using FFmpeg
+            logger.info("✂️ Creating viral clips...")
             print("✂️ Creating viral clips...")
             clips_data = []
             
             for i, moment in enumerate(viral_moments):
                 grade = moment.get('grade', self.grok_analyzer.convert_score_to_grade(moment['virality_score']))
+                logger.info(f"📹 Processing clip {i+1}/{len(viral_moments)} - Grade: {grade} (Score: {moment['virality_score']:.2f})")
                 print(f"📹 Processing clip {i+1}/{len(viral_moments)} - Grade: {grade} (Score: {moment['virality_score']:.2f})")
                 
                 # Create clip using FFmpeg
@@ -90,12 +111,14 @@ class VideoProcessor:
                 }
                 
                 clips_data.append(clip_data)
+                logger.info(f"✅ Clip {i+1} created: {clip_data['grade']} - {clip_data['justification'][:50]}...")
                 print(f"✅ Clip {i+1} created: {clip_data['grade']} - {clip_data['justification'][:50]}...")
             
             # Clips are already sorted by virality score from Grok analysis
+            logger.info(f"🎯 All {len(clips_data)} viral clips created successfully!")
             print(f"🎯 All {len(clips_data)} viral clips created successfully!")
             
-            return {
+            result = {
                 'success': True,
                 'youtube_url': youtube_url,
                 'clip_duration': clip_duration,
@@ -114,8 +137,16 @@ class VideoProcessor:
                 }
             }
             
+            logger.info(f"🎉 Processing completed successfully! Result: {result['total_clips']} clips")
+            print(f"🎉 Processing completed successfully! Result: {result['total_clips']} clips")
+            return result
+            
         except Exception as e:
-            print(f"❌ Processing failed: {str(e)}")
+            error_msg = f"❌ Processing failed: {str(e)}"
+            logger.error(error_msg)
+            print(error_msg)
+            import traceback
+            traceback.print_exc()
             return {
                 'success': False,
                 'error': str(e),
@@ -126,10 +157,12 @@ class VideoProcessor:
         finally:
             # Clean up downloaded video file
             if video_file_path and os.path.exists(video_file_path):
+                logger.info("🧹 Cleaning up downloaded video...")
                 print("🧹 Cleaning up downloaded video...")
                 self.yt_downloader.cleanup_file(video_file_path)
             
             # Keep clip files for serving (don't clean them up)
+            logger.info(f"💾 Keeping {len(clip_files)} generated clips for download")
             print(f"💾 Keeping {len(clip_files)} generated clips for download")
     
     def _get_current_timestamp(self) -> str:

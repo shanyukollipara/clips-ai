@@ -203,9 +203,7 @@
                                         {% if clip.emotional_keywords %}
                                         <div class="mb-3">
                                             <small class="text-muted d-block mb-1">Emotional Keywords</small>
-                                            {% for keyword in clip.emotional_keywords.split:', ' %}
-                                                <span class="badge badge-light badge-sm me-1">#{{ keyword|title }}</span>
-                                            {% endfor %}
+                                            <span class="badge badge-light badge-sm me-1">{{ clip.emotional_keywords }}</span>
                                         </div>
                                         {% endif %}
 

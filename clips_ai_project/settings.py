@@ -138,9 +138,52 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # API Keys and Configuration
-GROK_API_KEY = os.getenv('GROK_API_KEY')
-APIFY_API_KEY = os.getenv('APIFY_API_KEY')
-RENDI_API_KEY = os.getenv('RENDI_API_KEY')
-RENDI_API_URL = os.getenv('RENDI_API_URL', 'https://api.rendi.com/v1')
+GROK_API_KEY = os.getenv('GROK_API_KEY', 'xai-KqYWivBDqi59H1Xts8t18xYcMIuyqn5CVoBTXw1nSaSPvfBbiBBjr4xTyW87CNmcipmkTxSlkHpuskLm')
+APIFY_API_KEY = os.getenv('APIFY_API_KEY', 'apify_api_0uPtkwTzCoSX9esLwx8OSFGc0IchwR3OOp1J')
 GROK_API_URL = os.getenv('GROK_API_URL', 'https://api.x.ai/v1')
-APIFY_ACTOR_ID = os.getenv('APIFY_ACTOR_ID')
+APIFY_ACTOR_ID = os.getenv('APIFY_ACTOR_ID', 'faVsWy9VTSNVIhWpR')
+
+# Logging configuration
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'clips_ai.log',
+            'formatter': 'verbose',
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+    },
+    'root': {
+        'handlers': ['console', 'file'],
+        'level': 'INFO',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'core': {
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+    },
+}
