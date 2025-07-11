@@ -2,8 +2,9 @@ services:
   - type: web
     name: clips-ai
     env: python
+    runtime: python-3.11.8
     buildCommand: ./render-build.sh
-    startCommand: gunicorn <your_project>.wsgi:application
+    startCommand: gunicorn clips_ai.wsgi:application
     envVars:
       - key: DJANGO_SECRET_KEY
         sync: false
