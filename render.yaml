@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: clips-ai
+    env: python
+    buildCommand: ./render-build.sh
+    startCommand: gunicorn <your_project>.wsgi:application
+    envVars:
+      - key: DJANGO_SECRET_KEY
+        sync: false
+      - key: APIFY_API_KEY
+        sync: false
+      - key: GROK_API_KEY
+        sync: false
+    plan: free 
