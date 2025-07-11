@@ -30,7 +30,11 @@ SECRET_KEY = "django-insecure-1a7=vf*+%7q-m)l4#8e5_ycu($+v0tinxp3yxm)c_h@k$bgho4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['clips-ai-production.up.railway.app']
+ALLOWED_HOSTS = [
+    "clips-ai-production.up.railway.app",
+    "localhost",
+    "127.0.0.1"
+]
 
 
 # Application definition
