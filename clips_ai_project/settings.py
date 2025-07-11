@@ -138,8 +138,8 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # API Keys and Configuration
-GROK_API_KEY = os.getenv('GROK_API_KEY', 'xai-KqYWivBDqi59H1Xts8t18xYcMIuyqn5CVoBTXw1nSaSPvfBbiBBjr4xTyW87CNmcipmkTxSlkHpuskLm')
-APIFY_API_KEY = os.getenv('APIFY_API_KEY', 'apify_api_0uPtkwTzCoSX9esLwx8OSFGc0IchwR3OOp1J')
+GROK_API_KEY = os.getenv('GROK_API_KEY')
+APIFY_API_KEY = os.getenv('APIFY_API_KEY')
 GROK_API_URL = os.getenv('GROK_API_URL', 'https://api.x.ai/v1')
 APIFY_ACTOR_ID = os.getenv('APIFY_ACTOR_ID', 'faVsWy9VTSNVIhWpR')
 
