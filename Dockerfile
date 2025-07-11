@@ -26,8 +26,11 @@ COPY . /app/
 # Collect static files
 RUN python manage.py collectstatic --noinput
 
+# Create a startup script
+RUN echo '#!/bin/bash\npython manage.py migrate\npython manage.py collectstatic --noinput\nexec gunicorn --bind 0.0.0.0:8000 clips_ai_project.wsgi:application' > /app/start.sh && chmod +x /app/start.sh
+
 # Expose port
 EXPOSE 8000
 
-# Run the application
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "clips_ai_project.wsgi:application"] 
+# Run the startup script
+CMD ["/app/start.sh"] 
