@@ -388,3 +388,7 @@ INFO 2025-07-11 23:24:01,377 processor 90687 6213595136 🧹 Cleaning up downloa
 INFO 2025-07-11 23:24:01,377 processor 90687 6213595136 💾 Keeping 0 generated clips for download
 INFO 2025-07-11 23:24:21,556 basehttp 90687 6197342208 "GET /status/15/ HTTP/1.1" 200 365
 INFO 2025-07-11 23:24:28,093 basehttp 90687 6197342208 "GET /results/15/ HTTP/1.1" 200 31542
+INFO 2025-07-11 23:26:22,979 autoreload 90687 8486686528 /Users/skollipara8/clips-ai/clips_ai_project/settings.py changed, reloading.
+INFO 2025-07-11 23:26:23,299 autoreload 90815 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 23:26:25,561 autoreload 90815 8486686528 /Users/skollipara8/clips-ai/clips_ai_project/settings.py changed, reloading.
+INFO 2025-07-11 23:26:25,749 autoreload 90828 8486686528 Watching for file changes with StatReloader
