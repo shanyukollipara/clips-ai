@@ -1,203 +1,317 @@
 {% extends 'core/base.html' %}
 
-{% block title %}Viral Clips Results - Clips AI{% endblock %}
+{% block title %}Viral Clips Results{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-12">
-        <!-- Header -->
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <div>
-                <h2 class="mb-1">
-                    <i class="fas fa-video me-2"></i>Viral Clips Results
-                </h2>
-                <p class="text-muted mb-0">
-                    Generated {{ total_clips }} clips from 
-                    <a href="{{ video_processing.youtube_url }}" target="_blank" class="text-decoration-none">
-                        <i class="fab fa-youtube text-danger me-1"></i>YouTube video
-                    </a>
-                </p>
-            </div>
-            <div class="text-end">
-                <div class="badge bg-success fs-6">{{ success_rate|floatformat:1 }}% Success Rate</div>
-                <p class="text-muted small mb-0 mt-1">
-                    {{ video_processing.created_at|date:"M d, Y H:i" }}
-                </p>
-            </div>
-        </div>
-
-        <!-- Stats Cards -->
-        <div class="row mb-4">
-            <div class="col-md-3">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <h3 class="text-primary mb-1">{{ total_clips }}</h3>
-                        <p class="text-muted mb-0">Total Clips</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <h3 class="text-success mb-1">{{ clips|length }}</h3>
-                        <p class="text-muted mb-0">High Score (70+)</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <h3 class="text-warning mb-1">{{ video_processing.clip_duration }}s</h3>
-                        <p class="text-muted mb-0">Clip Duration</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <h3 class="text-info mb-1">{{ video_processing.status|title }}</h3>
-                        <p class="text-muted mb-0">Status</p>
+<div class="container-fluid py-4">
+    <!-- Header with Video Info -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card bg-gradient-primary text-white">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h1 class="mb-2">🎬 Viral Clips Analysis Complete!</h1>
+                            <p class="mb-0 opacity-8">
+                                {% if video_info.title %}
+                                    <strong>{{ video_info.title }}</strong><br>
+                                {% endif %}
+                                Video Duration: {{ video_info.duration|default:"Unknown" }}s | 
+                                Generated {{ total_clips }} viral clips | 
+                                Avg Score: {{ avg_virality_score|floatformat:1 }}/100
+                            </p>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <div class="text-white-50">Processing Stats</div>
+                            <h3 class="mb-0">{{ top_clips_count }} A-Grade Clips</h3>
+                            <small>{{ success_rate|floatformat:1 }}% High Viral Potential</small>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Clips Grid -->
-        {% if clips %}
-            <div class="row">
-                {% for clip in clips %}
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100 shadow-sm">
-                        <!-- Clip Preview -->
-                        <div class="position-relative">
-                            {% if clip.preview_url %}
-                                <img src="{{ clip.preview_url }}" class="card-img-top" alt="Clip preview" 
-                                     style="height: 200px; object-fit: cover;">
-                            {% else %}
-                                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" 
-                                     style="height: 200px;">
-                                    <i class="fas fa-video fa-3x text-muted"></i>
-                                </div>
-                            {% endif %}
-                            
-                            <!-- Virality Score Badge -->
-                            <div class="position-absolute top-0 end-0 m-2">
-                                {% if clip.virality_score >= 80 %}
-                                    <span class="badge bg-success fs-6">
-                                        <i class="fas fa-fire me-1"></i>{{ clip.virality_score }}
-                                    </span>
-                                {% elif clip.virality_score >= 60 %}
-                                    <span class="badge bg-warning fs-6">
-                                        <i class="fas fa-star me-1"></i>{{ clip.virality_score }}
-                                    </span>
-                                {% else %}
-                                    <span class="badge bg-secondary fs-6">
-                                        <i class="fas fa-chart-line me-1"></i>{{ clip.virality_score }}
-                                    </span>
-                                {% endif %}
-                            </div>
-                            
-                            <!-- Timestamp -->
-                            <div class="position-absolute bottom-0 start-0 m-2">
-                                <span class="badge bg-dark">
-                                    {{ clip.start_timestamp|floatformat:1 }}s - {{ clip.end_timestamp|floatformat:1 }}s
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="card-body">
-                            <!-- Justification -->
-                            <p class="card-text small">{{ clip.justification|truncatewords:20 }}</p>
-                            
-                            <!-- Emotional Keywords -->
-                            {% if clip.emotional_keywords %}
-                                <div class="mb-2">
-                                    {% for keyword in clip.emotional_keywords|slice:":3" %}
-                                        <span class="badge bg-primary me-1">{{ keyword }}</span>
-                                    {% endfor %}
-                                    {% if clip.emotional_keywords|length > 3 %}
-                                        <span class="badge bg-secondary">+{{ clip.emotional_keywords|length|add:"-3" }}</span>
-                                    {% endif %}
-                                </div>
-                            {% endif %}
-                            
-                            <!-- Urgency Indicators -->
-                            {% if clip.urgency_indicators %}
-                                <div class="mb-3">
-                                    {% for indicator in clip.urgency_indicators|slice:":2" %}
-                                        <span class="badge bg-danger me-1">{{ indicator }}</span>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
-                        </div>
-
-                        <div class="card-footer bg-transparent">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <a href="{% url 'core:clip_detail' clip.id %}" class="btn btn-outline-primary btn-sm">
-                                    <i class="fas fa-eye me-1"></i>Details
-                                </a>
-                                {% if clip.clip_url %}
-                                    <a href="{{ clip.clip_url }}" target="_blank" class="btn btn-success btn-sm">
-                                        <i class="fas fa-download me-1"></i>Download
-                                    </a>
-                                {% else %}
-                                    <span class="text-muted small">Processing...</span>
-                                {% endif %}
-                            </div>
-                        </div>
+    <!-- Analytics Dashboard -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <div class="text-primary">
+                        <i class="fas fa-trophy fa-2x mb-2"></i>
                     </div>
+                    <h4 class="mb-0">{{ total_clips }}</h4>
+                    <small class="text-muted">Total Clips</small>
                 </div>
-                {% endfor %}
             </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <div class="text-success">
+                        <i class="fas fa-fire fa-2x mb-2"></i>
+                    </div>
+                    <h4 class="mb-0">{{ avg_virality_score|floatformat:1 }}</h4>
+                    <small class="text-muted">Avg Virality Score</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <div class="text-warning">
+                        <i class="fas fa-star fa-2x mb-2"></i>
+                    </div>
+                    <h4 class="mb-0">{{ top_clips_count }}</h4>
+                    <small class="text-muted">A-Grade Clips</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <div class="text-info">
+                        <i class="fas fa-percentage fa-2x mb-2"></i>
+                    </div>
+                    <h4 class="mb-0">{{ success_rate|floatformat:1 }}%</h4>
+                    <small class="text-muted">Success Rate</small>
+                </div>
+            </div>
+        </div>
+    </div>
 
-            <!-- Pagination -->
-            {% if clips.has_other_pages %}
-                <nav aria-label="Clips pagination" class="mt-4">
-                    <ul class="pagination justify-content-center">
-                        {% if clips.has_previous %}
-                            <li class="page-item">
-                                <a class="page-link" href="?page={{ clips.previous_page_number }}">Previous</a>
-                            </li>
-                        {% endif %}
-
-                        {% for num in clips.paginator.page_range %}
-                            {% if clips.number == num %}
-                                <li class="page-item active">
-                                    <span class="page-link">{{ num }}</span>
-                                </li>
-                            {% elif num > clips.number|add:'-3' and num < clips.number|add:'3' %}
-                                <li class="page-item">
-                                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-                                </li>
-                            {% endif %}
+    <!-- Grade Distribution -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">📊 Grade Distribution</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for grade, count in grade_distribution.items %}
+                        <div class="col-auto mb-2">
+                            <span class="badge badge-lg 
+                                {% if grade == 'A+' or grade == 'A' %}badge-success
+                                {% elif grade == 'A-' or grade == 'B+' or grade == 'B' %}badge-primary
+                                {% elif grade == 'B-' or grade == 'C+' or grade == 'C' %}badge-warning
+                                {% else %}badge-secondary
+                                {% endif %}">
+                                {{ grade }}: {{ count }}
+                            </span>
+                        </div>
                         {% endfor %}
-
-                        {% if clips.has_next %}
-                            <li class="page-item">
-                                <a class="page-link" href="?page={{ clips.next_page_number }}">Next</a>
-                            </li>
-                        {% endif %}
-                    </ul>
-                </nav>
-            {% endif %}
-
-        {% else %}
-            <!-- No Clips -->
-            <div class="text-center py-5">
-                <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
-                <h4>No Clips Generated</h4>
-                <p class="text-muted">
-                    {% if video_processing.status == 'failed' %}
-                        Processing failed: {{ video_processing.error_message }}
-                    {% else %}
-                        No viral moments were found in this video.
-                    {% endif %}
-                </p>
-                <a href="{% url 'core:index' %}" class="btn btn-primary">
-                    <i class="fas fa-arrow-left me-2"></i>Try Another Video
-                </a>
+                    </div>
+                </div>
             </div>
-        {% endif %}
+        </div>
+    </div>
+
+    <!-- Viral Clips Grid -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">🏆 Viral Clips Ranked by AI Analysis</h5>
+                    <small class="text-muted">Sorted by virality potential</small>
+                </div>
+                <div class="card-body">
+                    {% if clips %}
+                        <div class="row">
+                            {% for clip in clips %}
+                            <div class="col-lg-6 col-xl-4 mb-4">
+                                <div class="card h-100 clip-card">
+                                    <!-- Rank Badge -->
+                                    <div class="position-absolute" style="top: 10px; left: 10px; z-index: 10;">
+                                        <span class="badge badge-lg 
+                                            {% if clip.virality_score >= 90 %}badge-success
+                                            {% elif clip.virality_score >= 80 %}badge-primary
+                                            {% elif clip.virality_score >= 70 %}badge-warning
+                                            {% else %}badge-secondary
+                                            {% endif %}">
+                                            #{{ forloop.counter }}
+                                        </span>
+                                    </div>
+
+                                    <!-- Grade Badge -->
+                                    <div class="position-absolute" style="top: 10px; right: 10px; z-index: 10;">
+                                        {% with clip.virality_score|floatformat:0|add:0 as score %}
+                                        {% if score >= 97 %}
+                                            <span class="badge badge-lg badge-success">A+</span>
+                                        {% elif score >= 93 %}
+                                            <span class="badge badge-lg badge-success">A</span>
+                                        {% elif score >= 90 %}
+                                            <span class="badge badge-lg badge-primary">A-</span>
+                                        {% elif score >= 87 %}
+                                            <span class="badge badge-lg badge-primary">B+</span>
+                                        {% elif score >= 83 %}
+                                            <span class="badge badge-lg badge-primary">B</span>
+                                        {% elif score >= 80 %}
+                                            <span class="badge badge-lg badge-warning">B-</span>
+                                        {% elif score >= 77 %}
+                                            <span class="badge badge-lg badge-warning">C+</span>
+                                        {% elif score >= 73 %}
+                                            <span class="badge badge-lg badge-warning">C</span>
+                                        {% elif score >= 70 %}
+                                            <span class="badge badge-lg badge-secondary">C-</span>
+                                        {% elif score >= 65 %}
+                                            <span class="badge badge-lg badge-secondary">D+</span>
+                                        {% elif score >= 60 %}
+                                            <span class="badge badge-lg badge-secondary">D</span>
+                                        {% else %}
+                                            <span class="badge badge-lg badge-danger">F</span>
+                                        {% endif %}
+                                        {% endwith %}
+                                    </div>
+
+                                    <!-- Video Preview Area -->
+                                    <div class="bg-gradient-dark text-white text-center p-4" style="min-height: 150px;">
+                                        <i class="fas fa-play-circle fa-3x mb-2 opacity-6"></i>
+                                        <div class="small">
+                                            {{ clip.start_timestamp|floatformat:1 }}s - {{ clip.end_timestamp|floatformat:1 }}s
+                                        </div>
+                                        <div class="small opacity-8">
+                                            Duration: {{ clip.end_timestamp|add:clip.start_timestamp|floatformat:1 }}s
+                                        </div>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <!-- Virality Score -->
+                                        <div class="mb-3">
+                                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                                <small class="text-muted">Virality Score</small>
+                                                <strong class="text-primary">{{ clip.virality_score }}/100</strong>
+                                            </div>
+                                            <div class="progress" style="height: 6px;">
+                                                <div class="progress-bar 
+                                                    {% if clip.virality_score >= 90 %}bg-success
+                                                    {% elif clip.virality_score >= 80 %}bg-primary
+                                                    {% elif clip.virality_score >= 70 %}bg-warning
+                                                    {% else %}bg-secondary
+                                                    {% endif %}" 
+                                                    style="width: {{ clip.virality_score }}%"></div>
+                                            </div>
+                                        </div>
+
+                                        <!-- AI Justification -->
+                                        <div class="mb-3">
+                                            <h6 class="text-dark mb-1">🤖 AI Analysis</h6>
+                                            <p class="text-sm text-muted mb-0">{{ clip.justification|truncatechars:120 }}</p>
+                                        </div>
+
+                                        <!-- Emotional Keywords -->
+                                        {% if clip.emotional_keywords %}
+                                        <div class="mb-3">
+                                            <small class="text-muted d-block mb-1">Emotional Keywords</small>
+                                            {% for keyword in clip.emotional_keywords.split:', ' %}
+                                                <span class="badge badge-light badge-sm me-1">#{{ keyword|title }}</span>
+                                            {% endfor %}
+                                        </div>
+                                        {% endif %}
+
+                                        <!-- Action Buttons -->
+                                        <div class="d-flex gap-2">
+                                            <a href="{% url 'core:clip_detail' clip.id %}" class="btn btn-outline-primary btn-sm flex-fill">
+                                                <i class="fas fa-eye"></i> View Details
+                                            </a>
+                                            <a href="{% url 'core:download_clip' clip.id %}" class="btn btn-success btn-sm flex-fill">
+                                                <i class="fas fa-download"></i> Download
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Pagination -->
+                        {% if clips.has_other_pages %}
+                        <div class="row">
+                            <div class="col-12">
+                                <nav aria-label="Clips pagination">
+                                    <ul class="pagination justify-content-center">
+                                        {% if clips.has_previous %}
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page={{ clips.previous_page_number }}">Previous</a>
+                                            </li>
+                                        {% endif %}
+                                        
+                                        {% for num in clips.paginator.page_range %}
+                                            {% if clips.number == num %}
+                                                <li class="page-item active">
+                                                    <span class="page-link">{{ num }}</span>
+                                                </li>
+                                            {% else %}
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                        
+                                        {% if clips.has_next %}
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page={{ clips.next_page_number }}">Next</a>
+                                            </li>
+                                        {% endif %}
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                    {% else %}
+                        <div class="text-center py-5">
+                            <i class="fas fa-exclamation-triangle fa-3x text-muted mb-3"></i>
+                            <h5 class="text-muted">No clips generated</h5>
+                            <p class="text-muted">The AI couldn't find viral moments in this video. Try with a different video.</p>
+                            <a href="{% url 'core:index' %}" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> Try Another Video
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back Button -->
+    <div class="row mt-4">
+        <div class="col-12 text-center">
+            <a href="{% url 'core:index' %}" class="btn btn-outline-primary">
+                <i class="fas fa-arrow-left"></i> Process Another Video
+            </a>
+            <a href="{% url 'core:history' %}" class="btn btn-outline-secondary ms-2">
+                <i class="fas fa-history"></i> View History
+            </a>
+        </div>
     </div>
 </div>
+
+<style>
+.clip-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.clip-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.badge-lg {
+    font-size: 0.75rem;
+    padding: 0.5rem 0.75rem;
+}
+
+.progress {
+    border-radius: 10px;
+}
+
+.badge-light {
+    background-color: #f8f9fa;
+    color: #6c757d;
+    border: 1px solid #e9ecef;
+}
+</style>
 {% endblock %} 

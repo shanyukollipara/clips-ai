@@ -1,218 +1,209 @@
-import requests
+import os
 import json
-from django.conf import settings
-from typing import Dict, List, Optional
+import requests
+from typing import List, Dict, Any
 
 class GrokAnalyzer:
-    """Client for analyzing transcripts and extracting viral moments using Grok API"""
+    """AI-powered viral moment detection using Grok API"""
     
     def __init__(self):
-        self.api_key = settings.GROK_API_KEY
-        self.api_url = settings.GROK_API_URL
+        self.api_key = os.environ.get('GROK_API_KEY')
+        self.api_url = os.environ.get('GROK_API_URL', 'https://api.x.ai/v1')
+        self.model = "grok-1"  # Using cheapest Grok model
+        
+        if not self.api_key:
+            raise ValueError("GROK_API_KEY environment variable not set")
     
     def extract_viral_moments(self, transcript_data: Dict, clip_duration: int) -> List[Dict]:
         """
-        Extract viral moments from transcript using Grok API
+        Extract viral moments from video transcript using Grok AI
         
         Args:
-            transcript_data: Transcript data from Apify
+            transcript_data: Dictionary with transcript info
             clip_duration: Desired clip duration in seconds
             
         Returns:
-            List of viral moments with timestamps and justifications
+            List of viral moments with timestamps, scores, and justifications
         """
-        if not self.api_key:
-            raise ValueError("Grok API key not configured")
+        # Extract transcript text and timing info
+        transcript_segments = transcript_data.get('transcript', [])
+        if not transcript_segments:
+            raise ValueError("No transcript segments found")
         
-        # Prepare transcript text for analysis
-        transcript_text = self._format_transcript_for_analysis(transcript_data)
+        # Convert transcript to text with timestamps
+        transcript_text = self._format_transcript_for_analysis(transcript_segments)
         
-        # Create prompt for viral moment extraction
-        prompt = self._create_extraction_prompt(transcript_text, clip_duration)
-        
-        # Call Grok API
-        response = self._call_grok_api(prompt)
-        
-        # Parse the response
-        viral_moments = self._parse_viral_moments(response)
-        
-        return viral_moments
-    
-    def score_virality(self, clip_data: Dict) -> int:
-        """
-        Assign a virality score (0-100) to a clip using Grok
-        
-        Args:
-            clip_data: Clip data including justification and context
-            
-        Returns:
-            Virality score from 0-100
-        """
-        if not self.api_key:
-            raise ValueError("Grok API key not configured")
-        
-        prompt = self._create_scoring_prompt(clip_data)
-        
-        response = self._call_grok_api(prompt)
-        
-        # Extract score from response
-        score = self._parse_virality_score(response)
-        
-        return score
-    
-    def _format_transcript_for_analysis(self, transcript_data: Dict) -> str:
-        """Format transcript data into a readable text format"""
-        transcript = transcript_data.get('transcript', [])
-        
-        if not transcript:
-            return ""
-        
-        formatted_text = ""
-        for entry in transcript:
-            if isinstance(entry, dict):
-                # Handle structured transcript format
-                start_time = entry.get('start', 0)
-                text = entry.get('text', '')
-                formatted_text += f"[{start_time:.2f}s] {text}\n"
-            elif isinstance(entry, str):
-                # Handle plain text format
-                formatted_text += f"{entry}\n"
-        
-        return formatted_text
-    
-    def _create_extraction_prompt(self, transcript_text: str, clip_duration: int) -> str:
-        """Create prompt for viral moment extraction"""
-        return f"""Analyze this YouTube video transcript and identify the top 5-10 most viral moments that would make engaging short clips of {clip_duration} seconds each.
+        # Create Grok prompt for viral moment detection
+        prompt = f"""
+Analyze this YouTube video transcript and identify the TOP 5 most viral moments that would make great short clips.
 
-Transcript:
+VIDEO TRANSCRIPT WITH TIMESTAMPS:
 {transcript_text}
 
+CLIP REQUIREMENTS:
+- Each clip should be exactly {clip_duration} seconds long
+- Focus on moments with high engagement potential (humor, shock, emotion, valuable insights)
+- Consider viral elements: hooks, punchlines, dramatic reveals, strong emotions, quotable moments
+
 For each viral moment, provide:
-1. Start timestamp (in seconds)
-2. End timestamp (in seconds) - should be {clip_duration} seconds from start
-3. Justification for why this moment is viral
-4. Emotional keywords (e.g., "shocking", "hilarious", "inspiring")
-5. Urgency indicators (e.g., "breaking news", "exclusive", "must-see")
+1. START_TIME and END_TIME (in seconds) for a {clip_duration}-second clip
+2. VIRALITY_SCORE (0.0 to 1.0 scale where 1.0 = extremely viral)
+3. GRADE (A+, A, A-, B+, B, B-, C+, C, C-, D+, D, F)
+4. JUSTIFICATION (why this moment is viral - specific reasons)
+5. EMOTIONAL_KEYWORDS (3-5 words describing the emotion/hook)
+6. URGENCY_INDICATORS (what makes people want to share immediately)
 
-Format your response as a JSON array of objects with these fields:
-- start_timestamp (float)
-- end_timestamp (float)
-- justification (string)
-- emotional_keywords (array of strings)
-- urgency_indicators (array of strings)
+Respond ONLY in valid JSON format:
+{{
+  "viral_moments": [
+    {{
+      "start_timestamp": 45.2,
+      "end_timestamp": 75.2,
+      "virality_score": 0.92,
+      "grade": "A",
+      "justification": "Unexpected plot twist with strong emotional reaction that creates shareable moment",
+      "emotional_keywords": ["shocking", "unexpected", "emotional", "relatable"],
+      "urgency_indicators": ["plot twist", "strong reaction", "quotable line"]
+    }}
+  ]
+}}
+"""
 
-Focus on moments that are:
-- Emotionally engaging
-- Shareable on social media
-- Have clear narrative hooks
-- Include surprising or unexpected content
-- Feature strong reactions or dramatic moments
-
-Return only valid JSON without any additional text."""
-    
-    def _create_scoring_prompt(self, clip_data: Dict) -> str:
-        """Create prompt for virality scoring"""
-        justification = clip_data.get('justification', '')
-        emotional_keywords = clip_data.get('emotional_keywords', [])
-        urgency_indicators = clip_data.get('urgency_indicators', [])
-        
-        return f"""Rate the virality potential of this video clip on a scale of 0-100.
-
-Clip Details:
-- Justification: {justification}
-- Emotional Keywords: {', '.join(emotional_keywords)}
-- Urgency Indicators: {', '.join(urgency_indicators)}
-
-Scoring Criteria:
-- 90-100: Extremely viral, likely to go viral across all platforms
-- 80-89: Highly viral, strong potential for widespread sharing
-- 70-79: Very viral, good potential for significant reach
-- 60-69: Moderately viral, decent sharing potential
-- 50-59: Somewhat viral, limited but possible reach
-- 40-49: Low viral potential, niche appeal
-- 30-39: Minimal viral potential
-- 0-29: Not viral, unlikely to gain traction
-
-Consider factors like:
-- Emotional impact
-- Surprise factor
-- Relatability
-- Shareability
-- Current trends relevance
-- Platform optimization
-
-Return only a single integer between 0 and 100, nothing else."""
-    
-    def _call_grok_api(self, prompt: str) -> str:
-        """Make API call to Grok"""
+        # Call Grok API
         headers = {
             "Authorization": f"Bearer {self.api_key}",
             "Content-Type": "application/json"
         }
         
-        data = {
-            "model": "grok-1",  # Use the cheapest model
+        payload = {
+            "model": self.model,
             "messages": [
                 {
-                    "role": "user",
+                    "role": "system",
+                    "content": "You are an expert social media analyst who identifies viral video moments. You understand what makes content shareable and engaging across platforms like TikTok, Instagram Reels, and YouTube Shorts."
+                },
+                {
+                    "role": "user", 
                     "content": prompt
                 }
             ],
-            "max_tokens": 2000,
-            "temperature": 0.7
+            "temperature": 0.7,
+            "max_tokens": 2000
         }
         
-        response = requests.post(
-            f"{self.api_url}/chat/completions",
-            headers=headers,
-            json=data
-        )
-        response.raise_for_status()
+        try:
+            response = requests.post(
+                f"{self.api_url}/chat/completions",
+                headers=headers,
+                json=payload,
+                timeout=60
+            )
+            response.raise_for_status()
+            
+            result = response.json()
+            content = result['choices'][0]['message']['content']
+            
+            # Parse JSON response
+            try:
+                parsed_content = json.loads(content)
+                viral_moments = parsed_content.get('viral_moments', [])
+            except json.JSONDecodeError:
+                # Fallback: extract JSON from response if wrapped in text
+                import re
+                json_match = re.search(r'\{.*\}', content, re.DOTALL)
+                if json_match:
+                    parsed_content = json.loads(json_match.group())
+                    viral_moments = parsed_content.get('viral_moments', [])
+                else:
+                    raise ValueError("Could not parse Grok response as JSON")
+            
+            # Validate and clean up results
+            return self._validate_viral_moments(viral_moments, transcript_data.get('duration', 0))
+            
+        except requests.exceptions.RequestException as e:
+            raise Exception(f"Grok API request failed: {str(e)}")
+        except Exception as e:
+            raise Exception(f"Failed to analyze transcript with Grok: {str(e)}")
+    
+    def _format_transcript_for_analysis(self, transcript_segments: List[Dict]) -> str:
+        """Format transcript segments with timestamps for AI analysis"""
+        formatted_lines = []
         
-        result = response.json()
-        return result['choices'][0]['message']['content']
+        for segment in transcript_segments:
+            if 'start' in segment and 'text' in segment:
+                start_time = segment['start']
+                text = segment['text'].strip()
+                if text:
+                    formatted_lines.append(f"[{start_time:.1f}s] {text}")
+        
+        return '\n'.join(formatted_lines)
     
-    def _parse_viral_moments(self, response: str) -> List[Dict]:
-        """Parse Grok response into structured viral moments"""
-        try:
-            # Extract JSON from response
-            import re
-            json_match = re.search(r'\[.*\]', response, re.DOTALL)
-            if json_match:
-                json_str = json_match.group(0)
-                moments = json.loads(json_str)
-            else:
-                # Try to parse the entire response as JSON
-                moments = json.loads(response)
+    def _validate_viral_moments(self, viral_moments: List[Dict], video_duration: float) -> List[Dict]:
+        """Validate and clean up viral moments data"""
+        validated_moments = []
+        
+        for moment in viral_moments:
+            # Ensure required fields exist
+            if not all(key in moment for key in ['start_timestamp', 'end_timestamp', 'virality_score']):
+                continue
             
-            # Validate and clean the data
-            validated_moments = []
-            for moment in moments:
-                if isinstance(moment, dict):
-                    validated_moment = {
-                        'start_timestamp': float(moment.get('start_timestamp', 0)),
-                        'end_timestamp': float(moment.get('end_timestamp', 0)),
-                        'justification': str(moment.get('justification', '')),
-                        'emotional_keywords': list(moment.get('emotional_keywords', [])),
-                        'urgency_indicators': list(moment.get('urgency_indicators', []))
-                    }
-                    validated_moments.append(validated_moment)
+            start_time = float(moment['start_timestamp'])
+            end_time = float(moment['end_timestamp'])
             
-            return validated_moments
+            # Validate timestamp bounds
+            if start_time < 0 or end_time > video_duration or start_time >= end_time:
+                continue
             
-        except (json.JSONDecodeError, KeyError, ValueError) as e:
-            raise ValueError(f"Failed to parse Grok response: {e}. Response: {response}")
+            # Ensure virality score is in valid range
+            virality_score = max(0.0, min(1.0, float(moment.get('virality_score', 0.5))))
+            
+            validated_moment = {
+                'start_timestamp': start_time,
+                'end_timestamp': end_time,
+                'virality_score': virality_score,
+                'grade': moment.get('grade', 'B'),
+                'justification': moment.get('justification', 'Viral potential detected'),
+                'emotional_keywords': moment.get('emotional_keywords', []),
+                'urgency_indicators': moment.get('urgency_indicators', [])
+            }
+            
+            validated_moments.append(validated_moment)
+        
+        # Sort by virality score (highest first)
+        validated_moments.sort(key=lambda x: x['virality_score'], reverse=True)
+        
+        return validated_moments
     
-    def _parse_virality_score(self, response: str) -> int:
-        """Parse virality score from Grok response"""
-        try:
-            # Extract numeric score from response
-            import re
-            score_match = re.search(r'\b(\d{1,2}|100)\b', response.strip())
-            if score_match:
-                score = int(score_match.group(1))
-                return max(0, min(100, score))  # Ensure score is between 0-100
-            else:
-                raise ValueError("No score found in response")
-        except (ValueError, AttributeError) as e:
-            raise ValueError(f"Failed to parse virality score: {e}. Response: {response}") 
+    def score_virality(self, moment: Dict) -> float:
+        """
+        Legacy method for backward compatibility
+        Returns the virality score for a moment
+        """
+        return moment.get('virality_score', 0.5)
+    
+    def convert_score_to_grade(self, score: float) -> str:
+        """Convert numerical virality score to letter grade"""
+        if score >= 0.97:
+            return "A+"
+        elif score >= 0.93:
+            return "A"
+        elif score >= 0.90:
+            return "A-"
+        elif score >= 0.87:
+            return "B+"
+        elif score >= 0.83:
+            return "B"
+        elif score >= 0.80:
+            return "B-"
+        elif score >= 0.77:
+            return "C+"
+        elif score >= 0.73:
+            return "C"
+        elif score >= 0.70:
+            return "C-"
+        elif score >= 0.65:
+            return "D+"
+        elif score >= 0.60:
+            return "D"
+        else:
+            return "F" 
