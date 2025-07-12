@@ -356,7 +356,11 @@ def download_clip(request, clip_id):
 
 def history(request):
     """Display processing history with enhanced stats"""
-    video_processings = VideoProcessing.objects.all().order_by('-created_at')
+    # Get all video processings and annotate with best clip score
+    video_processings = VideoProcessing.objects.annotate(
+        best_score=models.Max('clips__virality_score'),
+        clip_count=models.Count('clips')
+    ).order_by('-best_score', '-created_at')
     
     # Paginate results
     paginator = Paginator(video_processings, 10)  # 10 items per page
@@ -369,13 +373,17 @@ def history(request):
     total_clips = ViralClip.objects.count()
     avg_clips_per_video = total_clips / successful_processings if successful_processings > 0 else 0
     
+    # Get top performing clips
+    top_clips = ViralClip.objects.order_by('-virality_score')[:5]
+    
     context = {
         'video_processings': page_obj,
         'total_processed': total_processed,
         'successful_processings': successful_processings,
         'total_clips_generated': total_clips,
         'avg_clips_per_video': round(avg_clips_per_video, 1),
-        'success_percentage': (successful_processings / total_processed * 100) if total_processed > 0 else 0
+        'success_percentage': (successful_processings / total_processed * 100) if total_processed > 0 else 0,
+        'top_clips': top_clips
     }
     
     return render(request, 'core/history.html', context)

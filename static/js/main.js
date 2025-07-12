@@ -217,6 +217,60 @@ document.addEventListener('DOMContentLoaded', function() {
     ClipsAI.initPopovers();
     ClipsAI.lazyLoadImages();
 
+    // Handle video processing form submission
+    const processingForm = document.getElementById('processingForm');
+    if (processingForm) {
+        processingForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitButton = this.querySelector('button[type="submit"]');
+            const youtubeUrl = this.querySelector('#youtubeUrl').value;
+            const clipDuration = parseInt(this.querySelector('#clipDuration').value);
+            
+            if (!ClipsAI.validateYouTubeUrl(youtubeUrl)) {
+                ClipsAI.showToast('Please enter a valid YouTube URL', 'danger');
+                return;
+            }
+            
+            // Disable submit button and show loading state
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Processing...';
+            
+            try {
+                const response = await fetch('/process/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': ClipsAI.getCSRFToken()
+                    },
+                    body: JSON.stringify({
+                        youtube_url: youtubeUrl,
+                        clip_duration: clipDuration
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    ClipsAI.showToast('Processing started! Redirecting to history...', 'success');
+                    // Redirect to history page after a short delay
+                    setTimeout(() => {
+                        window.location.href = '/history/';
+                    }, 1500);
+                } else {
+                    ClipsAI.showToast(data.error || 'Processing failed', 'danger');
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = 'Generate Viral Clips';
+                }
+            } catch (error) {
+                console.error('Processing failed:', error);
+                ClipsAI.showToast('Failed to start processing', 'danger');
+                submitButton.disabled = false;
+                submitButton.innerHTML = 'Generate Viral Clips';
+            }
+        });
+    }
+
     // Add smooth scrolling to all links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -227,16 +281,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     behavior: 'smooth',
                     block: 'start'
                 });
-            }
-        });
-    });
-
-    // Add loading states to buttons
-    document.querySelectorAll('button[type="submit"]').forEach(button => {
-        button.addEventListener('click', function() {
-            if (this.form && this.form.checkValidity()) {
-                this.disabled = true;
-                this.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Processing...';
             }
         });
     });
