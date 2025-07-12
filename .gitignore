@@ -46,3 +46,11 @@ config/
 # Temporary files
 *.swp
 .DS_Store 
+
+# Ignore all video files
+*.mp4
+*.webm
+*.mkv
+
+# Ignore media downloads directory
+media/downloads/ 
