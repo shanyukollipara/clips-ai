@@ -140,7 +140,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # API Keys and Configuration
 GROK_API_KEY = os.getenv('GROK_API_KEY')
 APIFY_API_KEY = os.getenv('APIFY_API_KEY')
-GROK_API_URL = os.getenv('GROK_API_URL', 'https://api.x.ai/v1')
+GROK_API_URL = os.getenv('GROK_API_URL', 'https://api.x.ai')
 APIFY_ACTOR_ID = os.getenv('APIFY_ACTOR_ID', 'faVsWy9VTSNVIhWpR')
 
 # Logging configuration

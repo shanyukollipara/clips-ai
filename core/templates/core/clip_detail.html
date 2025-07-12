@@ -13,8 +13,8 @@
                 </h4>
             </div>
             <div class="card-body p-0">
-                {% if clip.preview_url %}
-                    <img src="{{ clip.preview_url }}" class="img-fluid w-100" alt="Clip preview">
+                {% if clip.clip_url %}
+                    <video controls width="100%" src="{{ clip.clip_url }}" style="max-height:400px;"></video>
                 {% else %}
                     <div class="bg-light d-flex align-items-center justify-content-center" style="height: 400px;">
                         <div class="text-center">

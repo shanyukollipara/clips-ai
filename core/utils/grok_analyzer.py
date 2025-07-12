@@ -10,12 +10,51 @@ class GrokAnalyzer:
     def __init__(self):
         # Try Django settings first, then environment variable
         self.api_key = getattr(settings, 'GROK_API_KEY', None) or os.environ.get('GROK_API_KEY')
-        self.api_url = getattr(settings, 'GROK_API_URL', None) or os.environ.get('GROK_API_URL', 'https://api.x.ai/v1')
-        self.model = "grok-3-mini"  # Cheapest xAI model at $0.30 input / $0.50 output
+        self.api_url = getattr(settings, 'GROK_API_URL', None) or os.environ.get('GROK_API_URL', 'https://api.x.ai')
+        self.model = "grok-3-mini"  # Using xAI Grok model
         
         if not self.api_key:
             raise ValueError("GROK_API_KEY not found in Django settings or environment variables")
+            
+        # Test connection during initialization
+        self._test_connection()
     
+    def _test_connection(self):
+        """Test the Grok API connection"""
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json"
+        }
+        
+        payload = {
+            "model": self.model,
+            "messages": [
+                {
+                    "role": "system",
+                    "content": "You are a test assistant."
+                },
+                {
+                    "role": "user",
+                    "content": "Test connection. Reply with 'ok' only."
+                }
+            ],
+            "temperature": 0,
+            "max_tokens": 10
+        }
+        
+        try:
+            response = requests.post(
+                f"{self.api_url}/v1/chat/completions",
+                headers=headers,
+                json=payload,
+                timeout=10
+            )
+            response.raise_for_status()
+            print("✅ Successfully connected to Grok API")
+        except Exception as e:
+            print(f"❌ Failed to connect to Grok API: {str(e)}")
+            raise
+
     def extract_viral_moments(self, transcript_data: Dict, clip_duration: int) -> List[Dict]:
         """
         Extract viral moments from video transcript using Grok AI
@@ -106,7 +145,7 @@ Respond ONLY in valid JSON format:
         
         try:
             response = requests.post(
-                f"{self.api_url}/chat/completions",
+                f"{self.api_url}/v1/chat/completions",
                 headers=headers,
                 json=payload,
                 timeout=60

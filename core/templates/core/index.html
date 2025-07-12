@@ -170,6 +170,8 @@ document.addEventListener('DOMContentLoaded', function() {
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Processing...';
 
         // Send processing request
+        console.log('Sending processing request:', { youtube_url: youtubeUrl, clip_duration: clipDuration });
+        
         fetch('{% url "core:process_video" %}', {
             method: 'POST',
             headers: {
@@ -181,8 +183,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 clip_duration: clipDuration
             })
         })
-        .then(response => response.json())
+        .then(response => {
+            console.log('Processing response status:', response.status);
+            return response.json();
+        })
         .then(data => {
+            console.log('Processing response data:', data);
             if (data.success) {
                 // Start polling for status
                 pollProcessingStatus(data.processing_id);
@@ -191,6 +197,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         })
         .catch(error => {
+            console.error('Processing request error:', error);
             showError('Network error: ' + error.message);
         });
     });
@@ -198,29 +205,49 @@ document.addEventListener('DOMContentLoaded', function() {
     function pollProcessingStatus(processingId) {
         let step = 0;
         const steps = ['Downloading video', 'Extracting transcript', 'AI analysis', 'Creating clips'];
+        let pollCount = 0;
         
         const poll = setInterval(() => {
+            pollCount++;
+            console.log(`Polling status for processing ${processingId}, attempt ${pollCount}`);
+            
             fetch(`{% url "core:processing_status" 0 %}`.replace('0', processingId))
-            .then(response => response.json())
+            .then(response => {
+                console.log('Status response status:', response.status);
+                return response.json();
+            })
             .then(data => {
+                console.log('Status response data:', data);
+                
                 if (data.success) {
-                    // Update progress
-                    step = Math.min(step + 1, steps.length - 1);
-                    updateProgress(step, steps.length);
+                    // Update status message
+                    statusMessage.textContent = `Processing your video... (${data.status})`;
                     
-                    if (data.status === 'completed') {
+                    // Update progress based on status and poll count
+                    if (data.status === 'processing') {
+                        // Increment step every few polls to show progress
+                        if (pollCount % 2 === 0) {
+                            step = Math.min(step + 1, steps.length - 1);
+                        }
+                        updateProgress(step, steps.length);
+                    } else if (data.status === 'completed') {
                         clearInterval(poll);
+                        updateProgress(steps.length, steps.length); // Show 100%
                         showResults(processingId);
                     } else if (data.status === 'failed') {
                         clearInterval(poll);
                         showError(data.error_message || 'Processing failed');
+                    } else if (data.status === 'pending') {
+                        // Keep at step 0 for pending
+                        updateProgress(0, steps.length);
                     }
                 } else {
                     clearInterval(poll);
-                    showError(data.error);
+                    showError(data.error || 'Status check failed');
                 }
             })
             .catch(error => {
+                console.error('Status check error:', error);
                 clearInterval(poll);
                 showError('Status check failed: ' + error.message);
             });

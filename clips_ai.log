@@ -392,3 +392,626 @@ INFO 2025-07-11 23:26:22,979 autoreload 90687 8486686528 /Users/skollipara8/clip
 INFO 2025-07-11 23:26:23,299 autoreload 90815 8486686528 Watching for file changes with StatReloader
 INFO 2025-07-11 23:26:25,561 autoreload 90815 8486686528 /Users/skollipara8/clips-ai/clips_ai_project/settings.py changed, reloading.
 INFO 2025-07-11 23:26:25,749 autoreload 90828 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 23:54:20,328 autoreload 93238 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 23:54:54,850 basehttp 93238 6124171264 "GET / HTTP/1.1" 200 13378
+INFO 2025-07-11 23:55:04,963 basehttp 93238 6124171264 "GET / HTTP/1.1" 200 13378
+INFO 2025-07-11 23:55:05,068 basehttp 93238 6124171264 "GET /static/css/style.css HTTP/1.1" 200 5621
+INFO 2025-07-11 23:55:05,070 basehttp 93238 6124171264 "GET /static/js/main.js HTTP/1.1" 200 8754
+INFO 2025-07-11 23:55:05,601 basehttp 93238 6124171264 "GET /static/favicon.ico HTTP/1.1" 200 1
+WARNING 2025-07-11 23:56:01,754 log 93238 6124171264 Bad Request: /process/
+WARNING 2025-07-11 23:56:01,754 basehttp 93238 6124171264 "POST /process/ HTTP/1.1" 400 48
+INFO 2025-07-11 23:56:08,161 basehttp 93238 6124171264 "POST /process/ HTTP/1.1" 200 122
+INFO 2025-07-11 23:56:12,334 basehttp 93238 6124171264 "GET /status/16/ HTTP/1.1" 200 235
+INFO 2025-07-11 23:56:31,106 autoreload 93522 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 23:56:33,117 basehttp 93522 6171848704 "POST /process/ HTTP/1.1" 200 122
+INFO 2025-07-11 23:56:41,956 basehttp 93522 6171848704 "GET /status/17/ HTTP/1.1" 200 235
+INFO 2025-07-11 23:57:15,317 autoreload 93612 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-11 23:58:08,873 basehttp 93612 6126333952 "GET / HTTP/1.1" 200 13378
+INFO 2025-07-11 23:59:48,581 autoreload 93612 8486686528 /Users/skollipara8/clips-ai/core/views.py changed, reloading.
+INFO 2025-07-11 23:59:49,226 autoreload 93693 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 00:01:43,935 basehttp 93693 6134591488 "GET / HTTP/1.1" 200 13378
+INFO 2025-07-12 00:02:41,174 autoreload 93867 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 00:03:03,157 basehttp 93693 6134591488 "POST /process/ HTTP/1.1" 200 122
+INFO 2025-07-12 00:03:03,223 processor 93693 6151417856 🎬 Starting video processing for: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+INFO 2025-07-12 00:03:03,730 processor 93693 6151417856 ✅ FFmpeg is available
+INFO 2025-07-12 00:03:03,731 processor 93693 6151417856 🎬 Fetching YouTube transcript...
+INFO 2025-07-12 00:03:04,630 _client 93693 6151417856 HTTP Request: POST https://api.apify.com/v2/acts/faVsWy9VTSNVIhWpR/runs "HTTP/1.1 201 Created"
+INFO 2025-07-12 00:03:05,868 _client 93693 6151417856 HTTP Request: GET https://api.apify.com/v2/actor-runs/uMg8ezaHY0Qi2hgqX?waitForFinish=999999 "HTTP/1.1 200 OK"
+INFO 2025-07-12 00:03:07,397 _client 93693 6151417856 HTTP Request: GET https://api.apify.com/v2/datasets/bie1XkIlP4kyjUpIj/items "HTTP/1.1 200 OK"
+INFO 2025-07-12 00:03:07,399 processor 93693 6151417856 ✅ Transcript fetched: Unknown (217.92s)
+INFO 2025-07-12 00:03:07,399 processor 93693 6151417856 🤖 Analyzing transcript for viral moments with Grok AI...
+ERROR 2025-07-12 00:03:07,868 processor 93693 6151417856 ❌ Processing failed: Grok API request failed: 403 Client Error: Forbidden for url: https://api.x.ai/v1/chat/completions
+INFO 2025-07-12 00:03:07,873 processor 93693 6151417856 💾 Keeping 0 generated clips for download
+WARNING 2025-07-12 00:03:20,995 log 93693 6135164928 Not Found: /processing_status/18/
+WARNING 2025-07-12 00:03:20,996 basehttp 93693 6135164928 "GET /processing_status/18/ HTTP/1.1" 404 3710
+INFO 2025-07-12 00:03:33,544 basehttp 93693 6135164928 "GET /status/18/ HTTP/1.1" 200 266
+INFO 2025-07-12 00:04:27,069 autoreload 94024 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 00:04:43,018 basehttp 94024 6134132736 "POST /process/ HTTP/1.1" 200 122
+INFO 2025-07-12 00:04:43,086 processor 94024 6150959104 🎬 Starting video processing for: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+INFO 2025-07-12 00:04:43,216 processor 94024 6150959104 ✅ FFmpeg is available
+INFO 2025-07-12 00:04:43,216 processor 94024 6150959104 🎬 Fetching YouTube transcript...
+INFO 2025-07-12 00:04:43,899 _client 94024 6150959104 HTTP Request: POST https://api.apify.com/v2/acts/faVsWy9VTSNVIhWpR/runs "HTTP/1.1 401 Unauthorized"
+ERROR 2025-07-12 00:04:43,902 processor 94024 6150959104 ❌ Processing failed: Failed to fetch transcript: User was not found or authentication token is not valid
+INFO 2025-07-12 00:04:43,903 processor 94024 6150959104 💾 Keeping 0 generated clips for download
+INFO 2025-07-12 00:04:47,561 basehttp 94024 6135279616 "GET /status/19/ HTTP/1.1" 200 251
+INFO 2025-07-12 00:08:18,231 autoreload 94193 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 00:08:29,379 basehttp 94193 6189789184 "POST /process/ HTTP/1.1" 200 122
+INFO 2025-07-12 00:08:29,448 processor 94193 6206615552 🎬 Starting video processing for: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+INFO 2025-07-12 00:08:29,578 processor 94193 6206615552 ✅ FFmpeg is available
+INFO 2025-07-12 00:08:29,579 processor 94193 6206615552 🎬 Fetching YouTube transcript...
+INFO 2025-07-12 00:08:30,284 _client 94193 6206615552 HTTP Request: POST https://api.apify.com/v2/acts/faVsWy9VTSNVIhWpR/runs "HTTP/1.1 201 Created"
+INFO 2025-07-12 00:08:31,452 _client 94193 6206615552 HTTP Request: GET https://api.apify.com/v2/actor-runs/5TfjH7dFtLjJhrt2q?waitForFinish=999999 "HTTP/1.1 200 OK"
+INFO 2025-07-12 00:08:33,749 _client 94193 6206615552 HTTP Request: GET https://api.apify.com/v2/datasets/syweflqcqi9nPbmXG/items "HTTP/1.1 200 OK"
+INFO 2025-07-12 00:08:33,753 processor 94193 6206615552 ✅ Transcript fetched: Unknown (217.92s)
+INFO 2025-07-12 00:08:33,753 processor 94193 6206615552 🤖 Analyzing transcript for viral moments with Grok AI...
+INFO 2025-07-12 00:08:36,510 basehttp 94193 6223441920 "GET /status/20/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:08:49,494 processor 94193 6206615552 ✅ Found 5 viral moments
+INFO 2025-07-12 00:08:49,494 processor 94193 6206615552 📥 Downloading full video...
+INFO 2025-07-12 00:08:53,270 processor 94193 6206615552 ✅ Video downloaded: /var/folders/wy/s2g7kwcx1sn5xr5yskph78cc0000gn/T/video_8a40f480.mp4
+INFO 2025-07-12 00:08:53,270 processor 94193 6206615552 ✂️ Creating viral clips...
+INFO 2025-07-12 00:08:53,270 processor 94193 6206615552 📹 Processing clip 1/5 - Grade: A+ (Score: 0.95)
+INFO 2025-07-12 00:08:53,443 processor 94193 6206615552 ✅ Clip 1 created: A+ - This clip features the iconic chorus with the firs...
+INFO 2025-07-12 00:08:53,443 processor 94193 6206615552 📹 Processing clip 2/5 - Grade: A (Score: 0.92)
+INFO 2025-07-12 00:08:53,523 processor 94193 6206615552 ✅ Clip 2 created: A - This section repeats the chorus with building repe...
+INFO 2025-07-12 00:08:53,524 processor 94193 6206615552 📹 Processing clip 3/5 - Grade: A- (Score: 0.88)
+INFO 2025-07-12 00:08:53,605 processor 94193 6206615552 ✅ Clip 3 created: A- - Includes multiple 'Never gonna' lines that form a ...
+INFO 2025-07-12 00:08:53,605 processor 94193 6206615552 📹 Processing clip 4/5 - Grade: B+ (Score: 0.85)
+INFO 2025-07-12 00:08:53,686 processor 94193 6206615552 ✅ Clip 4 created: B+ - This part transitions from verses to chorus, highl...
+INFO 2025-07-12 00:08:53,686 processor 94193 6206615552 📹 Processing clip 5/5 - Grade: B (Score: 0.82)
+INFO 2025-07-12 00:08:53,766 processor 94193 6206615552 ✅ Clip 5 created: B - Features repeated chorus elements with slight vari...
+INFO 2025-07-12 00:08:53,767 processor 94193 6206615552 🎯 All 5 viral clips created successfully!
+INFO 2025-07-12 00:08:53,767 processor 94193 6206615552 🎉 Processing completed successfully! Result: 5 clips
+INFO 2025-07-12 00:08:53,767 processor 94193 6206615552 🧹 Cleaning up downloaded video...
+INFO 2025-07-12 00:08:53,767 processor 94193 6206615552 💾 Keeping 0 generated clips for download
+INFO 2025-07-12 00:08:58,061 basehttp 94193 6190362624 "GET /status/20/ HTTP/1.1" 200 365
+INFO 2025-07-12 00:10:26,765 autoreload 94193 8486686528 /Users/skollipara8/clips-ai/core/utils/yt_downloader.py changed, reloading.
+INFO 2025-07-12 00:10:27,143 autoreload 94349 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 00:10:52,737 autoreload 94349 8486686528 /Users/skollipara8/clips-ai/core/utils/ffmpeg_processor.py changed, reloading.
+INFO 2025-07-12 00:10:53,082 autoreload 94370 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 00:14:26,486 autoreload 94370 8486686528 /Users/skollipara8/clips-ai/core/utils/yt_downloader.py changed, reloading.
+INFO 2025-07-12 00:14:26,811 autoreload 94549 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 00:14:57,037 autoreload 94549 8486686528 /Users/skollipara8/clips-ai/core/utils/ffmpeg_processor.py changed, reloading.
+INFO 2025-07-12 00:14:57,357 autoreload 94570 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 00:15:12,025 basehttp 94570 6124777472 "POST /process/ HTTP/1.1" 200 122
+INFO 2025-07-12 00:19:06,584 autoreload 94570 8486686528 /Users/skollipara8/clips-ai/core/utils/gcs_storage.py changed, reloading.
+INFO 2025-07-12 00:19:06,974 autoreload 94790 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 00:19:08,324 autoreload 94790 8486686528 /Users/skollipara8/clips-ai/core/utils/gcs_storage.py changed, reloading.
+INFO 2025-07-12 00:19:08,535 autoreload 94799 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 00:19:28,614 autoreload 94874 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 00:19:31,346 basehttp 94874 6121893888 "POST /process/ HTTP/1.1" 200 122
+INFO 2025-07-12 00:19:36,215 basehttp 94874 6121893888 "GET /status/22/ HTTP/1.1" 200 235
+INFO 2025-07-12 00:19:48,934 autoreload 94945 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 00:19:52,170 basehttp 94945 6126612480 "POST /process/ HTTP/1.1" 200 122
+INFO 2025-07-12 00:19:52,235 processor 94945 6143438848 🎬 Starting video processing for: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+INFO 2025-07-12 00:19:52,364 processor 94945 6143438848 ✅ FFmpeg is available
+INFO 2025-07-12 00:19:52,365 processor 94945 6143438848 🎬 Fetching YouTube transcript...
+INFO 2025-07-12 00:19:53,157 _client 94945 6143438848 HTTP Request: POST https://api.apify.com/v2/acts/faVsWy9VTSNVIhWpR/runs "HTTP/1.1 201 Created"
+INFO 2025-07-12 00:19:54,338 _client 94945 6143438848 HTTP Request: GET https://api.apify.com/v2/actor-runs/gb9h7Iki5loQ26YZk?waitForFinish=999999 "HTTP/1.1 200 OK"
+INFO 2025-07-12 00:19:56,295 _client 94945 6143438848 HTTP Request: GET https://api.apify.com/v2/datasets/n2DbKg4V4bYkF1hdS/items "HTTP/1.1 200 OK"
+INFO 2025-07-12 00:19:56,297 processor 94945 6143438848 ✅ Transcript fetched: Unknown (217.92s)
+INFO 2025-07-12 00:19:56,297 processor 94945 6143438848 🤖 Analyzing transcript for viral moments with Grok AI...
+INFO 2025-07-12 00:20:03,524 basehttp 94945 6160265216 "GET /status/23/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:20:07,364 processor 94945 6143438848 ✅ Found 5 viral moments
+INFO 2025-07-12 00:20:07,365 processor 94945 6143438848 📥 Downloading full video...
+ERROR 2025-07-12 00:20:13,830 processor 94945 6143438848 ❌ Processing failed: Failed to download video: 403 POST https://storage.googleapis.com/upload/storage/v1/b/clips-ai/o?uploadType=multipart: {
+  "error": {
+    "code": 403,
+    "message": "shan-583@sincere-quasar-460216-q2.iam.gserviceaccount.com does not have storage.objects.create access to the Google Cloud Storage object. Permission 'storage.objects.create' denied on resource (or it may not exist).",
+    "errors": [
+      {
+        "message": "shan-583@sincere-quasar-460216-q2.iam.gserviceaccount.com does not have storage.objects.create access to the Google Cloud Storage object. Permission 'storage.objects.create' denied on resource (or it may not exist).",
+        "domain": "global",
+        "reason": "forbidden"
+      }
+    ]
+  }
+}
+: ('Request failed with status code', 403, 'Expected one of', <HTTPStatus.OK: 200>)
+INFO 2025-07-12 00:20:13,836 processor 94945 6143438848 💾 Keeping 0 generated clips for download
+INFO 2025-07-12 00:21:29,681 autoreload 94945 8486686528 /Users/skollipara8/clips-ai/core/utils/gcs_storage.py changed, reloading.
+INFO 2025-07-12 00:21:29,981 autoreload 95022 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 00:31:22,696 autoreload 96205 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 00:31:44,715 basehttp 96205 6165229568 "POST /process/ HTTP/1.1" 200 122
+INFO 2025-07-12 00:31:45,644 processor 96205 6182055936 🎬 Starting video processing for: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+INFO 2025-07-12 00:31:45,768 processor 96205 6182055936 ✅ FFmpeg is available
+INFO 2025-07-12 00:31:45,769 processor 96205 6182055936 🎬 Fetching YouTube transcript...
+INFO 2025-07-12 00:31:46,543 _client 96205 6182055936 HTTP Request: POST https://api.apify.com/v2/acts/faVsWy9VTSNVIhWpR/runs "HTTP/1.1 201 Created"
+INFO 2025-07-12 00:31:47,696 _client 96205 6182055936 HTTP Request: GET https://api.apify.com/v2/actor-runs/K4d3JyM7LIcn4mD63?waitForFinish=999999 "HTTP/1.1 200 OK"
+INFO 2025-07-12 00:31:50,052 basehttp 96205 6198882304 "GET /status/24/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:31:50,534 _client 96205 6182055936 HTTP Request: GET https://api.apify.com/v2/datasets/Leef0c6xeRkIeqFM5/items "HTTP/1.1 200 OK"
+INFO 2025-07-12 00:31:50,540 processor 96205 6182055936 ✅ Transcript fetched: Unknown (217.92s)
+INFO 2025-07-12 00:31:50,540 processor 96205 6182055936 🤖 Analyzing transcript for viral moments with Grok AI...
+ERROR 2025-07-12 00:31:50,891 processor 96205 6182055936 ❌ Processing failed: Grok API request failed: 401 Client Error: Unauthorized for url: https://api.groq.com/openai/v1/chat/completions
+INFO 2025-07-12 00:31:50,894 processor 96205 6182055936 💾 Keeping 0 generated clips for download
+INFO 2025-07-12 00:31:58,256 basehttp 96205 6165803008 "GET /status/24/ HTTP/1.1" 200 280
+INFO 2025-07-12 00:32:08,951 autoreload 96368 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 00:32:11,580 basehttp 96368 6159560704 "POST /process/ HTTP/1.1" 200 122
+INFO 2025-07-12 00:32:12,496 processor 96368 6176387072 🎬 Starting video processing for: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+INFO 2025-07-12 00:32:12,608 processor 96368 6176387072 ✅ FFmpeg is available
+INFO 2025-07-12 00:32:12,609 processor 96368 6176387072 🎬 Fetching YouTube transcript...
+INFO 2025-07-12 00:32:13,362 _client 96368 6176387072 HTTP Request: POST https://api.apify.com/v2/acts/faVsWy9VTSNVIhWpR/runs "HTTP/1.1 201 Created"
+INFO 2025-07-12 00:32:14,530 _client 96368 6176387072 HTTP Request: GET https://api.apify.com/v2/actor-runs/LfKLX8SxDkoderlAu?waitForFinish=999999 "HTTP/1.1 200 OK"
+INFO 2025-07-12 00:32:15,836 basehttp 96368 6193213440 "GET /status/25/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:32:17,636 _client 96368 6176387072 HTTP Request: GET https://api.apify.com/v2/datasets/WhTvxadpZopeUalmH/items "HTTP/1.1 200 OK"
+INFO 2025-07-12 00:32:17,647 processor 96368 6176387072 ✅ Transcript fetched: Unknown (217.92s)
+INFO 2025-07-12 00:32:17,647 processor 96368 6176387072 🤖 Analyzing transcript for viral moments with Grok AI...
+ERROR 2025-07-12 00:32:17,938 processor 96368 6176387072 ❌ Processing failed: Grok API request failed: 401 Client Error: Unauthorized for url: https://api.groq.com/openai/v1/chat/completions
+INFO 2025-07-12 00:32:17,942 processor 96368 6176387072 💾 Keeping 0 generated clips for download
+INFO 2025-07-12 00:32:35,012 basehttp 96368 6160134144 "GET /status/25/ HTTP/1.1" 200 280
+INFO 2025-07-12 00:32:51,078 autoreload 96368 8486686528 /Users/skollipara8/clips-ai/clips_ai_project/settings.py changed, reloading.
+INFO 2025-07-12 00:32:51,482 autoreload 96442 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 00:34:22,253 autoreload 96442 8486686528 /Users/skollipara8/clips-ai/core/utils/grok_analyzer.py changed, reloading.
+INFO 2025-07-12 00:34:22,578 autoreload 96565 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 00:34:30,955 autoreload 96631 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 00:34:34,482 basehttp 96631 6192558080 "POST /process/ HTTP/1.1" 200 122
+INFO 2025-07-12 00:34:38,662 basehttp 96631 6193704960 "GET /status/26/ HTTP/1.1" 200 255
+INFO 2025-07-12 00:34:47,579 autoreload 96631 8486686528 /Users/skollipara8/clips-ai/clips_ai_project/settings.py changed, reloading.
+INFO 2025-07-12 00:34:47,886 autoreload 96680 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 00:34:58,328 autoreload 96680 8486686528 /Users/skollipara8/clips-ai/core/utils/grok_analyzer.py changed, reloading.
+INFO 2025-07-12 00:34:58,667 autoreload 96700 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 00:35:07,084 autoreload 96700 8486686528 /Users/skollipara8/clips-ai/core/utils/grok_analyzer.py changed, reloading.
+INFO 2025-07-12 00:35:07,343 autoreload 96723 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 00:35:08,639 autoreload 96723 8486686528 /Users/skollipara8/clips-ai/core/utils/grok_analyzer.py changed, reloading.
+INFO 2025-07-12 00:35:08,843 autoreload 96725 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 00:35:23,949 autoreload 96784 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 00:35:26,538 basehttp 96784 6135312384 "POST /process/ HTTP/1.1" 200 122
+INFO 2025-07-12 00:35:32,188 basehttp 96784 6135885824 "GET /status/27/ HTTP/1.1" 200 255
+INFO 2025-07-12 00:35:44,582 autoreload 96784 8486686528 /Users/skollipara8/clips-ai/core/utils/grok_analyzer.py changed, reloading.
+INFO 2025-07-12 00:35:44,905 autoreload 96835 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 00:36:11,339 autoreload 96898 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 00:36:15,730 basehttp 96898 6137376768 "POST /process/ HTTP/1.1" 200 122
+INFO 2025-07-12 00:36:21,733 basehttp 96898 6137950208 "GET /status/28/ HTTP/1.1" 200 255
+INFO 2025-07-12 00:36:38,043 autoreload 96898 8486686528 /Users/skollipara8/clips-ai/clips_ai_project/settings.py changed, reloading.
+INFO 2025-07-12 00:36:38,380 autoreload 96948 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 00:36:47,795 autoreload 96948 8486686528 /Users/skollipara8/clips-ai/core/utils/grok_analyzer.py changed, reloading.
+INFO 2025-07-12 00:36:48,008 autoreload 96967 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 00:36:56,119 autoreload 97026 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 00:37:00,165 basehttp 97026 6195212288 "POST /process/ HTTP/1.1" 200 122
+INFO 2025-07-12 00:37:05,798 basehttp 97026 6195785728 "GET /status/29/ HTTP/1.1" 200 255
+INFO 2025-07-12 00:37:16,351 autoreload 97107 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 00:37:19,222 basehttp 97026 6195785728 "POST /process/ HTTP/1.1" 200 122
+INFO 2025-07-12 00:37:24,227 basehttp 97026 6195785728 "GET /status/30/ HTTP/1.1" 200 255
+INFO 2025-07-12 00:37:46,864 autoreload 97214 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 00:37:52,104 basehttp 97214 6158561280 "POST /process/ HTTP/1.1" 200 122
+INFO 2025-07-12 00:37:58,387 basehttp 97214 6158561280 "GET /status/31/ HTTP/1.1" 200 235
+INFO 2025-07-12 00:38:28,519 autoreload 97356 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 00:38:30,653 basehttp 97356 6128087040 "POST /process/ HTTP/1.1" 200 122
+INFO 2025-07-12 00:38:35,234 basehttp 97356 6129233920 "GET /status/32/ HTTP/1.1" 200 249
+INFO 2025-07-12 00:38:45,079 autoreload 97356 8486686528 /Users/skollipara8/clips-ai/core/utils/grok_analyzer.py changed, reloading.
+INFO 2025-07-12 00:38:45,356 autoreload 97402 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 00:39:01,115 autoreload 97462 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 00:39:03,530 basehttp 97462 6198947840 "POST /process/ HTTP/1.1" 200 122
+INFO 2025-07-12 00:39:07,617 basehttp 97462 6200094720 "GET /status/33/ HTTP/1.1" 200 255
+INFO 2025-07-12 00:39:56,295 autoreload 97462 8486686528 /Users/skollipara8/clips-ai/clips_ai_project/settings.py changed, reloading.
+INFO 2025-07-12 00:39:56,631 autoreload 97551 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 00:40:04,009 autoreload 97551 8486686528 /Users/skollipara8/clips-ai/core/utils/grok_analyzer.py changed, reloading.
+INFO 2025-07-12 00:40:04,324 autoreload 97577 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 00:40:09,820 autoreload 97632 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 00:40:18,970 basehttp 97632 6159626240 "POST /process/ HTTP/1.1" 200 122
+INFO 2025-07-12 00:40:20,811 processor 97632 6176452608 🎬 Starting video processing for: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+INFO 2025-07-12 00:40:20,930 processor 97632 6176452608 ✅ FFmpeg is available
+INFO 2025-07-12 00:40:20,930 processor 97632 6176452608 🎬 Fetching YouTube transcript...
+INFO 2025-07-12 00:40:21,851 _client 97632 6176452608 HTTP Request: POST https://api.apify.com/v2/acts/faVsWy9VTSNVIhWpR/runs "HTTP/1.1 201 Created"
+INFO 2025-07-12 00:40:22,986 _client 97632 6176452608 HTTP Request: GET https://api.apify.com/v2/actor-runs/eJpI7KBUYNilNdd06?waitForFinish=999999 "HTTP/1.1 200 OK"
+INFO 2025-07-12 00:40:25,181 basehttp 97632 6193278976 "GET /status/34/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:40:26,225 _client 97632 6176452608 HTTP Request: GET https://api.apify.com/v2/datasets/m4QAhcIimhZpa48RC/items "HTTP/1.1 200 OK"
+INFO 2025-07-12 00:40:26,225 processor 97632 6176452608 ✅ Transcript fetched: Unknown (217.92s)
+INFO 2025-07-12 00:40:26,226 processor 97632 6176452608 🤖 Analyzing transcript for viral moments with Grok AI...
+INFO 2025-07-12 00:40:38,445 processor 97632 6176452608 ✅ Found 5 viral moments
+INFO 2025-07-12 00:40:38,445 processor 97632 6176452608 📥 Downloading full video...
+INFO 2025-07-12 00:40:44,390 processor 97632 6176452608 ✅ Video downloaded: https://storage.googleapis.com/clips-ai/downloads/Rick%20Astley%20-%20Never%20Gonna%20Give%20You%20Up%20Official%20Vid_dQw4w9WgXcQ.mp4
+INFO 2025-07-12 00:40:44,390 processor 97632 6176452608 ✂️ Creating viral clips...
+INFO 2025-07-12 00:40:44,391 processor 97632 6176452608 📹 Processing clip 1/5 - Grade: A+ (Score: 0.95)
+INFO 2025-07-12 00:40:44,494 processor 97632 6176452608 ✅ Clip 1 created: A+ - This clip features the first full chorus with the ...
+INFO 2025-07-12 00:40:44,494 processor 97632 6176452608 📹 Processing clip 2/5 - Grade: A (Score: 0.92)
+INFO 2025-07-12 00:40:44,600 processor 97632 6176452608 ✅ Clip 2 created: A - This segment repeats the core chorus with strong e...
+INFO 2025-07-12 00:40:44,600 processor 97632 6176452608 📹 Processing clip 3/5 - Grade: A- (Score: 0.88)
+INFO 2025-07-12 00:40:44,705 processor 97632 6176452608 ✅ Clip 3 created: A- - Includes multiple iterations of the chorus with la...
+INFO 2025-07-12 00:40:44,705 processor 97632 6176452608 📹 Processing clip 4/5 - Grade: B+ (Score: 0.85)
+INFO 2025-07-12 00:40:44,807 processor 97632 6176452608 ✅ Clip 4 created: B+ - This part bridges verses and chorus, highlighting ...
+INFO 2025-07-12 00:40:44,807 processor 97632 6176452608 📹 Processing clip 5/5 - Grade: B (Score: 0.82)
+INFO 2025-07-12 00:40:44,909 processor 97632 6176452608 ✅ Clip 5 created: B - Features a later chorus repetition with high energ...
+INFO 2025-07-12 00:40:44,909 processor 97632 6176452608 🎯 All 5 viral clips created successfully!
+INFO 2025-07-12 00:40:44,909 processor 97632 6176452608 🎉 Processing completed successfully! Result: 5 clips
+INFO 2025-07-12 00:40:44,909 processor 97632 6176452608 💾 Keeping 0 generated clips for download
+INFO 2025-07-12 00:41:24,234 basehttp 97632 6160199680 "GET /status/34/ HTTP/1.1" 200 365
+WARNING 2025-07-12 00:41:30,151 log 97632 6160199680 Not Found: /result/34/
+WARNING 2025-07-12 00:41:30,152 basehttp 97632 6160199680 "GET /result/34/ HTTP/1.1" 404 3677
+INFO 2025-07-12 00:41:36,999 basehttp 97632 6160199680 "GET /results/34/ HTTP/1.1" 200 31582
+INFO 2025-07-12 00:43:40,930 basehttp 97632 6160199680 "GET /history/ HTTP/1.1" 200 44311
+INFO 2025-07-12 00:43:42,898 basehttp 97632 6160199680 "GET /clip/1/ HTTP/1.1" 200 18937
+INFO 2025-07-12 00:44:02,643 basehttp 97632 6160199680 "GET /history/?page=2 HTTP/1.1" 200 46731
+INFO 2025-07-12 00:44:04,445 basehttp 97632 6160199680 "GET /history/?page=3 HTTP/1.1" 200 44733
+INFO 2025-07-12 00:44:05,856 basehttp 97632 6160199680 "GET /history/?page=4 HTTP/1.1" 200 26720
+INFO 2025-07-12 00:44:07,569 basehttp 97632 6160199680 "GET /history/?page=3 HTTP/1.1" 200 44733
+INFO 2025-07-12 00:44:09,018 basehttp 97632 6160199680 "GET /history/?page=2 HTTP/1.1" 200 46731
+INFO 2025-07-12 00:44:10,258 basehttp 97632 6160199680 "GET /history/?page=1 HTTP/1.1" 200 44311
+INFO 2025-07-12 00:44:15,657 basehttp 97632 6160199680 "GET /clip/1/ HTTP/1.1" 200 18937
+INFO 2025-07-12 00:44:17,402 basehttp 97632 6160199680 "GET /clip/1/ HTTP/1.1" 200 18937
+INFO 2025-07-12 00:44:27,441 basehttp 97632 6160199680 "GET /clip/1/ HTTP/1.1" 200 18937
+INFO 2025-07-12 00:46:24,506 basehttp 97632 6160199680 "GET / HTTP/1.1" 200 13378
+INFO 2025-07-12 00:49:24,055 basehttp 97632 6160199680 "GET / HTTP/1.1" 200 13378
+INFO 2025-07-12 00:49:26,628 basehttp 97632 6160199680 "GET /history/ HTTP/1.1" 200 44981
+INFO 2025-07-12 00:49:27,972 basehttp 97632 6160199680 "GET /clip/1/ HTTP/1.1" 200 18937
+INFO 2025-07-12 00:49:30,610 basehttp 97632 6160199680 "GET / HTTP/1.1" 200 13378
+INFO 2025-07-12 00:50:29,953 basehttp 97632 6160199680 "GET /history/ HTTP/1.1" 200 44981
+INFO 2025-07-12 00:51:18,065 basehttp 97632 6160199680 "GET / HTTP/1.1" 200 14810
+INFO 2025-07-12 00:51:29,247 basehttp 97632 6177026048 "GET / HTTP/1.1" 200 14810
+INFO 2025-07-12 00:51:29,328 basehttp 97632 6177026048 "GET /static/css/style.css HTTP/1.1" 200 5621
+INFO 2025-07-12 00:51:29,328 basehttp 97632 6193852416 "GET /static/js/main.js HTTP/1.1" 200 10726
+INFO 2025-07-12 00:51:29,967 basehttp 97632 6193852416 "GET /static/favicon.ico HTTP/1.1" 200 1
+INFO 2025-07-12 00:51:33,399 basehttp 97632 6177026048 "POST /process/ HTTP/1.1" 200 122
+INFO 2025-07-12 00:51:35,291 processor 97632 6193852416 🎬 Starting video processing for: https://www.youtube.com/watch?v=LkIS4DpRPHY&list=RDLkIS4DpRPHY&start_radio=1
+INFO 2025-07-12 00:51:35,413 processor 97632 6193852416 ✅ FFmpeg is available
+INFO 2025-07-12 00:51:35,414 processor 97632 6193852416 🎬 Fetching YouTube transcript...
+INFO 2025-07-12 00:51:36,133 _client 97632 6193852416 HTTP Request: POST https://api.apify.com/v2/acts/faVsWy9VTSNVIhWpR/runs "HTTP/1.1 201 Created"
+INFO 2025-07-12 00:51:36,407 basehttp 97632 6177026048 "GET /status/35/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:51:37,274 _client 97632 6193852416 HTTP Request: GET https://api.apify.com/v2/actor-runs/vHB3xJxX0BVf2gZRg?waitForFinish=999999 "HTTP/1.1 200 OK"
+INFO 2025-07-12 00:51:38,979 _client 97632 6193852416 HTTP Request: GET https://api.apify.com/v2/datasets/wgtcv2LVMCx5rPG3K/items "HTTP/1.1 200 OK"
+INFO 2025-07-12 00:51:38,980 processor 97632 6193852416 ✅ Transcript fetched: Unknown (0s)
+INFO 2025-07-12 00:51:38,980 processor 97632 6193852416 🤖 Analyzing transcript for viral moments with Grok AI...
+ERROR 2025-07-12 00:51:38,980 processor 97632 6193852416 ❌ Processing failed: No transcript segments found
+INFO 2025-07-12 00:51:38,983 processor 97632 6193852416 💾 Keeping 0 generated clips for download
+INFO 2025-07-12 00:51:39,414 basehttp 97632 6177026048 "GET /status/35/ HTTP/1.1" 200 196
+WARNING 2025-07-12 00:51:52,856 log 97632 6160199680 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-07-12 00:51:52,857 basehttp 97632 6160199680 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3791
+INFO 2025-07-12 00:52:02,265 basehttp 97632 6160199680 "POST /process/ HTTP/1.1" 200 122
+INFO 2025-07-12 00:52:03,884 processor 97632 6177026048 🎬 Starting video processing for: https://www.youtube.com/watch?v=LkIS4DpRPHY&list=RDLkIS4DpRPHY&start_radio=1
+INFO 2025-07-12 00:52:04,014 processor 97632 6177026048 ✅ FFmpeg is available
+INFO 2025-07-12 00:52:04,014 processor 97632 6177026048 🎬 Fetching YouTube transcript...
+INFO 2025-07-12 00:52:04,683 _client 97632 6177026048 HTTP Request: POST https://api.apify.com/v2/acts/faVsWy9VTSNVIhWpR/runs "HTTP/1.1 201 Created"
+INFO 2025-07-12 00:52:05,277 basehttp 97632 6160199680 "GET /status/36/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:52:05,910 _client 97632 6177026048 HTTP Request: GET https://api.apify.com/v2/actor-runs/7xiniZP4f5JRdjUbS?waitForFinish=999999 "HTTP/1.1 200 OK"
+INFO 2025-07-12 00:52:08,276 basehttp 97632 6160199680 "GET /status/36/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:52:08,926 _client 97632 6177026048 HTTP Request: GET https://api.apify.com/v2/datasets/er9swgMbxKeS83cAm/items "HTTP/1.1 200 OK"
+INFO 2025-07-12 00:52:08,930 processor 97632 6177026048 ✅ Transcript fetched: Unknown (0s)
+INFO 2025-07-12 00:52:08,930 processor 97632 6177026048 🤖 Analyzing transcript for viral moments with Grok AI...
+ERROR 2025-07-12 00:52:08,930 processor 97632 6177026048 ❌ Processing failed: No transcript segments found
+INFO 2025-07-12 00:52:08,930 processor 97632 6177026048 💾 Keeping 0 generated clips for download
+INFO 2025-07-12 00:52:11,282 basehttp 97632 6160199680 "GET /status/36/ HTTP/1.1" 200 196
+INFO 2025-07-12 00:53:05,673 basehttp 97632 6160199680 "POST /process/ HTTP/1.1" 200 122
+INFO 2025-07-12 00:53:07,213 processor 97632 6177026048 🎬 Starting video processing for: https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=RDdQw4w9WgXcQ&start_radio=1
+INFO 2025-07-12 00:53:07,337 processor 97632 6177026048 ✅ FFmpeg is available
+INFO 2025-07-12 00:53:07,337 processor 97632 6177026048 🎬 Fetching YouTube transcript...
+INFO 2025-07-12 00:53:08,168 _client 97632 6177026048 HTTP Request: POST https://api.apify.com/v2/acts/faVsWy9VTSNVIhWpR/runs "HTTP/1.1 201 Created"
+INFO 2025-07-12 00:53:08,682 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:53:09,302 _client 97632 6177026048 HTTP Request: GET https://api.apify.com/v2/actor-runs/qJIcbFFrfkjtv5diV?waitForFinish=999999 "HTTP/1.1 200 OK"
+INFO 2025-07-12 00:53:11,683 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:53:11,798 _client 97632 6177026048 HTTP Request: GET https://api.apify.com/v2/datasets/tNer2cvjfaZmmuv15/items "HTTP/1.1 200 OK"
+INFO 2025-07-12 00:53:11,801 processor 97632 6177026048 ✅ Transcript fetched: Unknown (217.92s)
+INFO 2025-07-12 00:53:11,801 processor 97632 6177026048 🤖 Analyzing transcript for viral moments with Grok AI...
+INFO 2025-07-12 00:53:14,684 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:53:17,686 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:53:20,688 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:53:23,573 processor 97632 6177026048 ✅ Found 5 viral moments
+INFO 2025-07-12 00:53:23,574 processor 97632 6177026048 📥 Downloading full video...
+INFO 2025-07-12 00:53:23,682 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:53:26,678 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:53:29,684 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:53:32,689 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:53:35,685 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:53:38,685 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:53:41,684 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:53:44,680 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:53:47,687 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:53:50,721 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:53:53,699 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:53:56,686 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:53:59,682 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:54:02,688 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:54:05,680 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:54:08,694 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:54:11,688 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:54:14,685 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:54:17,684 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:54:20,686 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:54:23,684 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:54:26,682 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:54:29,682 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:54:32,686 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:54:35,681 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:54:38,686 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:54:41,682 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:54:44,682 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:54:47,684 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:54:50,681 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:54:53,684 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:54:56,681 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:54:59,681 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:55:02,680 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:55:05,681 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:55:08,679 basehttp 97632 6160199680 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:55:09,285 autoreload 97632 8486686528 /Users/skollipara8/clips-ai/core/utils/processor.py changed, reloading.
+INFO 2025-07-12 00:55:09,654 autoreload 98286 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 00:55:11,687 basehttp 98286 6196736000 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:55:14,684 basehttp 98286 6196736000 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:55:17,683 basehttp 98286 6196736000 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:55:20,681 basehttp 98286 6196736000 "GET /status/37/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:55:22,248 basehttp 98286 6196736000 "GET / HTTP/1.1" 200 14810
+WARNING 2025-07-12 00:55:22,302 log 98286 6196736000 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-07-12 00:55:22,302 basehttp 98286 6196736000 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3791
+INFO 2025-07-12 00:55:25,020 basehttp 98286 6196736000 "POST /process/ HTTP/1.1" 200 122
+INFO 2025-07-12 00:55:26,554 processor 98286 6230388736 🎬 Starting video processing for: https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=RDdQw4w9WgXcQ&start_radio=1
+INFO 2025-07-12 00:55:26,816 processor 98286 6230388736 ✅ FFmpeg is available
+INFO 2025-07-12 00:55:26,816 processor 98286 6230388736 🎬 Fetching YouTube transcript...
+INFO 2025-07-12 00:55:27,486 _client 98286 6230388736 HTTP Request: POST https://api.apify.com/v2/acts/faVsWy9VTSNVIhWpR/runs "HTTP/1.1 201 Created"
+INFO 2025-07-12 00:55:28,031 basehttp 98286 6196736000 "GET /status/38/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:55:28,629 _client 98286 6230388736 HTTP Request: GET https://api.apify.com/v2/actor-runs/APymiVJ6ZS8Uodc4m?waitForFinish=999999 "HTTP/1.1 200 OK"
+INFO 2025-07-12 00:55:31,029 basehttp 98286 6196736000 "GET /status/38/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:55:31,901 _client 98286 6230388736 HTTP Request: GET https://api.apify.com/v2/datasets/QSqkomcHbUepAzTBl/items "HTTP/1.1 200 OK"
+INFO 2025-07-12 00:55:31,902 processor 98286 6230388736 ✅ Transcript fetched: Unknown (217.92s)
+INFO 2025-07-12 00:55:31,902 processor 98286 6230388736 🔢 Transcript segments: 61
+INFO 2025-07-12 00:55:31,902 processor 98286 6230388736 🤖 Analyzing transcript for viral moments with Grok AI...
+INFO 2025-07-12 00:55:34,035 basehttp 98286 6196736000 "GET /status/38/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:55:37,033 basehttp 98286 6196736000 "GET /status/38/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:55:40,036 basehttp 98286 6196736000 "GET /status/38/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:55:43,034 basehttp 98286 6196736000 "GET /status/38/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:55:43,847 processor 98286 6230388736 ✅ Found 5 viral moments
+INFO 2025-07-12 00:55:43,847 processor 98286 6230388736 📥 Downloading full video...
+INFO 2025-07-12 00:55:46,031 basehttp 98286 6196736000 "GET /status/38/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:55:49,029 basehttp 98286 6196736000 "GET /status/38/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:55:52,038 basehttp 98286 6196736000 "GET /status/38/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:55:55,046 basehttp 98286 6196736000 "GET /status/38/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:55:58,032 basehttp 98286 6196736000 "GET /status/38/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:56:01,042 basehttp 98286 6196736000 "GET /status/38/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:56:04,109 basehttp 98286 6196736000 "GET /status/38/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:56:07,028 basehttp 98286 6196736000 "GET /status/38/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:56:10,030 basehttp 98286 6196736000 "GET /status/38/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:56:13,030 basehttp 98286 6196736000 "GET /status/38/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:56:16,037 basehttp 98286 6196736000 "GET /status/38/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:56:19,028 basehttp 98286 6196736000 "GET /status/38/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:56:22,035 basehttp 98286 6196736000 "GET /status/38/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:56:25,030 basehttp 98286 6196736000 "GET /status/38/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:56:28,032 basehttp 98286 6196736000 "GET /status/38/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:56:31,035 basehttp 98286 6196736000 "GET /status/38/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:56:34,029 basehttp 98286 6196736000 "GET /status/38/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:56:37,028 basehttp 98286 6196736000 "GET /status/38/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:56:40,030 basehttp 98286 6196736000 "GET /status/38/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:56:43,035 basehttp 98286 6196736000 "GET /status/38/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:56:46,027 basehttp 98286 6196736000 "GET /status/38/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:56:49,033 basehttp 98286 6196736000 "GET /status/38/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:56:52,032 basehttp 98286 6196736000 "GET /status/38/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:56:55,034 basehttp 98286 6196736000 "GET /status/38/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:56:58,029 basehttp 98286 6196736000 "GET /status/38/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:57:19,576 autoreload 98434 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 00:58:22,906 basehttp 98434 6191247360 "GET / HTTP/1.1" 200 14810
+INFO 2025-07-12 00:58:22,942 basehttp 98434 6191247360 "GET /static/js/main.js HTTP/1.1" 304 0
+WARNING 2025-07-12 00:58:22,978 log 98434 6191247360 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-07-12 00:58:22,979 basehttp 98434 6191247360 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3791
+INFO 2025-07-12 00:58:27,062 basehttp 98434 6191247360 "POST /process/ HTTP/1.1" 200 122
+INFO 2025-07-12 00:58:28,801 processor 98434 6224900096 🎬 Starting video processing for: https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=RDdQw4w9WgXcQ&start_radio=1
+INFO 2025-07-12 00:58:29,117 processor 98434 6224900096 ✅ FFmpeg is available
+INFO 2025-07-12 00:58:29,117 processor 98434 6224900096 🎬 Fetching YouTube transcript...
+INFO 2025-07-12 00:58:29,844 _client 98434 6224900096 HTTP Request: POST https://api.apify.com/v2/acts/faVsWy9VTSNVIhWpR/runs "HTTP/1.1 201 Created"
+INFO 2025-07-12 00:58:30,086 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:58:30,989 _client 98434 6224900096 HTTP Request: GET https://api.apify.com/v2/actor-runs/uMecd9JJLxSq09nL1?waitForFinish=999999 "HTTP/1.1 200 OK"
+INFO 2025-07-12 00:58:33,071 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:58:34,095 _client 98434 6224900096 HTTP Request: GET https://api.apify.com/v2/datasets/RrceLqHGD5OA9LwAu/items "HTTP/1.1 200 OK"
+INFO 2025-07-12 00:58:34,102 processor 98434 6224900096 ✅ Transcript fetched: Unknown (217.92s)
+INFO 2025-07-12 00:58:34,102 processor 98434 6224900096 🔢 Transcript segments: 61
+INFO 2025-07-12 00:58:34,102 processor 98434 6224900096 🤖 Analyzing transcript for viral moments with Grok AI...
+INFO 2025-07-12 00:58:36,076 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:58:39,076 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:58:42,073 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:58:45,073 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:58:45,408 processor 98434 6224900096 ✅ Found 5 viral moments
+INFO 2025-07-12 00:58:45,408 processor 98434 6224900096 📥 Downloading full video...
+INFO 2025-07-12 00:58:48,073 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:58:51,075 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:58:54,102 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:58:57,079 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:59:00,073 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:59:03,076 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:59:06,075 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:59:09,075 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:59:12,073 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:59:15,071 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:59:18,074 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:59:21,074 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:59:24,070 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:59:27,096 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:59:30,074 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:59:33,076 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:59:36,073 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:59:39,070 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:59:42,075 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:59:45,071 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:59:48,079 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:59:51,075 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:59:54,075 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 00:59:57,073 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:00:00,125 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:00:03,074 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:00:06,078 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:00:09,079 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:00:12,076 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:00:15,075 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:00:18,071 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:00:21,073 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:00:24,072 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:00:27,073 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:00:30,074 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:00:33,079 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:00:36,078 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:00:39,071 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:00:42,075 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:00:45,075 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:00:48,073 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:00:51,074 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:00:54,072 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:00:57,075 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:01:00,070 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:01:03,088 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:01:06,105 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:01:09,075 basehttp 98434 6191247360 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:04:07,987 autoreload 98708 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 01:04:38,279 autoreload 98754 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 01:05:27,245 autoreload 98802 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-12 01:05:47,899 basehttp 98802 6158217216 "GET / HTTP/1.1" 200 14810
+INFO 2025-07-12 01:05:48,167 basehttp 98802 6158217216 "GET /static/js/main.js HTTP/1.1" 304 0
+INFO 2025-07-12 01:05:56,568 basehttp 98802 6158217216 "POST /process/ HTTP/1.1" 200 122
+INFO 2025-07-12 01:05:58,404 processor 98802 6175043584 🎬 Starting video processing for: https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=RDdQw4w9WgXcQ&start_radio=1
+INFO 2025-07-12 01:05:58,526 processor 98802 6175043584 ✅ FFmpeg is available
+INFO 2025-07-12 01:05:58,526 processor 98802 6175043584 🎬 Fetching YouTube transcript...
+INFO 2025-07-12 01:05:59,272 _client 98802 6175043584 HTTP Request: POST https://api.apify.com/v2/acts/faVsWy9VTSNVIhWpR/runs "HTTP/1.1 201 Created"
+INFO 2025-07-12 01:05:59,414 _client 98802 6175043584 HTTP Request: GET https://api.apify.com/v2/actor-runs/ceJdqQmQS1uD3H3js "HTTP/1.1 200 OK"
+INFO 2025-07-12 01:05:59,562 _client 98802 6175043584 HTTP Request: GET https://api.apify.com/v2/acts/faVsWy9VTSNVIhWpR "HTTP/1.1 200 OK"
+INFO 2025-07-12 01:05:59,582 basehttp 98802 6193016832 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:05:59,703 _client 98802 6158217216 HTTP Request: GET https://api.apify.com/v2/actor-runs/ceJdqQmQS1uD3H3js "HTTP/1.1 200 OK"
+INFO 2025-07-12 01:06:00,024 _client 98802 6175043584 HTTP Request: GET https://api.apify.com/v2/actor-runs/ceJdqQmQS1uD3H3js "HTTP/1.1 200 OK"
+INFO 2025-07-12 01:06:00,160 _client 98802 6175043584 HTTP Request: GET https://api.apify.com/v2/acts/faVsWy9VTSNVIhWpR "HTTP/1.1 200 OK"
+INFO 2025-07-12 01:06:00,411 _client 98802 6209843200 HTTP Request: GET https://api.apify.com/v2/actor-runs/ceJdqQmQS1uD3H3js/log?stream=1&raw=1 "HTTP/1.1 200 OK"
+INFO 2025-07-12 01:06:01,178 _client 98802 6158217216 HTTP Request: GET https://api.apify.com/v2/actor-runs/ceJdqQmQS1uD3H3js "HTTP/1.1 200 OK"
+INFO 2025-07-12 01:06:01,302 _client 98802 6175043584 HTTP Request: GET https://api.apify.com/v2/actor-runs/ceJdqQmQS1uD3H3js?waitForFinish=999999 "HTTP/1.1 200 OK"
+INFO 2025-07-12 01:06:02,329 _client 98802 6158217216 HTTP Request: GET https://api.apify.com/v2/actor-runs/ceJdqQmQS1uD3H3js "HTTP/1.1 200 OK"
+INFO 2025-07-12 01:06:02,581 basehttp 98802 6192443392 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:06:03,499 _client 98802 6158217216 HTTP Request: GET https://api.apify.com/v2/actor-runs/ceJdqQmQS1uD3H3js "HTTP/1.1 200 OK"
+INFO 2025-07-12 01:06:04,651 _client 98802 6158217216 HTTP Request: GET https://api.apify.com/v2/actor-runs/ceJdqQmQS1uD3H3js "HTTP/1.1 200 OK"
+INFO 2025-07-12 01:06:05,579 basehttp 98802 6192443392 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:06:05,800 _client 98802 6158217216 HTTP Request: GET https://api.apify.com/v2/actor-runs/ceJdqQmQS1uD3H3js "HTTP/1.1 200 OK"
+INFO 2025-07-12 01:06:06,975 _client 98802 6158217216 HTTP Request: GET https://api.apify.com/v2/actor-runs/ceJdqQmQS1uD3H3js "HTTP/1.1 200 OK"
+INFO 2025-07-12 01:06:08,123 _client 98802 6158217216 HTTP Request: GET https://api.apify.com/v2/actor-runs/ceJdqQmQS1uD3H3js "HTTP/1.1 200 OK"
+INFO 2025-07-12 01:06:08,583 basehttp 98802 6192443392 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:06:09,312 _client 98802 6158217216 HTTP Request: GET https://api.apify.com/v2/actor-runs/ceJdqQmQS1uD3H3js "HTTP/1.1 200 OK"
+INFO 2025-07-12 01:06:09,472 _client 98802 6175043584 HTTP Request: GET https://api.apify.com/v2/datasets/2Kg9YnQg5Q0Ec0eYn/items "HTTP/1.1 200 OK"
+INFO 2025-07-12 01:06:09,498 processor 98802 6175043584 ✅ Transcript fetched: Unknown (217.92s)
+INFO 2025-07-12 01:06:09,502 processor 98802 6175043584 🔢 Transcript segments: 61
+INFO 2025-07-12 01:06:09,503 processor 98802 6175043584 🤖 Analyzing transcript for viral moments with Grok AI...
+INFO 2025-07-12 01:06:11,582 basehttp 98802 6192443392 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:06:14,583 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:06:17,583 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:06:20,580 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:06:21,222 processor 98802 6175043584 ✅ Found 5 viral moments
+INFO 2025-07-12 01:06:21,222 processor 98802 6175043584 📥 Downloading full video...
+INFO 2025-07-12 01:06:23,573 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:06:26,587 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:06:29,582 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:06:32,590 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:06:35,581 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:06:38,577 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:06:41,576 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:06:44,588 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:06:47,584 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:06:50,575 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:06:53,580 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:06:56,582 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:06:59,574 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:07:02,577 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:07:05,633 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:07:08,576 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:07:11,669 basehttp 98802 6192443392 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:07:11,800 basehttp 98802 6158217216 "GET /history/ HTTP/1.1" 200 44219
+INFO 2025-07-12 01:07:14,849 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:07:17,830 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:07:20,794 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:07:23,793 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:07:25,656 basehttp 98802 6158217216 "GET /results/15/ HTTP/1.1" 200 31012
+INFO 2025-07-12 01:07:26,796 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:07:29,796 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:07:30,576 basehttp 98802 6158217216 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:07:32,634 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:07:32,800 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:07:33,235 basehttp 98802 6158217216 "GET /status/39/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:07:35,791 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:07:38,680 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:07:41,621 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:07:44,629 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:07:47,640 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:07:50,667 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:07:53,672 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:07:56,583 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:07:59,680 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:08:02,582 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:08:05,582 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:08:08,585 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:08:11,582 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:08:14,589 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:08:17,584 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:08:20,581 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:08:23,573 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:08:26,575 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:08:29,619 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:08:32,574 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:08:35,604 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:08:38,610 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:08:41,579 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:08:44,584 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:08:47,583 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:08:50,581 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:08:53,585 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:08:56,577 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:08:59,584 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:09:02,586 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:09:05,584 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:09:08,614 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:09:11,582 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:09:14,596 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:09:17,582 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:09:20,585 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:09:23,581 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:09:26,574 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:09:29,575 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:09:32,576 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:09:35,577 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:09:38,577 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:09:41,643 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:09:44,628 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:09:47,613 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:09:50,579 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:09:53,599 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:09:56,586 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:09:59,583 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:10:02,586 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:10:05,611 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:10:08,631 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:10:11,626 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:10:14,588 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:10:17,584 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:10:20,596 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:10:23,589 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:10:26,573 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:10:29,590 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:10:32,572 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:10:35,640 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:10:38,647 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:10:41,576 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:10:44,578 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:10:45,041 basehttp 98802 6158217216 "GET /history/ HTTP/1.1" 200 44219
+INFO 2025-07-12 01:10:47,798 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:10:50,794 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:10:53,585 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:10:56,586 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:10:59,591 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:11:02,576 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:11:05,589 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:11:08,586 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:11:11,650 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:11:14,580 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:11:17,599 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:11:20,577 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:11:23,577 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:11:26,574 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:11:29,645 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:11:32,603 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:11:35,574 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:11:38,789 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:11:41,791 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:11:44,794 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:11:47,807 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:11:50,792 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:11:53,796 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:11:56,783 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:11:59,793 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:12:02,887 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:12:05,904 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:12:08,799 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:12:11,790 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:12:14,784 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:12:17,802 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:12:20,799 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:12:23,789 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:12:26,787 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:12:29,794 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:12:32,786 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:12:35,787 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174
+INFO 2025-07-12 01:12:52,816 basehttp 98802 6158217216 "GET /status/40/ HTTP/1.1" 200 174

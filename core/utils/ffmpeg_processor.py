@@ -1,8 +1,8 @@
 import os
 import subprocess
-import tempfile
 from typing import Dict, Optional
 from django.conf import settings
+from .gcs_storage import GCSStorage
 
 class FFmpegClipProcessor:
     """FFmpeg-based video clip processor"""
@@ -10,6 +10,7 @@ class FFmpegClipProcessor:
     def __init__(self):
         self.media_root = getattr(settings, 'MEDIA_ROOT', 'media')
         self.clips_dir = os.path.join(self.media_root, 'clips')
+        self.gcs = GCSStorage()
         
         # Create clips directory if it doesn't exist
         os.makedirs(self.clips_dir, exist_ok=True)
@@ -26,10 +27,10 @@ class FFmpegClipProcessor:
     def create_clip(self, input_path: str, start_time: float, end_time: float, 
                    output_filename: str) -> Dict:
         """
-        Create a video clip using FFmpeg
+        Create a video clip using FFmpeg and upload to GCS
         
         Args:
-            input_path: Path to input video file
+            input_path: GCS URL or local path to input video file
             start_time: Start time in seconds
             end_time: End time in seconds
             output_filename: Name for the output file
@@ -42,42 +43,82 @@ class FFmpegClipProcessor:
             duration = end_time - start_time
             
             # Create output path
-            output_path = os.path.join(self.clips_dir, output_filename)
+            local_output_path = os.path.join(self.clips_dir, output_filename)
             
-            # FFmpeg command to create clip
+            # If input is GCS URL, download it first
+            if input_path.startswith('https://storage.googleapis.com'):
+                blob_name = input_path.split('/clips-ai/')[-1]
+                local_input = os.path.join(self.media_root, 'downloads', os.path.basename(blob_name))
+                if not self.gcs.download_file(blob_name, local_input):
+                    raise Exception("Failed to download input video from GCS")
+                input_path = local_input
+            
+            # Probe input file first
+            probe_cmd = [
+                'ffprobe',
+                '-v', 'error',
+                '-select_streams', 'v:0',
+                '-show_entries', 'stream=width,height,duration',
+                '-of', 'json',
+                input_path
+            ]
+            
+            print(f"🔍 Probing input file: {input_path}")
+            probe_result = subprocess.run(probe_cmd, capture_output=True, text=True, timeout=30)
+            if probe_result.returncode != 0:
+                raise Exception(f"FFprobe failed: {probe_result.stderr}")
+            
+            # FFmpeg command to create clip with better error handling
             cmd = [
                 'ffmpeg',
-                '-i', input_path,
-                '-ss', str(start_time),
-                '-t', str(duration),
-                '-c:v', 'libx264',
-                '-c:a', 'aac',
-                '-preset', 'fast',
-                '-crf', '23',
                 '-y',  # Overwrite output file
-                output_path
+                '-ss', str(start_time),  # Seek position
+                '-i', input_path,  # Input file
+                '-t', str(duration),  # Duration
+                '-c:v', 'libx264',  # Video codec
+                '-c:a', 'aac',  # Audio codec
+                '-preset', 'fast',  # Encoding preset
+                '-crf', '23',  # Quality
+                '-movflags', '+faststart',  # Web playback optimization
+                '-avoid_negative_ts', 'make_zero',  # Fix timestamp issues
+                local_output_path
             ]
             
             print(f"🎬 Creating clip: {start_time}s - {end_time}s ({duration}s)")
-            print(f"📁 Output: {output_path}")
+            print(f"📁 Output: {local_output_path}")
             
-            # Run FFmpeg command
+            # Run FFmpeg command with full output capture
             result = subprocess.run(cmd, capture_output=True, text=True, timeout=300)
             
             if result.returncode != 0:
+                print(f"⚠️ FFmpeg stderr: {result.stderr}")
                 raise Exception(f"FFmpeg failed: {result.stderr}")
             
-            # Get file information
-            file_size = os.path.getsize(output_path) if os.path.exists(output_path) else 0
+            # Verify output file exists and has size
+            if not os.path.exists(local_output_path):
+                raise Exception("Output file not created")
+            
+            file_size = os.path.getsize(local_output_path)
+            if file_size == 0:
+                raise Exception("Output file is empty")
             
             # Get video resolution
-            resolution = self._get_video_resolution(output_path)
+            resolution = self._get_video_resolution(local_output_path)
             
-            print(f"✅ Clip created successfully: {file_size} bytes")
+            # Upload to GCS
+            gcs_path = f"clips/{output_filename}"
+            gcs_url = self.gcs.upload_file(local_output_path, gcs_path)
+            
+            # Clean up local files
+            os.remove(local_output_path)
+            if input_path.startswith(self.media_root):
+                os.remove(input_path)
+            
+            print(f"✅ Clip created successfully: {file_size} bytes, resolution: {resolution}")
             
             return {
                 'success': True,
-                'output_path': output_path,
+                'output_path': gcs_url,
                 'output_filename': output_filename,
                 'file_size': file_size,
                 'resolution': resolution,
@@ -128,13 +169,18 @@ class FFmpegClipProcessor:
             
             return None
             
-        except Exception:
+        except Exception as e:
+            print(f"⚠️ Failed to get video resolution: {str(e)}")
             return None
     
     def cleanup_file(self, file_path: str):
         """Clean up a file if it exists"""
         try:
-            if os.path.exists(file_path):
+            # If it's a GCS URL, extract the path
+            if file_path.startswith('https://storage.googleapis.com'):
+                blob_name = file_path.split('/clips-ai/')[-1]
+                self.gcs.delete_file(blob_name)
+            elif os.path.exists(file_path):
                 os.remove(file_path)
                 print(f"🧹 Cleaned up: {file_path}")
         except Exception as e:

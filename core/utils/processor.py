@@ -45,28 +45,53 @@ class VideoProcessor:
                 logger.error(f"❌ {error_msg}")
                 print(f"❌ {error_msg}")
                 raise Exception(error_msg)
-            
             logger.info("✅ FFmpeg is available")
             print("✅ FFmpeg is available")
             
             # Step 1: Fetch transcript using Apify
             logger.info("🎬 Fetching YouTube transcript...")
             print("🎬 Fetching YouTube transcript...")
-            transcript_data = self.apify_client.fetch_transcript(youtube_url)
+            try:
+                transcript_data = self.apify_client.fetch_transcript(youtube_url)
+            except Exception as e:
+                logger.error(f"❌ Transcript fetch failed: {str(e)}")
+                print(f"❌ Transcript fetch failed: {str(e)}")
+                raise
             logger.info(f"✅ Transcript fetched: {transcript_data.get('title', 'Unknown')} ({transcript_data.get('duration', 0)}s)")
             print(f"✅ Transcript fetched: {transcript_data.get('title', 'Unknown')} ({transcript_data.get('duration', 0)}s)")
+            transcript_segments = transcript_data.get('transcript', [])
+            logger.info(f"🔢 Transcript segments: {len(transcript_segments)}")
+            print(f"🔢 Transcript segments: {len(transcript_segments)}")
+            if not transcript_segments:
+                logger.error("❌ No transcript segments found after fetch!")
+                print("❌ No transcript segments found after fetch!")
+                raise Exception("No transcript segments found after fetch!")
             
             # Step 2: Extract viral moments using Grok AI
             logger.info("🤖 Analyzing transcript for viral moments with Grok AI...")
             print("🤖 Analyzing transcript for viral moments with Grok AI...")
-            viral_moments = self.grok_analyzer.extract_viral_moments(transcript_data, clip_duration)
+            try:
+                viral_moments = self.grok_analyzer.extract_viral_moments(transcript_data, clip_duration)
+            except Exception as e:
+                logger.error(f"❌ Grok AI analysis failed: {str(e)}")
+                print(f"❌ Grok AI analysis failed: {str(e)}")
+                raise
             logger.info(f"✅ Found {len(viral_moments)} viral moments")
             print(f"✅ Found {len(viral_moments)} viral moments")
+            if not viral_moments:
+                logger.error("❌ No viral moments found after Grok analysis!")
+                print("❌ No viral moments found after Grok analysis!")
+                raise Exception("No viral moments found after Grok analysis!")
             
             # Step 3: Download the full video using yt-dlp
             logger.info("📥 Downloading full video...")
             print("📥 Downloading full video...")
-            video_file_path = self.yt_downloader.download_video(youtube_url)
+            try:
+                video_file_path = self.yt_downloader.download_video(youtube_url)
+            except Exception as e:
+                logger.error(f"❌ Video download failed: {str(e)}")
+                print(f"❌ Video download failed: {str(e)}")
+                raise
             logger.info(f"✅ Video downloaded: {video_file_path}")
             print(f"✅ Video downloaded: {video_file_path}")
             
@@ -74,25 +99,23 @@ class VideoProcessor:
             logger.info("✂️ Creating viral clips...")
             print("✂️ Creating viral clips...")
             clips_data = []
-            
             for i, moment in enumerate(viral_moments):
                 grade = moment.get('grade', self.grok_analyzer.convert_score_to_grade(moment['virality_score']))
                 logger.info(f"📹 Processing clip {i+1}/{len(viral_moments)} - Grade: {grade} (Score: {moment['virality_score']:.2f})")
                 print(f"📹 Processing clip {i+1}/{len(viral_moments)} - Grade: {grade} (Score: {moment['virality_score']:.2f})")
-                
-                # Create clip using FFmpeg
-                clip_result = self.ffmpeg_processor.create_clip(
-                    input_path=video_file_path,
-                    start_time=moment['start_timestamp'],
-                    end_time=moment['end_timestamp'],
-                    output_filename=f"viral_clip_{i+1}_{grade.replace('+', 'plus').replace('-', 'minus')}.mp4"
-                )
-                
-                # Store clip file path for cleanup
+                try:
+                    clip_result = self.ffmpeg_processor.create_clip(
+                        input_path=video_file_path,
+                        start_time=moment['start_timestamp'],
+                        end_time=moment['end_timestamp'],
+                        output_filename=f"viral_clip_{i+1}_{grade.replace('+', 'plus').replace('-', 'minus')}.mp4"
+                    )
+                except Exception as e:
+                    logger.error(f"❌ Clip creation failed for clip {i+1}: {str(e)}")
+                    print(f"❌ Clip creation failed for clip {i+1}: {str(e)}")
+                    continue
                 if clip_result.get('output_path'):
                     clip_files.append(clip_result['output_path'])
-                
-                # Combine clip data with enhanced metadata
                 clip_data = {
                     'rank': i + 1,
                     'start_timestamp': moment['start_timestamp'],
@@ -109,12 +132,9 @@ class VideoProcessor:
                     'resolution': clip_result.get('resolution'),
                     'created_at': self._get_current_timestamp()
                 }
-                
                 clips_data.append(clip_data)
                 logger.info(f"✅ Clip {i+1} created: {clip_data['grade']} - {clip_data['justification'][:50]}...")
                 print(f"✅ Clip {i+1} created: {clip_data['grade']} - {clip_data['justification'][:50]}...")
-            
-            # Clips are already sorted by virality score from Grok analysis
             logger.info(f"🎯 All {len(clips_data)} viral clips created successfully!")
             print(f"🎯 All {len(clips_data)} viral clips created successfully!")
             
