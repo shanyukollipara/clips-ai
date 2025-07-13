@@ -1669,3 +1669,15 @@ INFO 2025-07-13 06:21:27,338 basehttp 3328 6135754752 "GET /clip/16/ HTTP/1.1" 2
 INFO 2025-07-13 06:22:27,228 basehttp 3328 6135754752 "GET /clip/16/ HTTP/1.1" 200 13909
 INFO 2025-07-13 06:23:27,132 basehttp 3328 6135754752 "GET /clip/16/ HTTP/1.1" 200 13909
 INFO 2025-07-13 06:24:27,139 basehttp 3328 6135754752 "GET /clip/16/ HTTP/1.1" 200 13909
+INFO 2025-07-13 06:25:27,238 basehttp 3328 6135754752 "GET /clip/16/ HTTP/1.1" 200 13909
+INFO 2025-07-13 06:26:26,520 basehttp 3328 6135754752 "GET /clip/16/ HTTP/1.1" 200 13909
+INFO 2025-07-13 06:50:16,441 autoreload 3328 8486686528 /Users/skollipara8/clips-ai/core/utils/gcs_storage.py changed, reloading.
+INFO 2025-07-13 06:50:16,683 autoreload 4490 8486686528 /Users/skollipara8/clips-ai/core/utils/gcs_storage.py changed, reloading.
+INFO 2025-07-13 06:50:17,000 autoreload 7062 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-13 06:50:17,135 autoreload 7063 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-13 06:50:26,685 autoreload 7063 8486686528 /Users/skollipara8/clips-ai/core/utils/gcs_storage.py changed, reloading.
+INFO 2025-07-13 06:50:26,786 autoreload 7062 8486686528 /Users/skollipara8/clips-ai/core/utils/gcs_storage.py changed, reloading.
+INFO 2025-07-13 06:50:26,983 autoreload 7086 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-13 06:50:27,077 autoreload 7087 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-13 06:50:28,364 autoreload 7086 8486686528 /Users/skollipara8/clips-ai/core/utils/gcs_storage.py changed, reloading.
+INFO 2025-07-13 06:50:28,566 autoreload 7096 8486686528 Watching for file changes with StatReloader

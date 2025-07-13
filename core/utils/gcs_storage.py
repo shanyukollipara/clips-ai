@@ -7,13 +7,27 @@ class GCSStorage:
     """Google Cloud Storage utility class"""
     
     def __init__(self):
-        # Use service account key file
-        key_path = os.path.join(settings.BASE_DIR, 'config', 'gcp-service-account.json')
-        if not os.path.exists(key_path):
-            raise ValueError(f"GCP service account key file not found at {key_path}")
+        # Try to use environment variable first (for Railway deployment)
+        credentials_json = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS_JSON')
+        if credentials_json:
+            import json
+            from google.oauth2 import service_account
+            
+            # Parse the JSON credentials from environment variable
+            credentials_info = json.loads(credentials_json)
+            credentials = service_account.Credentials.from_service_account_info(credentials_info)
+            self.client = storage.Client(credentials=credentials)
+            print("✅ Using GCS credentials from environment variable")
+        else:
+            # Fallback to service account key file (for local development)
+            key_path = os.path.join(settings.BASE_DIR, 'config', 'gcp-service-account.json')
+            if not os.path.exists(key_path):
+                raise ValueError(f"GCP service account key file not found at {key_path} and no GOOGLE_APPLICATION_CREDENTIALS_JSON environment variable set")
+                
+            self.client = storage.Client.from_service_account_json(key_path)
+            print("✅ Using GCS credentials from service account file")
             
         try:
-            self.client = storage.Client.from_service_account_json(key_path)
             self.bucket_name = 'clips-ai'
             self.bucket = self.client.bucket(self.bucket_name)
             
