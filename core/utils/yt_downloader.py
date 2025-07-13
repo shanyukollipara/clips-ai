@@ -40,6 +40,9 @@ class YouTubeDownloader:
             'no_warnings': True,
             'extract_flat': False,
             'merge_output_format': 'mp4',
+            'socket_timeout': 60,  # Increase socket timeout
+            'retries': 3,  # Retry failed downloads
+            'fragment_retries': 3,  # Retry failed fragments
             'postprocessors': [{
                 'key': 'FFmpegVideoConvertor',
                 'preferedformat': 'mp4'

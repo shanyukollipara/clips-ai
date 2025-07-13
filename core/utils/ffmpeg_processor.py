@@ -2,6 +2,7 @@ import os
 import subprocess
 from typing import Dict, Optional
 from django.conf import settings
+from urllib.parse import unquote
 from .gcs_storage import GCSStorage
 
 class FFmpegClipProcessor:
@@ -47,11 +48,21 @@ class FFmpegClipProcessor:
             
             # If input is GCS URL, download it first
             if input_path.startswith('https://storage.googleapis.com'):
-                blob_name = input_path.split('/clips-ai/')[-1]
+                # Extract and decode the blob name from the GCS URL
+                # URL format: https://storage.googleapis.com/bucket-name/blob/path
+                url_parts = input_path.split('/')
+                bucket_index = url_parts.index('clips-ai')
+                blob_name = '/'.join(url_parts[bucket_index + 1:])
+                blob_name = unquote(blob_name)  # URL decode
+                
+                print(f"🔍 Extracting blob name: {blob_name}")
+                
                 local_input = os.path.join(self.media_root, 'downloads', os.path.basename(blob_name))
+                os.makedirs(os.path.dirname(local_input), exist_ok=True)
+                
                 if not self.gcs.download_file(blob_name, local_input):
                     raise Exception("Failed to download input video from GCS")
-                input_path = local_input
+                input_path = str(local_input)  # Ensure it's a string
             
             # Probe input file first
             probe_cmd = [
@@ -111,7 +122,7 @@ class FFmpegClipProcessor:
             
             # Clean up local files
             os.remove(local_output_path)
-            if input_path.startswith(self.media_root):
+            if str(input_path).startswith(str(self.media_root)):
                 os.remove(input_path)
             
             print(f"✅ Clip created successfully: {file_size} bytes, resolution: {resolution}")
@@ -178,7 +189,11 @@ class FFmpegClipProcessor:
         try:
             # If it's a GCS URL, extract the path
             if file_path.startswith('https://storage.googleapis.com'):
-                blob_name = file_path.split('/clips-ai/')[-1]
+                # Extract and decode the blob name from the GCS URL
+                url_parts = file_path.split('/')
+                bucket_index = url_parts.index('clips-ai')
+                blob_name = '/'.join(url_parts[bucket_index + 1:])
+                blob_name = unquote(blob_name)  # URL decode
                 self.gcs.delete_file(blob_name)
             elif os.path.exists(file_path):
                 os.remove(file_path)
