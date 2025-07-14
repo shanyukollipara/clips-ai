@@ -1,1 +1,1 @@
-web: python manage.py migrate && gunicorn clips_ai_project.wsgi:application --bind 0.0.0.0:$PORT 
+web: ./start.sh 
