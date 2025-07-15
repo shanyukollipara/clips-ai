@@ -111,10 +111,15 @@ class YouTubeDownloader:
                 ydl.download([youtube_url])
                 logger.info(f"✅ Download completed")
                 
+                # Minimum valid file size (bytes) – reject tiny/corrupt downloads
+                MIN_FILE_SIZE = 2_000_000  # 2 MB
+
                 # Check if the exact file exists
                 if os.path.exists(output_path):
                     file_size = os.path.getsize(output_path)
                     logger.info(f"📊 Downloaded file size: {file_size / (1024*1024):.1f} MB")
+                    if file_size < MIN_FILE_SIZE:
+                        raise Exception("Downloaded file appears too small – likely incomplete/corrupt")
                     final_path = output_path
                 else:
                     # Sometimes yt-dlp creates files with slightly different names
@@ -135,6 +140,8 @@ class YouTubeDownloader:
                         logger.info(f"✅ Using downloaded file: {final_path}")
                         file_size = os.path.getsize(final_path)
                         logger.info(f"📊 Downloaded file size: {file_size / (1024*1024):.1f} MB")
+                        if file_size < MIN_FILE_SIZE:
+                            raise Exception("Downloaded file appears too small – likely incomplete/corrupt")
                     else:
                         raise Exception("Video download completed but no file found")
                 
@@ -194,6 +201,8 @@ class YouTubeDownloader:
                             if os.path.exists(output_path):
                                 file_size = os.path.getsize(output_path)
                                 logger.info(f"✅ Fallback download successful: {file_size / (1024*1024):.1f} MB")
+                                if file_size < MIN_FILE_SIZE:
+                                    raise Exception("Fallback download appears too small – skipping")
                                 final_path = output_path
                             else:
                                 # Look for any MP4 files that match the video ID
@@ -212,6 +221,8 @@ class YouTubeDownloader:
                                     logger.info(f"✅ Using fallback downloaded file: {final_path}")
                                     file_size = os.path.getsize(final_path)
                                     logger.info(f"📊 Fallback file size: {file_size / (1024*1024):.1f} MB")
+                                    if file_size < MIN_FILE_SIZE:
+                                        raise Exception("Fallback download appears too small – skipping")
                                 else:
                                     raise Exception("Fallback download completed but no file found")
                             
