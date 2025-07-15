@@ -51,30 +51,50 @@ class YouTubeDownloader:
         
         # Configure yt-dlp options
         ydl_opts = {
-            'format': 'best[height<=720]',  # Download best quality up to 720p
+            'format': 'best[height<=720]/best[height<=480]/worst',  # Try multiple formats in order
             'outtmpl': output_path,
             'quiet': False,  # Enable output to see what's happening
             'no_warnings': False,  # Show warnings to debug
             'extract_flat': False,
             'merge_output_format': 'mp4',
             'socket_timeout': 60,  # Increase socket timeout
-            'retries': 5,  # Increase retry attempts
-            'fragment_retries': 5,  # Retry failed fragments
+            'retries': 10,  # Increase retry attempts
+            'fragment_retries': 10,  # Retry failed fragments
             'skip_unavailable_fragments': True,
             'keep_fragments': False,
             'abort_on_unavailable_fragments': False,
             'ignoreerrors': False,  # Don't ignore errors so we can see them
             'no_check_certificates': True,
-            'prefer_insecure': True,
-            # Add headers to bypass 403 errors
+            'prefer_insecure': False,
+            'geo_bypass': True,
+            'geo_bypass_country': 'US',
+            # Add more aggressive headers to bypass 403 errors
             'http_headers': {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-                'Accept-Language': 'en-us,en;q=0.5',
-                'Accept-Encoding': 'gzip, deflate',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+                'Accept-Language': 'en-US,en;q=0.9',
+                'Accept-Encoding': 'gzip, deflate, br',
                 'DNT': '1',
                 'Connection': 'keep-alive',
                 'Upgrade-Insecure-Requests': '1',
+                'Sec-Fetch-Dest': 'document',
+                'Sec-Fetch-Mode': 'navigate',
+                'Sec-Fetch-Site': 'none',
+                'Sec-Fetch-User': '?1',
+                'sec-ch-ua': '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
+                'sec-ch-ua-mobile': '?0',
+                'sec-ch-ua-platform': '"Windows"',
+                'Cache-Control': 'no-cache',
+                'Pragma': 'no-cache',
+                'Referer': 'https://www.youtube.com/',
+                'Origin': 'https://www.youtube.com',
+            },
+            'extractor_args': {
+                'youtube': {
+                    'skip': ['hls', 'dash'],
+                    'player_skip': ['js'],
+                    'player_client': ['web', 'android'],
+                }
             },
             'postprocessors': [{
                 'key': 'FFmpegVideoConvertor',
@@ -142,69 +162,81 @@ class YouTubeDownloader:
             
             # Try fallback format options
             fallback_formats = [
-                'best[height<=480]',  # Lower quality
-                'worst[ext=mp4]',     # Worst quality MP4
-                'best[ext=mp4]',      # Best MP4
-                'best',               # Any best format
+                'best[height<=480]/worst',  # Lower quality
+                'worst[ext=mp4]/worst',     # Worst quality MP4
+                'best[ext=mp4]/best',      # Best MP4
+                'best/worst',               # Any format
+                '18',                       # YouTube format code for 360p MP4
+                '22',                       # YouTube format code for 720p MP4
+            ]
+            
+            # Try different extractor arguments
+            fallback_extractors = [
+                {'youtube': {'player_client': ['android'], 'skip': ['hls']}},
+                {'youtube': {'player_client': ['web'], 'skip': ['dash']}},
+                {'youtube': {'player_client': ['android', 'web']}},
+                {'youtube': {'player_skip': ['js'], 'skip': ['hls', 'dash']}},
             ]
             
             for format_selector in fallback_formats:
-                try:
-                    logger.info(f"🔄 Trying fallback format: {format_selector}")
-                    
-                    # Update format and try again
-                    ydl_opts['format'] = format_selector
-                    
-                    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                        ydl.download([youtube_url])
+                for extractor_args in fallback_extractors:
+                    try:
+                        logger.info(f"🔄 Trying fallback format: {format_selector} with extractor: {extractor_args}")
                         
-                        # Check if the exact file exists
-                        if os.path.exists(output_path):
-                            file_size = os.path.getsize(output_path)
-                            logger.info(f"✅ Fallback download successful: {file_size / (1024*1024):.1f} MB")
-                            final_path = output_path
-                        else:
-                            # Look for any MP4 files that match the video ID
-                            logger.info("🔍 Searching for fallback downloaded file...")
+                        # Update format and extractor args
+                        ydl_opts['format'] = format_selector
+                        ydl_opts['extractor_args'] = extractor_args
+                        
+                        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                            ydl.download([youtube_url])
                             
-                            downloaded_files = []
-                            for file in os.listdir(self.downloads_dir):
-                                if file.endswith('.mp4') and video_id in file:
-                                    full_path = os.path.join(self.downloads_dir, file)
-                                    downloaded_files.append(full_path)
-                                    logger.info(f"📁 Found potential fallback file: {full_path}")
-                            
-                            if downloaded_files:
-                                # Use the most recently created file
-                                final_path = max(downloaded_files, key=os.path.getctime)
-                                logger.info(f"✅ Using fallback downloaded file: {final_path}")
-                                file_size = os.path.getsize(final_path)
-                                logger.info(f"📊 Fallback file size: {file_size / (1024*1024):.1f} MB")
+                            # Check if the exact file exists
+                            if os.path.exists(output_path):
+                                file_size = os.path.getsize(output_path)
+                                logger.info(f"✅ Fallback download successful: {file_size / (1024*1024):.1f} MB")
+                                final_path = output_path
                             else:
-                                raise Exception("Fallback download completed but no file found")
-                        
-                        # Upload to GCS if available
-                        if self.use_gcs and self.gcs:
-                            try:
-                                gcs_path = f"downloads/{os.path.basename(final_path)}"
-                                gcs_url = self.gcs.upload_file(final_path, gcs_path)
+                                # Look for any MP4 files that match the video ID
+                                logger.info("🔍 Searching for fallback downloaded file...")
                                 
-                                # Clean up local file after successful upload
-                                os.remove(final_path)
-                                logger.info(f"🧹 Cleaned up local file after GCS upload: {final_path}")
+                                downloaded_files = []
+                                for file in os.listdir(self.downloads_dir):
+                                    if file.endswith('.mp4') and video_id in file:
+                                        full_path = os.path.join(self.downloads_dir, file)
+                                        downloaded_files.append(full_path)
+                                        logger.info(f"📁 Found potential fallback file: {full_path}")
                                 
-                                return gcs_url
-                            except Exception as e:
-                                logger.warning(f"⚠️ Failed to upload to GCS: {str(e)}")
-                                logger.info("📁 Falling back to local file storage")
+                                if downloaded_files:
+                                    # Use the most recently created file
+                                    final_path = max(downloaded_files, key=os.path.getctime)
+                                    logger.info(f"✅ Using fallback downloaded file: {final_path}")
+                                    file_size = os.path.getsize(final_path)
+                                    logger.info(f"📊 Fallback file size: {file_size / (1024*1024):.1f} MB")
+                                else:
+                                    raise Exception("Fallback download completed but no file found")
+                            
+                            # Upload to GCS if available
+                            if self.use_gcs and self.gcs:
+                                try:
+                                    gcs_path = f"downloads/{os.path.basename(final_path)}"
+                                    gcs_url = self.gcs.upload_file(final_path, gcs_path)
+                                    
+                                    # Clean up local file after successful upload
+                                    os.remove(final_path)
+                                    logger.info(f"🧹 Cleaned up local file after GCS upload: {final_path}")
+                                    
+                                    return gcs_url
+                                except Exception as e:
+                                    logger.warning(f"⚠️ Failed to upload to GCS: {str(e)}")
+                                    logger.info("📁 Falling back to local file storage")
+                            
+                            # Return local file path if GCS is not available or failed
+                            logger.info(f"📁 Using local file: {final_path}")
+                            return final_path
                         
-                        # Return local file path if GCS is not available or failed
-                        logger.info(f"📁 Using local file: {final_path}")
-                        return final_path
-                
-                except Exception as fallback_error:
-                    logger.warning(f"⚠️ Fallback format {format_selector} failed: {str(fallback_error)}")
-                    continue
+                    except Exception as fallback_error:
+                        logger.warning(f"⚠️ Fallback format {format_selector} with {extractor_args} failed: {str(fallback_error)}")
+                        continue
             
             # Clean up partial download if it exists
             if os.path.exists(output_path):
