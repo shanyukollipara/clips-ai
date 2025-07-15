@@ -31,16 +31,6 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', "django-insecure-1a7=vf*+%7q-m)l4#8e
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
 
-ALLOWED_HOSTS = [
-    'clips-ai-production.up.railway.app', 
-    'clips-ai-copy-production.up.railway.app',  # Added new Railway domain
-    'localhost', 
-    '127.0.0.1',
-    '.vercel.app',  # Allow all Vercel domains
-    'clips-ai.vercel.app'  # Your specific Vercel domain
-]
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -112,6 +102,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
 # Add Vercel domain to allowed hosts
 ALLOWED_HOSTS = [
     'clips-ai-production.up.railway.app', 
+    'clips-ai-copy-production.up.railway.app',  # Added new Railway domain
     'localhost', 
     '127.0.0.1',
     '.vercel.app',  # Allow all Vercel domains
