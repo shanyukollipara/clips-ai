@@ -153,8 +153,12 @@ class VideoProcessor:
                 logger.info(f"✅ Video downloaded in {download_time:.2f}s")
                 logger.debug(f"📁 Video file: {video_file_path}")
                 
-                # Check file size
-                if os.path.exists(video_file_path):
+                # Check if file exists (handle both local files and GCS URLs)
+                if video_file_path.startswith('https://storage.googleapis.com'):
+                    # For GCS URLs, we trust that the upload was successful
+                    # The FFmpeg processor will handle downloading it when needed
+                    logger.debug("📊 Video uploaded to GCS successfully")
+                elif os.path.exists(video_file_path):
                     file_size = os.path.getsize(video_file_path)
                     logger.debug(f"📊 Video file size: {file_size / (1024*1024):.1f} MB")
                 else:
@@ -207,7 +211,7 @@ class VideoProcessor:
                         'justification': moment.get('justification', 'Viral potential detected'),
                         'emotional_keywords': moment.get('emotional_keywords', []),
                         'urgency_indicators': moment.get('urgency_indicators', []),
-                        'clip_path': clip_result.get('output_path'),
+                        'output_path': clip_result.get('output_path'),
                         'clip_filename': clip_result.get('output_filename'),
                         'file_size': clip_result.get('file_size'),
                         'resolution': clip_result.get('resolution'),
@@ -288,11 +292,20 @@ class VideoProcessor:
             
         finally:
             # Clean up downloaded video file
-            if video_file_path and os.path.exists(video_file_path):
+            if video_file_path:
                 logger.info("🧹 Cleaning up downloaded video...")
                 try:
-                    self.yt_downloader.cleanup_file(video_file_path)
-                    logger.debug("✅ Video file cleaned up")
+                    # Handle both local files and GCS URLs
+                    if video_file_path.startswith('https://storage.googleapis.com'):
+                        # For GCS URLs, use the yt_downloader cleanup which handles GCS deletion
+                        self.yt_downloader.cleanup_file(video_file_path)
+                        logger.debug("✅ GCS video file cleaned up")
+                    elif os.path.exists(video_file_path):
+                        # For local files, use the standard cleanup
+                        self.yt_downloader.cleanup_file(video_file_path)
+                        logger.debug("✅ Local video file cleaned up")
+                    else:
+                        logger.debug("📁 Video file already cleaned up or not found")
                 except Exception as e:
                     logger.warning(f"⚠️ Failed to clean up video file: {str(e)}")
             
