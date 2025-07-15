@@ -12,9 +12,9 @@ class GeminiAnalyzer:
         if not self.api_key:
             raise ValueError("GEMINI_API_KEY not found in Django settings or environment variables")
         
-        # Use the cheapest model: Gemini 2.5 Flash-Lite Preview
-        self.api_url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite-preview:generateContent"
-        self.model = "gemini-2.5-flash-lite-preview"
+        # Use Gemini 1.5 Flash (reliable and cost-effective)
+        self.api_url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"
+        self.model = "gemini-1.5-flash"
         
         print(f"🤖 Gemini Analyzer initialized with model: {self.model}")
     
