@@ -212,7 +212,7 @@ def process_video(request):
                                 emotional_keywords=', '.join(clip_data.get('emotional_keywords', [])),
                                 urgency_indicators=', '.join(clip_data.get('urgency_indicators', [])),
                                 virality_score=int(clip_data['virality_score'] * 100),
-                                clip_url=clip_data.get('clip_path'),
+                                clip_url=clip_data.get('output_path'),  # Fixed: use output_path instead of clip_path
                                 preview_url=None
                             )
                             saved_clips += 1
