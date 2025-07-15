@@ -1681,3 +1681,53 @@ INFO 2025-07-13 06:50:26,983 autoreload 7086 8486686528 Watching for file change
 INFO 2025-07-13 06:50:27,077 autoreload 7087 8486686528 Watching for file changes with StatReloader
 INFO 2025-07-13 06:50:28,364 autoreload 7086 8486686528 /Users/skollipara8/clips-ai/core/utils/gcs_storage.py changed, reloading.
 INFO 2025-07-13 06:50:28,566 autoreload 7096 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-13 06:57:00,100 autoreload 7087 8486686528 /Users/skollipara8/clips-ai/core/views.py changed, reloading.
+INFO 2025-07-13 06:57:00,183 autoreload 7096 8486686528 /Users/skollipara8/clips-ai/core/views.py changed, reloading.
+INFO 2025-07-13 06:57:00,507 autoreload 7312 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-13 06:57:00,513 autoreload 7311 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-13 07:20:59,008 autoreload 7312 8486686528 /Users/skollipara8/clips-ai/core/views.py changed, reloading.
+INFO 2025-07-13 07:20:59,353 autoreload 7759 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-13 07:20:59,601 autoreload 7311 8486686528 /Users/skollipara8/clips-ai/core/views.py changed, reloading.
+INFO 2025-07-13 07:20:59,943 autoreload 7763 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-13 07:21:05,595 autoreload 7763 8486686528 /Users/skollipara8/clips-ai/core/views.py changed, reloading.
+INFO 2025-07-13 07:21:05,818 autoreload 7759 8486686528 /Users/skollipara8/clips-ai/core/views.py changed, reloading.
+INFO 2025-07-13 07:21:05,863 autoreload 7783 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-13 07:21:06,067 autoreload 7784 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-13 07:32:25,075 autoreload 8013 8486686528 Watching for file changes with StatReloader
+INFO 2025-07-13 07:32:30,247 basehttp 7784 6127366144 "GET / HTTP/1.1" 200 14810
+INFO 2025-07-13 07:32:30,275 basehttp 7784 6127366144 "GET /static/css/style.css HTTP/1.1" 304 0
+INFO 2025-07-13 07:32:30,280 basehttp 7784 6127366144 "GET /static/js/main.js HTTP/1.1" 200 10726
+INFO 2025-07-13 07:32:30,561 basehttp 7784 6127366144 "GET /static/favicon.ico HTTP/1.1" 304 0
+INFO 2025-07-13 07:32:35,463 basehttp 7784 6127366144 "POST /process/ HTTP/1.1" 200 122
+INFO 2025-07-13 07:32:37,283 processor 7784 6144192512 🎬 Starting video processing for: https://www.youtube.com/watch?v=zPebXKDP77k
+INFO 2025-07-13 07:32:37,558 processor 7784 6144192512 ✅ FFmpeg is available
+INFO 2025-07-13 07:32:37,559 processor 7784 6144192512 🎬 Fetching YouTube transcript...
+INFO 2025-07-13 07:32:38,321 _client 7784 6144192512 HTTP Request: POST https://api.apify.com/v2/acts/faVsWy9VTSNVIhWpR/runs "HTTP/1.1 201 Created"
+INFO 2025-07-13 07:32:38,479 basehttp 7784 6127366144 "GET /status/48/ HTTP/1.1" 200 174
+INFO 2025-07-13 07:32:39,511 _client 7784 6144192512 HTTP Request: GET https://api.apify.com/v2/actor-runs/9TRHvVGifbMJqa2Y2?waitForFinish=999999 "HTTP/1.1 200 OK"
+INFO 2025-07-13 07:32:41,478 basehttp 7784 6127366144 "GET /status/48/ HTTP/1.1" 200 174
+INFO 2025-07-13 07:32:43,266 _client 7784 6144192512 HTTP Request: GET https://api.apify.com/v2/datasets/tJSXU0dwCzyj2d4cR/items "HTTP/1.1 200 OK"
+INFO 2025-07-13 07:32:43,339 processor 7784 6144192512 ✅ Transcript fetched: Unknown (1924.639s)
+INFO 2025-07-13 07:32:43,339 processor 7784 6144192512 🔢 Transcript segments: 303
+INFO 2025-07-13 07:32:43,339 processor 7784 6144192512 🤖 Analyzing transcript for viral moments with Grok AI...
+INFO 2025-07-13 07:32:44,471 basehttp 7784 6127366144 "GET /status/48/ HTTP/1.1" 200 174
+INFO 2025-07-13 07:32:47,473 basehttp 7784 6127366144 "GET /status/48/ HTTP/1.1" 200 174
+INFO 2025-07-13 07:32:53,039 processor 7784 6144192512 ✅ Found 5 viral moments
+INFO 2025-07-13 07:32:53,039 processor 7784 6144192512 📥 Downloading full video...
+INFO 2025-07-13 07:33:39,744 processor 7784 6144192512 ✅ Video downloaded: https://storage.googleapis.com/clips-ai/downloads/I%20Spent%2010000%20Upgrading%20Subscribers%20Fortnite%20Accou_zPebXKDP77k.mp4
+INFO 2025-07-13 07:33:39,745 processor 7784 6144192512 ✂️ Creating viral clips...
+INFO 2025-07-13 07:33:39,745 processor 7784 6144192512 📹 Processing clip 1/5 - Grade: A+ (Score: 0.95)
+INFO 2025-07-13 07:33:49,466 processor 7784 6144192512 ✅ Clip 1 created: A+ - The reveal of 100,000 v-bucks is a shocking and hi...
+INFO 2025-07-13 07:33:49,467 processor 7784 6144192512 📹 Processing clip 2/5 - Grade: A (Score: 0.92)
+INFO 2025-07-13 07:34:05,124 processor 7784 6144192512 ✅ Clip 2 created: A - The wheel spin builds suspense with potential high...
+INFO 2025-07-13 07:34:05,124 processor 7784 6144192512 📹 Processing clip 3/5 - Grade: A (Score: 0.90)
+INFO 2025-07-13 07:34:19,687 processor 7784 6144192512 ✅ Clip 3 created: A - Winning an exclusive $500 skin through a spin crea...
+INFO 2025-07-13 07:34:19,687 processor 7784 6144192512 📹 Processing clip 4/5 - Grade: A- (Score: 0.88)
+INFO 2025-07-13 07:34:36,672 processor 7784 6144192512 ✅ Clip 4 created: A- - This segment shows a significant account upgrade, ...
+INFO 2025-07-13 07:34:36,673 processor 7784 6144192512 📹 Processing clip 5/5 - Grade: A- (Score: 0.85)
+INFO 2025-07-13 07:34:51,197 processor 7784 6144192512 ✅ Clip 5 created: A- - This moment features the creator's genuine surpris...
+INFO 2025-07-13 07:34:51,198 processor 7784 6144192512 🎯 All 5 viral clips created successfully!
+INFO 2025-07-13 07:34:51,198 processor 7784 6144192512 🎉 Processing completed successfully! Result: 5 clips
+INFO 2025-07-13 07:34:51,199 processor 7784 6144192512 💾 Keeping 5 generated clips for download
+INFO 2025-07-14 00:13:32,169 autoreload 7783 8486686528 /Users/skollipara8/clips-ai/clips_ai_project/settings.py changed, reloading.
+INFO 2025-07-14 00:13:32,570 autoreload 7784 8486686528 /Users/skollipara8/clips-ai/clips_ai_project/settings.py changed, reloading.

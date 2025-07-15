@@ -86,55 +86,29 @@ if os.getenv('DATABASE_URL'):
     }
     print("🐘 Using PostgreSQL database from Railway")
 else:
-    # Local SQLite
+    # Local SQLite - Vercel compatible
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
+            "NAME": "/tmp/db.sqlite3",  # Use /tmp for Vercel
         }
     }
-    print("📁 Using local SQLite database")
+    print("📁 Using SQLite database")
 
-
-# Password validation
-# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
-
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
-    },
-]
-
-
-# Internationalization
-# https://docs.djangoproject.com/en/4.2/topics/i18n/
-
-LANGUAGE_CODE = "en-us"
-
-TIME_ZONE = "UTC"
-
-USE_I18N = True
-
-USE_TZ = True
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
-
+# Static files configuration for Vercel
 STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
+]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
+
+# Add Vercel domain to allowed hosts
+ALLOWED_HOSTS = [
+    'clips-ai-production.up.railway.app', 
+    'localhost', 
+    '127.0.0.1',
+    '.vercel.app',  # Allow all Vercel domains
+    'clips-ai.vercel.app'  # Your specific Vercel domain
 ]
 
 # Media files
@@ -148,7 +122,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # API Keys
 APIFY_API_KEY = os.getenv('APIFY_API_KEY')
-GROK_API_KEY = os.getenv('GROK_API_KEY')
+GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
 
 # Logging
 LOGGING = {
