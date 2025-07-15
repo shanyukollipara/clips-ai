@@ -1,8 +1,10 @@
 import yt_dlp
 import os
+import logging
 from django.conf import settings
 from typing import Dict, Optional
-from .gcs_storage import GCSStorage
+
+logger = logging.getLogger(__name__)
 
 class YouTubeDownloader:
     """Utility for downloading YouTube videos using yt-dlp"""
@@ -11,18 +13,30 @@ class YouTubeDownloader:
         self.media_root = getattr(settings, 'MEDIA_ROOT', 'media')
         self.downloads_dir = os.path.join(self.media_root, 'downloads')
         os.makedirs(self.downloads_dir, exist_ok=True)
-        self.gcs = GCSStorage()
+        
+        # Try to initialize GCS storage, but don't fail if it's not available
+        self.gcs = None
+        self.use_gcs = False
+        
+        try:
+            from .gcs_storage import GCSStorage
+            self.gcs = GCSStorage()
+            self.use_gcs = True
+            logger.info("✅ GCS storage initialized - files will be uploaded to cloud")
+        except Exception as e:
+            logger.warning(f"⚠️ GCS storage not available: {str(e)}")
+            logger.info("📁 Using local file storage only")
     
     def download_video(self, youtube_url: str, output_path: Optional[str] = None) -> str:
         """
-        Download a YouTube video and upload to GCS
+        Download a YouTube video and optionally upload to GCS
         
         Args:
             youtube_url: YouTube video URL
             output_path: Optional custom output path
             
         Returns:
-            GCS URL of the uploaded video
+            Local file path or GCS URL of the video
         """
         if not output_path:
             # Get video info first to use title in filename
@@ -51,29 +65,45 @@ class YouTubeDownloader:
         
         try:
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                print(f"📥 Downloading video: {youtube_url}")
+                logger.info(f"📥 Downloading video: {youtube_url}")
                 # Download the video
                 ydl.download([youtube_url])
-                print(f"✅ Download completed: {output_path}")
+                logger.info(f"✅ Download completed: {output_path}")
                 
                 # Verify the file was downloaded
                 if os.path.exists(output_path):
-                    # Upload to GCS
-                    gcs_path = f"downloads/{os.path.basename(output_path)}"
-                    gcs_url = self.gcs.upload_file(output_path, gcs_path)
+                    file_size = os.path.getsize(output_path)
+                    logger.debug(f"📊 Downloaded file size: {file_size / (1024*1024):.1f} MB")
                     
-                    # Clean up local file
-                    os.remove(output_path)
-                    print(f"🧹 Cleaned up local file: {output_path}")
+                    # Upload to GCS if available
+                    if self.use_gcs and self.gcs:
+                        try:
+                            gcs_path = f"downloads/{os.path.basename(output_path)}"
+                            gcs_url = self.gcs.upload_file(output_path, gcs_path)
+                            
+                            # Clean up local file after successful upload
+                            os.remove(output_path)
+                            logger.info(f"🧹 Cleaned up local file after GCS upload: {output_path}")
+                            
+                            return gcs_url
+                        except Exception as e:
+                            logger.warning(f"⚠️ Failed to upload to GCS: {str(e)}")
+                            logger.info("📁 Falling back to local file storage")
                     
-                    return gcs_url
+                    # Return local file path if GCS is not available or failed
+                    logger.info(f"📁 Using local file: {output_path}")
+                    return output_path
                 else:
                     raise Exception("Video download completed but file not found")
                     
         except Exception as e:
             # Clean up partial download if it exists
             if os.path.exists(output_path):
-                os.remove(output_path)
+                try:
+                    os.remove(output_path)
+                    logger.debug(f"🧹 Cleaned up partial download: {output_path}")
+                except:
+                    pass
             raise Exception(f"Failed to download video: {str(e)}")
     
     def get_video_info(self, youtube_url: str) -> Dict:
@@ -93,13 +123,14 @@ class YouTubeDownloader:
         }
         
         try:
+            logger.debug(f"🔍 Getting video info for: {youtube_url}")
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 info = ydl.extract_info(youtube_url, download=False)
                 
                 if info is None:
                     raise Exception("Failed to extract video information")
                 
-                return {
+                video_info = {
                     'title': info.get('title'),
                     'duration': info.get('duration'),
                     'uploader': info.get('uploader'),
@@ -110,7 +141,11 @@ class YouTubeDownloader:
                     'webpage_url': info.get('webpage_url'),
                 }
                 
+                logger.debug(f"✅ Video info retrieved: {video_info.get('title')} ({video_info.get('duration')}s)")
+                return video_info
+                
         except Exception as e:
+            logger.error(f"❌ Failed to get video info: {str(e)}")
             raise Exception(f"Failed to get video info: {str(e)}")
     
     def cleanup_file(self, file_path: str) -> bool:
@@ -129,18 +164,19 @@ class YouTubeDownloader:
         try:
             if os.path.exists(file_path):
                 os.remove(file_path)
-                print(f"🧹 Cleaned up local file: {file_path}")
+                logger.info(f"🧹 Cleaned up local file: {file_path}")
         except Exception as e:
-            print(f"⚠️ Failed to cleanup local file {file_path}: {str(e)}")
+            logger.warning(f"⚠️ Failed to cleanup local file {file_path}: {str(e)}")
             success = False
             
-        # Clean up GCS file
-        try:
-            gcs_path = f"downloads/{os.path.basename(file_path)}"
-            if not self.gcs.delete_file(gcs_path):
+        # Clean up GCS file if GCS is available
+        if self.use_gcs and self.gcs:
+            try:
+                gcs_path = f"downloads/{os.path.basename(file_path)}"
+                if not self.gcs.delete_file(gcs_path):
+                    success = False
+            except Exception as e:
+                logger.warning(f"⚠️ Failed to cleanup GCS file {gcs_path}: {str(e)}")
                 success = False
-        except Exception as e:
-            print(f"⚠️ Failed to cleanup GCS file {gcs_path}: {str(e)}")
-            success = False
-            
+        
         return success 
