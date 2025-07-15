@@ -5,7 +5,7 @@ from typing import List, Dict
 from django.conf import settings
 
 from .apify_client import ApifyClient
-from .grok_analyzer import GrokAnalyzer
+from .gemini_analyzer import GeminiAnalyzer
 from .yt_downloader import YouTubeDownloader
 from .ffmpeg_processor import FFmpegClipProcessor
 
@@ -17,7 +17,7 @@ class VideoProcessor:
     
     def __init__(self):
         self.apify_client = ApifyClient()
-        self.grok_analyzer = GrokAnalyzer()
+        self.gemini_analyzer = GeminiAnalyzer()
         self.yt_downloader = YouTubeDownloader()
         self.ffmpeg_processor = FFmpegClipProcessor()
     
@@ -71,7 +71,7 @@ class VideoProcessor:
             logger.info("🤖 Analyzing transcript for viral moments with Grok AI...")
             print("🤖 Analyzing transcript for viral moments with Grok AI...")
             try:
-                viral_moments = self.grok_analyzer.extract_viral_moments(transcript_data, clip_duration)
+                viral_moments = self.gemini_analyzer.extract_viral_moments(transcript_data, clip_duration)
             except Exception as e:
                 logger.error(f"❌ Grok AI analysis failed: {str(e)}")
                 print(f"❌ Grok AI analysis failed: {str(e)}")
@@ -100,7 +100,7 @@ class VideoProcessor:
             print("✂️ Creating viral clips...")
             clips_data = []
             for i, moment in enumerate(viral_moments):
-                grade = moment.get('grade', self.grok_analyzer.convert_score_to_grade(moment['virality_score']))
+                grade = moment.get('grade', self.gemini_analyzer.convert_score_to_grade(moment['virality_score']))
                 logger.info(f"📹 Processing clip {i+1}/{len(viral_moments)} - Grade: {grade} (Score: {moment['virality_score']:.2f})")
                 print(f"📹 Processing clip {i+1}/{len(viral_moments)} - Grade: {grade} (Score: {moment['virality_score']:.2f})")
                 try:

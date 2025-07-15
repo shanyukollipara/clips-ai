@@ -1,63 +1,26 @@
 import os
 import json
 import requests
-from typing import List, Dict, Any
+from typing import List, Dict
 from django.conf import settings
 
-class GrokAnalyzer:
-    """AI-powered viral moment detection using Grok API"""
+class GeminiAnalyzer:
+    """AI-powered viral moment detection using Google Gemini API (cheapest model)"""
     
     def __init__(self):
-        # Try Django settings first, then environment variable
-        self.api_key = getattr(settings, 'GROK_API_KEY', None) or os.environ.get('GROK_API_KEY')
-        self.api_url = getattr(settings, 'GROK_API_URL', None) or os.environ.get('GROK_API_URL', 'https://api.x.ai')
-        self.model = "grok-3-mini"  # Using xAI Grok model
-        
+        self.api_key = getattr(settings, 'GEMINI_API_KEY', None) or os.getenv('GEMINI_API_KEY')
         if not self.api_key:
-            raise ValueError("GROK_API_KEY not found in Django settings or environment variables")
-            
-        # Test connection during initialization
-        self._test_connection()
+            raise ValueError("GEMINI_API_KEY not found in Django settings or environment variables")
+        
+        # Use the cheapest model: Gemini 2.5 Flash-Lite Preview
+        self.api_url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite-preview:generateContent"
+        self.model = "gemini-2.5-flash-lite-preview"
+        
+        print(f"🤖 Gemini Analyzer initialized with model: {self.model}")
     
-    def _test_connection(self):
-        """Test the Grok API connection"""
-        headers = {
-            "Authorization": f"Bearer {self.api_key}",
-            "Content-Type": "application/json"
-        }
-        
-        payload = {
-            "model": self.model,
-            "messages": [
-                {
-                    "role": "system",
-                    "content": "You are a test assistant."
-                },
-                {
-                    "role": "user",
-                    "content": "Test connection. Reply with 'ok' only."
-                }
-            ],
-            "temperature": 0,
-            "max_tokens": 10
-        }
-        
-        try:
-            response = requests.post(
-                f"{self.api_url}/v1/chat/completions",
-                headers=headers,
-                json=payload,
-                timeout=10
-            )
-            response.raise_for_status()
-            print("✅ Successfully connected to Grok API")
-        except Exception as e:
-            print(f"❌ Failed to connect to Grok API: {str(e)}")
-            raise
-
     def extract_viral_moments(self, transcript_data: Dict, clip_duration: int) -> List[Dict]:
         """
-        Extract viral moments from video transcript using Grok AI
+        Extract viral moments from video transcript using Gemini AI
         
         Args:
             transcript_data: Dictionary with transcript info
@@ -78,7 +41,7 @@ class GrokAnalyzer:
         transcript_text = self._format_transcript_for_analysis(transcript_segments)
         print("✅ Formatted transcript for analysis")
         
-        # Create Grok prompt for viral moment detection
+        # Create Gemini prompt for viral moment detection
         prompt = f"""
 Analyze this YouTube video transcript and identify the TOP 5 most viral moments that would make great short clips.
 
@@ -113,31 +76,28 @@ Respond ONLY in valid JSON format:
   ]
 }}
 """
-        print("📋 Created Grok analysis prompt")
+        print("📋 Created Gemini analysis prompt")
 
-        # Call Grok API
-        headers = {
-            "Authorization": f"Bearer {self.api_key}",
-            "Content-Type": "application/json"
-        }
-        
+        # Prepare request payload for Gemini
         payload = {
-            "model": self.model,
-            "messages": [
+            "contents": [
                 {
-                    "role": "system",
-                    "content": "You are an expert social media analyst who identifies viral video moments. You understand what makes content shareable and engaging across platforms like TikTok, Instagram Reels, and YouTube Shorts."
-                },
-                {
-                    "role": "user", 
-                    "content": prompt
+                    "parts": [
+                        {
+                            "text": prompt
+                        }
+                    ]
                 }
             ],
-            "temperature": 0.7,
-            "max_tokens": 2000
+            "generationConfig": {
+                "temperature": 0.7,
+                "topK": 40,
+                "topP": 0.95,
+                "maxOutputTokens": 2048,
+            }
         }
         
-        print(f"🤖 Calling Grok API with model: {self.model}")
+        print(f"🤖 Calling Gemini API with model: {self.model}")
         if self.api_key:
             print(f"🔑 Using API key: {self.api_key[:10]}...")
         else:
@@ -145,23 +105,25 @@ Respond ONLY in valid JSON format:
         
         try:
             response = requests.post(
-                f"{self.api_url}/v1/chat/completions",
-                headers=headers,
+                f"{self.api_url}?key={self.api_key}",
+                headers={"Content-Type": "application/json"},
                 json=payload,
                 timeout=60
             )
-            print(f"📡 Grok API response status: {response.status_code}")
+            print(f"📡 Gemini API response status: {response.status_code}")
             response.raise_for_status()
             
             result = response.json()
-            if not result or 'choices' not in result or not result['choices']:
-                raise ValueError("Invalid response format from Grok API")
-            content = result['choices'][0]['message']['content']
-            print("✅ Received Grok API response")
+            if not result or 'candidates' not in result or not result['candidates']:
+                raise ValueError("Invalid response format from Gemini API")
+            
+            # Extract text from Gemini response
+            content = result['candidates'][0]['content']['parts'][0]['text']
+            print("✅ Received Gemini API response")
             
             # Parse JSON response
             try:
-                print("🔍 Parsing Grok response as JSON")
+                print("🔍 Parsing Gemini response as JSON")
                 print(f"🔍 Raw content: {content[:1000]}...")  # Show first 1000 chars for debugging
                 parsed_content = json.loads(content)
                 viral_moments = parsed_content.get('viral_moments', [])
@@ -182,6 +144,7 @@ Respond ONLY in valid JSON format:
                 else:
                     print("❌ No JSON found in response, creating fallback response")
                     viral_moments = []
+            
             # Always ensure at least one fallback viral moment if none found
             if not viral_moments:
                 print("⚠️ No viral moments found, using fallback.")
@@ -204,70 +167,64 @@ Respond ONLY in valid JSON format:
             return validated_moments
             
         except requests.exceptions.RequestException as e:
-            print(f"❌ Grok API request failed: {str(e)}")
-            raise Exception(f"Grok API request failed: {str(e)}")
+            print(f"❌ Gemini API request failed: {str(e)}")
+            raise Exception(f"Gemini API request failed: {str(e)}")
         except Exception as e:
-            print(f"❌ Failed to analyze transcript with Grok: {str(e)}")
-            raise Exception(f"Failed to analyze transcript with Grok: {str(e)}")
+            print(f"❌ Failed to analyze transcript with Gemini: {str(e)}")
+            raise Exception(f"Failed to analyze transcript with Gemini: {str(e)}")
     
     def _format_transcript_for_analysis(self, transcript_segments: List[Dict]) -> str:
-        """Format transcript segments with timestamps for AI analysis"""
-        formatted_lines = []
+        """Format transcript segments into text with timestamps for AI analysis"""
+        formatted_text = ""
+        for i, segment in enumerate(transcript_segments):
+            start_time = float(segment.get('start', 0))
+            text = segment.get('text', '').strip()
+            if text:
+                formatted_text += f"[{start_time:.1f}s] {text}\n"
         
-        for segment in transcript_segments:
-            if 'start' in segment and 'text' in segment:
-                start_time = segment['start']
-                text = segment['text'].strip()
-                if text:
-                    formatted_lines.append(f"[{start_time:.1f}s] {text}")
-        
-        return '\n'.join(formatted_lines)
+        return formatted_text
     
-    def _validate_viral_moments(self, viral_moments: List[Dict], video_duration: float) -> List[Dict]:
+    def _validate_viral_moments(self, viral_moments: List[Dict], total_duration: float) -> List[Dict]:
         """Validate and clean up viral moments data"""
-        validated_moments = []
+        validated = []
         
         for moment in viral_moments:
-            # Ensure required fields exist
-            if not all(key in moment for key in ['start_timestamp', 'end_timestamp', 'virality_score']):
+            try:
+                start_time = float(moment.get('start_timestamp', 0))
+                end_time = float(moment.get('end_timestamp', 30))
+                
+                # Ensure timestamps are within video bounds
+                start_time = max(0, min(start_time, total_duration - 30))
+                end_time = min(total_duration, start_time + 30)
+                
+                # Ensure score is valid
+                score = float(moment.get('virality_score', 0.7))
+                score = max(0.0, min(1.0, score))
+                
+                # Ensure required fields exist
+                validated_moment = {
+                    'start_timestamp': start_time,
+                    'end_timestamp': end_time,
+                    'virality_score': score,
+                    'grade': moment.get('grade', self.convert_score_to_grade(score)),
+                    'justification': moment.get('justification', 'Viral potential detected'),
+                    'emotional_keywords': moment.get('emotional_keywords', ['engaging']),
+                    'urgency_indicators': moment.get('urgency_indicators', ['interesting'])
+                }
+                
+                validated.append(validated_moment)
+                
+            except (ValueError, TypeError) as e:
+                print(f"⚠️ Skipping invalid moment: {str(e)}")
                 continue
-            
-            start_time = float(moment['start_timestamp'])
-            end_time = float(moment['end_timestamp'])
-            
-            # Validate timestamp bounds
-            if start_time < 0 or end_time > video_duration or start_time >= end_time:
-                continue
-            
-            # Ensure virality score is in valid range
-            virality_score = max(0.0, min(1.0, float(moment.get('virality_score', 0.5))))
-            
-            validated_moment = {
-                'start_timestamp': start_time,
-                'end_timestamp': end_time,
-                'virality_score': virality_score,
-                'grade': moment.get('grade', 'B'),
-                'justification': moment.get('justification', 'Viral potential detected'),
-                'emotional_keywords': moment.get('emotional_keywords', []),
-                'urgency_indicators': moment.get('urgency_indicators', [])
-            }
-            
-            validated_moments.append(validated_moment)
         
-        # Sort by virality score (highest first)
-        validated_moments.sort(key=lambda x: x['virality_score'], reverse=True)
+        # Sort by virality score descending
+        validated.sort(key=lambda x: x['virality_score'], reverse=True)
         
-        return validated_moments
-    
-    def score_virality(self, moment: Dict) -> float:
-        """
-        Legacy method for backward compatibility
-        Returns the virality score for a moment
-        """
-        return moment.get('virality_score', 0.5)
+        return validated[:5]  # Return top 5
     
     def convert_score_to_grade(self, score: float) -> str:
-        """Convert numerical virality score to letter grade"""
+        """Convert numerical score to letter grade"""
         if score >= 0.97:
             return "A+"
         elif score >= 0.93:

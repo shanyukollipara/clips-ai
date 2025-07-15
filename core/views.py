@@ -35,7 +35,7 @@ def process_video(request):
         clip_duration = int(data.get('clip_duration', 30))
         
         print(f"📝 Processing URL: {youtube_url} with duration: {clip_duration}s")
-        print(f"🔑 API Keys available: GROK={bool(os.getenv('GROK_API_KEY'))}, APIFY={bool(os.getenv('APIFY_API_KEY'))}")
+        print(f"🔑 API Keys available: GEMINI={bool(os.getenv('GEMINI_API_KEY'))}, APIFY={bool(os.getenv('APIFY_API_KEY'))}")
         
         if not youtube_url:
             return JsonResponse({
@@ -83,7 +83,7 @@ def process_video(request):
                 try:
                     import requests
                     headers = {
-                        "Authorization": f"Bearer {os.getenv('GROK_API_KEY')}",
+                        "Authorization": f"Bearer {os.getenv('GEMINI_API_KEY')}",
                         "Content-Type": "application/json"
                     }
                     print("✅ Grok headers configured")
