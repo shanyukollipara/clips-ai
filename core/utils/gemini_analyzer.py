@@ -61,7 +61,8 @@ For each viral moment, provide:
 5. EMOTIONAL_KEYWORDS (3-5 words describing the emotion/hook)
 6. URGENCY_INDICATORS (what makes people want to share immediately)
 
-Respond ONLY in valid JSON format:
+IMPORTANT: Respond ONLY with valid JSON. Do not include any text before or after the JSON. Do not use markdown formatting.
+
 {{
   "viral_moments": [
     {{
@@ -90,10 +91,10 @@ Respond ONLY in valid JSON format:
                 }
             ],
             "generationConfig": {
-                "temperature": 0.7,
+                "temperature": 0.3,  # Lower temperature for more consistent JSON
                 "topK": 40,
                 "topP": 0.95,
-                "maxOutputTokens": 2048,
+                "maxOutputTokens": 3000,  # Increase token limit
             }
         }
         
@@ -108,7 +109,7 @@ Respond ONLY in valid JSON format:
                 f"{self.api_url}?key={self.api_key}",
                 headers={"Content-Type": "application/json"},
                 json=payload,
-                timeout=60
+                timeout=120  # Increase timeout to 2 minutes
             )
             print(f"📡 Gemini API response status: {response.status_code}")
             response.raise_for_status()
@@ -125,25 +126,43 @@ Respond ONLY in valid JSON format:
             try:
                 print("🔍 Parsing Gemini response as JSON")
                 print(f"🔍 Raw content: {content[:1000]}...")  # Show first 1000 chars for debugging
-                parsed_content = json.loads(content)
+                
+                # Clean up the content first
+                cleaned_content = content.strip()
+                
+                # Remove markdown code blocks if present
+                if cleaned_content.startswith('```json'):
+                    cleaned_content = cleaned_content[7:]  # Remove ```json
+                if cleaned_content.endswith('```'):
+                    cleaned_content = cleaned_content[:-3]  # Remove ```
+                
+                cleaned_content = cleaned_content.strip()
+                
+                parsed_content = json.loads(cleaned_content)
                 viral_moments = parsed_content.get('viral_moments', [])
                 print(f"✨ Found {len(viral_moments)} viral moments")
             except json.JSONDecodeError as e:
                 print(f"⚠️ JSON parse failed: {str(e)}")
                 print(f"🔍 Content that failed to parse: {content[:500]}...")
+                
+                # Try to extract and fix JSON using regex
                 import re
-                json_match = re.search(r'\{.*\}', content, re.DOTALL)
+                
+                # First try to find a complete JSON block
+                json_match = re.search(r'\{.*"viral_moments".*\}', content, re.DOTALL)
                 if json_match:
                     try:
-                        parsed_content = json.loads(json_match.group())
+                        potential_json = json_match.group()
+                        print(f"🔧 Attempting to parse extracted JSON: {potential_json[:200]}...")
+                        parsed_content = json.loads(potential_json)
                         viral_moments = parsed_content.get('viral_moments', [])
                         print(f"✅ Successfully extracted {len(viral_moments)} viral moments from text")
                     except json.JSONDecodeError:
-                        print("❌ Even extracted JSON is malformed, creating fallback response")
-                        viral_moments = []
+                        print("❌ Extracted JSON is still malformed, trying manual parsing")
+                        viral_moments = self._parse_broken_json(content)
                 else:
-                    print("❌ No JSON found in response, creating fallback response")
-                    viral_moments = []
+                    print("❌ No JSON structure found, trying manual parsing")
+                    viral_moments = self._parse_broken_json(content)
             
             # Always ensure at least one fallback viral moment if none found
             if not viral_moments:
@@ -282,4 +301,72 @@ Respond ONLY in valid JSON format:
                     'urgency_indicators': ['interesting', 'moment']
                 })
         
-        return moments 
+        return moments
+    
+    def _parse_broken_json(self, content: str) -> List[Dict]:
+        """
+        Manually parse broken JSON responses from Gemini API
+        This handles cases where the JSON is malformed or truncated
+        """
+        viral_moments = []
+        
+        try:
+            import re
+            
+            # Look for individual moment blocks in the content
+            # Pattern to match moment objects even if JSON is broken
+            moment_pattern = r'"start_timestamp":\s*([0-9.]+).*?"end_timestamp":\s*([0-9.]+).*?"virality_score":\s*([0-9.]+).*?"grade":\s*"([^"]*)".*?"justification":\s*"([^"]*)"'
+            
+            matches = re.findall(moment_pattern, content, re.DOTALL)
+            
+            print(f"🔍 Found {len(matches)} moment patterns in broken JSON")
+            
+            for match in matches:
+                try:
+                    start_time = float(match[0])
+                    end_time = float(match[1])
+                    score = float(match[2])
+                    grade = match[3]
+                    justification = match[4]
+                    
+                    # Extract keywords and indicators if present
+                    keywords = []
+                    indicators = []
+                    
+                    # Look for emotional_keywords array
+                    keyword_pattern = r'"emotional_keywords":\s*\[(.*?)\]'
+                    keyword_match = re.search(keyword_pattern, content)
+                    if keyword_match:
+                        keywords_str = keyword_match.group(1)
+                        keywords = [k.strip(' "') for k in keywords_str.split(',') if k.strip()]
+                    
+                    # Look for urgency_indicators array
+                    indicator_pattern = r'"urgency_indicators":\s*\[(.*?)\]'
+                    indicator_match = re.search(indicator_pattern, content)
+                    if indicator_match:
+                        indicators_str = indicator_match.group(1)
+                        indicators = [i.strip(' "') for i in indicators_str.split(',') if i.strip()]
+                    
+                    moment = {
+                        'start_timestamp': start_time,
+                        'end_timestamp': end_time,
+                        'virality_score': score,
+                        'grade': grade,
+                        'justification': justification,
+                        'emotional_keywords': keywords or ['engaging'],
+                        'urgency_indicators': indicators or ['interesting']
+                    }
+                    
+                    viral_moments.append(moment)
+                    print(f"✅ Parsed moment: {start_time}s-{end_time}s, Score: {score}")
+                    
+                except (ValueError, IndexError) as e:
+                    print(f"⚠️ Failed to parse moment: {str(e)}")
+                    continue
+            
+            print(f"✅ Successfully parsed {len(viral_moments)} moments from broken JSON")
+            
+        except Exception as e:
+            print(f"❌ Manual parsing failed: {str(e)}")
+        
+        return viral_moments 
