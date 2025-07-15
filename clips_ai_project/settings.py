@@ -31,7 +31,14 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', "django-insecure-1a7=vf*+%7q-m)l4#8e
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
 
-ALLOWED_HOSTS = ['clips-ai-production.up.railway.app', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = [
+    'clips-ai-production.up.railway.app', 
+    'clips-ai-copy-production.up.railway.app',  # Added new Railway domain
+    'localhost', 
+    '127.0.0.1',
+    '.vercel.app',  # Allow all Vercel domains
+    'clips-ai.vercel.app'  # Your specific Vercel domain
+]
 
 
 # Application definition
