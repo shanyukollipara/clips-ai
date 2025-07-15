@@ -41,17 +41,20 @@ class YouTubeDownloader:
         if not output_path:
             # Get video info first to use title in filename
             info = self.get_video_info(youtube_url)
-            video_id = youtube_url.split('v=')[-1]
+            video_id = youtube_url.split('v=')[-1].split('&')[0]  # Handle URL parameters
             safe_title = ''.join(c for c in info.get('title', video_id) if c.isalnum() or c in ' -_')[:50]
             filename = f"{safe_title}_{video_id}.mp4"
             output_path = os.path.join(self.downloads_dir, filename)
+        
+        # Ensure the output directory exists
+        os.makedirs(os.path.dirname(output_path), exist_ok=True)
         
         # Configure yt-dlp options
         ydl_opts = {
             'format': 'best[height<=720]',  # Download best quality up to 720p
             'outtmpl': output_path,
-            'quiet': True,
-            'no_warnings': True,
+            'quiet': False,  # Enable output to see what's happening
+            'no_warnings': False,  # Show warnings to debug
             'extract_flat': False,
             'merge_output_format': 'mp4',
             'socket_timeout': 60,  # Increase socket timeout
@@ -60,7 +63,7 @@ class YouTubeDownloader:
             'skip_unavailable_fragments': True,
             'keep_fragments': False,
             'abort_on_unavailable_fragments': False,
-            'ignoreerrors': True,
+            'ignoreerrors': False,  # Don't ignore errors so we can see them
             'no_check_certificates': True,
             'prefer_insecure': True,
             # Add headers to bypass 403 errors
@@ -82,35 +85,57 @@ class YouTubeDownloader:
         try:
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 logger.info(f"📥 Downloading video: {youtube_url}")
+                logger.info(f"🎯 Expected output path: {output_path}")
+                
                 # Download the video
                 ydl.download([youtube_url])
-                logger.info(f"✅ Download completed: {output_path}")
+                logger.info(f"✅ Download completed")
                 
-                # Verify the file was downloaded
+                # Check if the exact file exists
                 if os.path.exists(output_path):
                     file_size = os.path.getsize(output_path)
-                    logger.debug(f"📊 Downloaded file size: {file_size / (1024*1024):.1f} MB")
-                    
-                    # Upload to GCS if available
-                    if self.use_gcs and self.gcs:
-                        try:
-                            gcs_path = f"downloads/{os.path.basename(output_path)}"
-                            gcs_url = self.gcs.upload_file(output_path, gcs_path)
-                            
-                            # Clean up local file after successful upload
-                            os.remove(output_path)
-                            logger.info(f"🧹 Cleaned up local file after GCS upload: {output_path}")
-                            
-                            return gcs_url
-                        except Exception as e:
-                            logger.warning(f"⚠️ Failed to upload to GCS: {str(e)}")
-                            logger.info("📁 Falling back to local file storage")
-                    
-                    # Return local file path if GCS is not available or failed
-                    logger.info(f"📁 Using local file: {output_path}")
-                    return output_path
+                    logger.info(f"📊 Downloaded file size: {file_size / (1024*1024):.1f} MB")
+                    final_path = output_path
                 else:
-                    raise Exception("Video download completed but file not found")
+                    # Sometimes yt-dlp creates files with slightly different names
+                    # Look for any MP4 files in the downloads directory that match the video ID
+                    logger.warning(f"⚠️ Expected file not found: {output_path}")
+                    logger.info("🔍 Searching for downloaded file...")
+                    
+                    downloaded_files = []
+                    for file in os.listdir(self.downloads_dir):
+                        if file.endswith('.mp4') and video_id in file:
+                            full_path = os.path.join(self.downloads_dir, file)
+                            downloaded_files.append(full_path)
+                            logger.info(f"📁 Found potential file: {full_path}")
+                    
+                    if downloaded_files:
+                        # Use the most recently created file
+                        final_path = max(downloaded_files, key=os.path.getctime)
+                        logger.info(f"✅ Using downloaded file: {final_path}")
+                        file_size = os.path.getsize(final_path)
+                        logger.info(f"📊 Downloaded file size: {file_size / (1024*1024):.1f} MB")
+                    else:
+                        raise Exception("Video download completed but no file found")
+                
+                # Upload to GCS if available
+                if self.use_gcs and self.gcs:
+                    try:
+                        gcs_path = f"downloads/{os.path.basename(final_path)}"
+                        gcs_url = self.gcs.upload_file(final_path, gcs_path)
+                        
+                        # Clean up local file after successful upload
+                        os.remove(final_path)
+                        logger.info(f"🧹 Cleaned up local file after GCS upload: {final_path}")
+                        
+                        return gcs_url
+                    except Exception as e:
+                        logger.warning(f"⚠️ Failed to upload to GCS: {str(e)}")
+                        logger.info("📁 Falling back to local file storage")
+                
+                # Return local file path if GCS is not available or failed
+                logger.info(f"📁 Using local file: {final_path}")
+                return final_path
                     
         except Exception as e:
             logger.warning(f"⚠️ First download attempt failed: {str(e)}")
@@ -133,29 +158,50 @@ class YouTubeDownloader:
                     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                         ydl.download([youtube_url])
                         
+                        # Check if the exact file exists
                         if os.path.exists(output_path):
                             file_size = os.path.getsize(output_path)
                             logger.info(f"✅ Fallback download successful: {file_size / (1024*1024):.1f} MB")
+                            final_path = output_path
+                        else:
+                            # Look for any MP4 files that match the video ID
+                            logger.info("🔍 Searching for fallback downloaded file...")
                             
-                            # Upload to GCS if available
-                            if self.use_gcs and self.gcs:
-                                try:
-                                    gcs_path = f"downloads/{os.path.basename(output_path)}"
-                                    gcs_url = self.gcs.upload_file(output_path, gcs_path)
-                                    
-                                    # Clean up local file after successful upload
-                                    os.remove(output_path)
-                                    logger.info(f"🧹 Cleaned up local file after GCS upload: {output_path}")
-                                    
-                                    return gcs_url
-                                except Exception as e:
-                                    logger.warning(f"⚠️ Failed to upload to GCS: {str(e)}")
-                                    logger.info("📁 Falling back to local file storage")
+                            downloaded_files = []
+                            for file in os.listdir(self.downloads_dir):
+                                if file.endswith('.mp4') and video_id in file:
+                                    full_path = os.path.join(self.downloads_dir, file)
+                                    downloaded_files.append(full_path)
+                                    logger.info(f"📁 Found potential fallback file: {full_path}")
                             
-                            # Return local file path if GCS is not available or failed
-                            logger.info(f"📁 Using local file: {output_path}")
-                            return output_path
+                            if downloaded_files:
+                                # Use the most recently created file
+                                final_path = max(downloaded_files, key=os.path.getctime)
+                                logger.info(f"✅ Using fallback downloaded file: {final_path}")
+                                file_size = os.path.getsize(final_path)
+                                logger.info(f"📊 Fallback file size: {file_size / (1024*1024):.1f} MB")
+                            else:
+                                raise Exception("Fallback download completed but no file found")
                         
+                        # Upload to GCS if available
+                        if self.use_gcs and self.gcs:
+                            try:
+                                gcs_path = f"downloads/{os.path.basename(final_path)}"
+                                gcs_url = self.gcs.upload_file(final_path, gcs_path)
+                                
+                                # Clean up local file after successful upload
+                                os.remove(final_path)
+                                logger.info(f"🧹 Cleaned up local file after GCS upload: {final_path}")
+                                
+                                return gcs_url
+                            except Exception as e:
+                                logger.warning(f"⚠️ Failed to upload to GCS: {str(e)}")
+                                logger.info("📁 Falling back to local file storage")
+                        
+                        # Return local file path if GCS is not available or failed
+                        logger.info(f"📁 Using local file: {final_path}")
+                        return final_path
+                
                 except Exception as fallback_error:
                     logger.warning(f"⚠️ Fallback format {format_selector} failed: {str(fallback_error)}")
                     continue
