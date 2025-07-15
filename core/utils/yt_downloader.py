@@ -55,8 +55,24 @@ class YouTubeDownloader:
             'extract_flat': False,
             'merge_output_format': 'mp4',
             'socket_timeout': 60,  # Increase socket timeout
-            'retries': 3,  # Retry failed downloads
-            'fragment_retries': 3,  # Retry failed fragments
+            'retries': 5,  # Increase retry attempts
+            'fragment_retries': 5,  # Retry failed fragments
+            'skip_unavailable_fragments': True,
+            'keep_fragments': False,
+            'abort_on_unavailable_fragments': False,
+            'ignoreerrors': True,
+            'no_check_certificates': True,
+            'prefer_insecure': True,
+            # Add headers to bypass 403 errors
+            'http_headers': {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                'Accept-Language': 'en-us,en;q=0.5',
+                'Accept-Encoding': 'gzip, deflate',
+                'DNT': '1',
+                'Connection': 'keep-alive',
+                'Upgrade-Insecure-Requests': '1',
+            },
             'postprocessors': [{
                 'key': 'FFmpegVideoConvertor',
                 'preferedformat': 'mp4'
@@ -97,6 +113,53 @@ class YouTubeDownloader:
                     raise Exception("Video download completed but file not found")
                     
         except Exception as e:
+            logger.warning(f"⚠️ First download attempt failed: {str(e)}")
+            
+            # Try fallback format options
+            fallback_formats = [
+                'best[height<=480]',  # Lower quality
+                'worst[ext=mp4]',     # Worst quality MP4
+                'best[ext=mp4]',      # Best MP4
+                'best',               # Any best format
+            ]
+            
+            for format_selector in fallback_formats:
+                try:
+                    logger.info(f"🔄 Trying fallback format: {format_selector}")
+                    
+                    # Update format and try again
+                    ydl_opts['format'] = format_selector
+                    
+                    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                        ydl.download([youtube_url])
+                        
+                        if os.path.exists(output_path):
+                            file_size = os.path.getsize(output_path)
+                            logger.info(f"✅ Fallback download successful: {file_size / (1024*1024):.1f} MB")
+                            
+                            # Upload to GCS if available
+                            if self.use_gcs and self.gcs:
+                                try:
+                                    gcs_path = f"downloads/{os.path.basename(output_path)}"
+                                    gcs_url = self.gcs.upload_file(output_path, gcs_path)
+                                    
+                                    # Clean up local file after successful upload
+                                    os.remove(output_path)
+                                    logger.info(f"🧹 Cleaned up local file after GCS upload: {output_path}")
+                                    
+                                    return gcs_url
+                                except Exception as e:
+                                    logger.warning(f"⚠️ Failed to upload to GCS: {str(e)}")
+                                    logger.info("📁 Falling back to local file storage")
+                            
+                            # Return local file path if GCS is not available or failed
+                            logger.info(f"📁 Using local file: {output_path}")
+                            return output_path
+                        
+                except Exception as fallback_error:
+                    logger.warning(f"⚠️ Fallback format {format_selector} failed: {str(fallback_error)}")
+                    continue
+            
             # Clean up partial download if it exists
             if os.path.exists(output_path):
                 try:
@@ -104,7 +167,7 @@ class YouTubeDownloader:
                     logger.debug(f"🧹 Cleaned up partial download: {output_path}")
                 except:
                     pass
-            raise Exception(f"Failed to download video: {str(e)}")
+            raise Exception(f"All download attempts failed. Last error: {str(e)}")
     
     def get_video_info(self, youtube_url: str) -> Dict:
         """
