@@ -472,13 +472,25 @@ def download_clip(request, clip_id):
     try:
         clip = ViralClip.objects.get(id=clip_id)
         
-        if not clip.clip_url or not os.path.exists(clip.clip_url):
+        if not clip.clip_url:
             return JsonResponse({
                 'success': False,
                 'error': 'Clip file not found'
             }, status=404)
         
-        # Serve the file
+        # Handle GCS URLs - redirect to the GCS URL for direct download
+        if clip.clip_url.startswith('https://storage.googleapis.com'):
+            from django.shortcuts import redirect
+            return redirect(clip.clip_url)
+        
+        # Handle local files
+        if not os.path.exists(clip.clip_url):
+            return JsonResponse({
+                'success': False,
+                'error': 'Clip file not found'
+            }, status=404)
+        
+        # Serve the local file
         with open(clip.clip_url, 'rb') as f:
             response = HttpResponse(f.read(), content_type='video/mp4')
             filename = f"viral_clip_{clip.virality_score}_{clip.id}.mp4"
