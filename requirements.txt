@@ -10,4 +10,7 @@ google-cloud-storage==2.10.0
 google-auth==2.23.0
 psycopg2-binary==2.9.7
 dj-database-url==3.0.1
-google-generativeai==0.8.5
+google-generativeai==0.8.5dj-database-url
+dj-database-url
+dj-database-url
+psycopg2-binary
